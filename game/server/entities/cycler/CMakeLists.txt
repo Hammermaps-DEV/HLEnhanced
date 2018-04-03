@@ -5,6 +5,8 @@ add_sources(
 	CCyclerSprite.cpp
 	CGenericCycler.h
 	CGenericCycler.cpp
+	CGunmanCycler.h
+	CGunmanCycler.cpp
 	CWeaponCycler.h
 	CWeaponCycler.cpp
 )
