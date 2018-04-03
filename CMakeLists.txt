@@ -53,6 +53,10 @@ set( EXTERNAL_DIR ${CMAKE_SOURCE_DIR}/external )
 option( USE_ANGELSCRIPT "Whether to include Angelscript" )
 option( USE_AS_SQL "Whether to include Angelscript SQL APIs" )
 option( USE_OPFOR "Whether to include Opposing Force related stuff" )
+option( USE_BS "Whether to include Blue Shift related stuff" )
+option( USE_GM "Whether to include Gunman Chronicles related stuff" )
+option( USE_ASHEEP "Whether to include Azure Sheep related stuff" )
+option( USE_DOD "Whether to include Day of Defeat related stuff" )
 option( USE_VGUI2 "Whether to include VGUI2 features" )
 
 #Some libraries that we use don't come with .a files (import libraries) for Cygwin compilation (Unix Makefiles on Windows).
@@ -68,6 +72,10 @@ endif()
 ternary( USE_ANGELSCRIPT_DEFINE USE_ANGELSCRIPT 1 0 )
 ternary( USE_AS_SQL_DEFINE USE_AS_SQL 1 0 )
 ternary( USE_OPFOR_DEFINE USE_OPFOR 1 0 )
+ternary( USE_BS_DEFINE USE_BS 1 0 )
+ternary( USE_GM_DEFINE USE_GM 1 0 )
+ternary( USE_ASHEEP_DEFINE USE_ASHEEP 1 0 )
+ternary( USE_DOD_DEFINE USE_DOD 1 0 )
 ternary( USE_VGUI2_DEFINE USE_VGUI2 1 0 )
 
 if( CLANG_DB_BUILD )
@@ -120,6 +128,10 @@ set( SHARED_GAME_DEFS
 	NO_MALLOC_OVERRIDE
 	USE_ANGELSCRIPT=${USE_ANGELSCRIPT_DEFINE}
 	USE_OPFOR=${USE_OPFOR_DEFINE}
+	USE_BS=${USE_BS_DEFINE}
+	USE_GM=${USE_GM_DEFINE}
+	USE_ASHEEP=${USE_ASHEEP_DEFINE}
+	USE_DOD=${USE_DOD_DEFINE}
 )
 
 #Shared linker flags
