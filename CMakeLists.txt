@@ -7,38 +7,48 @@
 ###################################################
 cmake_minimum_required( VERSION 3.6 )
 
-# Source additional modules from the "cmake" directory
-list( APPEND CMAKE_MODULE_PATH
-	"${CMAKE_CURRENT_LIST_DIR}/cmake"
-)
-
-include( InputFilesList )
-include( MSVCRuntime )
-include( WinXPSupport )
-include( Ternary )
+include( cmake/InputFilesList.cmake )
+include( cmake/MSVCRuntime.cmake )
 
 project( HLEnhanced )
 
+include( cmake/WinXPSupport.cmake )
+
+#Needs static CRT to avoid alloc issues.
+set( MSVC_RUNTIME "static" )
+
+configure_msvc_runtime()
+
+set(variables
+  CMAKE_C_FLAGS_DEBUG
+  CMAKE_C_FLAGS_MINSIZEREL
+  CMAKE_C_FLAGS_RELEASE
+  CMAKE_C_FLAGS_RELWITHDEBINFO
+  CMAKE_CXX_FLAGS_DEBUG
+  CMAKE_CXX_FLAGS_MINSIZEREL
+  CMAKE_CXX_FLAGS_RELEASE
+  CMAKE_CXX_FLAGS_RELWITHDEBINFO
+)
+message(STATUS "Initial build flags:")
+foreach(variable ${variables})
+  message(STATUS "  '${variable}': ${${variable}}")
+endforeach()
+message(STATUS "")
+
 #C++14 support
-set( SHARED_COMPILER_FLAGS "-std=c++1y" )
+set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y" )
 
-if( CMAKE_CXX_COMPILER_ID MATCHES "Clang|GNU" )
-	# Always build as 32 bit
-	# Additional debug info for GDB.
-	set( SHARED_COMPILER_FLAGS "${SHARED_COMPILER_FLAGS} -m32 -g" )
+if( UNIX )
+	#Additional debug info for GDB.
+	set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g" )
 endif()
-
-set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${SHARED_COMPILER_FLAGS}" )
-set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${SHARED_COMPILER_FLAGS}" )
-
-unset( SHARED_COMPILER_FLAGS )
 
 #Get the steam/steamapps/common directory
 set( STEAMCOMMON "$ENV{SteamCommon}" CACHE PATH "Steam common directory path" )
 
 if( "${STEAMCOMMON}" STREQUAL "" )
 
-	message( FATAL_ERROR "Unable to get Steam common directory path" )
+	MESSAGE( FATAL_ERROR "Unable to get Steam common directory path" )
 
 endif()
 
@@ -46,40 +56,80 @@ endif()
 set( GAME_BIN_PATH "${STEAMCOMMON}/Half-Life" )
 set( GAME_BASE_PATH "${GAME_BIN_PATH}/hlenhanced" )
 
-message( STATUS "Base Game Path: ${GAME_BASE_PATH}" )
+MESSAGE( STATUS "Base Game Path: ${GAME_BASE_PATH}" )
 
 set( EXTERNAL_DIR ${CMAKE_SOURCE_DIR}/external )
 
-option( USE_ANGELSCRIPT "Whether to include Angelscript" )
-option( USE_AS_SQL "Whether to include Angelscript SQL APIs" )
-option( USE_OPFOR "Whether to include Opposing Force related stuff" )
-option( USE_BS "Whether to include Blue Shift related stuff" )
-option( USE_GM "Whether to include Gunman Chronicles related stuff" )
-option( USE_ASHEEP "Whether to include Azure Sheep related stuff" )
-option( USE_DOD "Whether to include Day of Defeat related stuff" )
-option( USE_VGUI2 "Whether to include VGUI2 features" )
+set( USE_ANGELSCRIPT "0" CACHE BOOL "Whether to include Angelscript" )
+set( USE_AS_SQL "0" CACHE BOOL "Whether to include Angelscript SQL APIs" )
+set( USE_OPFOR "0" CACHE BOOL "Whether to include Opposing Force related stuff" )
+set( USE_BS "0" CACHE BOOL "Whether to include Blue Shift related stuff" )
+set( USE_GM "0" CACHE BOOL "Whether to include Gunman Chronicles related stuff" )
+set( USE_ASHEEP "0" CACHE BOOL "Whether to include Azure Sheep related stuff" )
+set( USE_DOD "0" CACHE BOOL "Whether to include Day of Defeat related stuff" )
+set( USE_VGUI2 "0" CACHE BOOL "Whether to include VGUI2 features" )
 
 #Some libraries that we use don't come with .a files (import libraries) for Cygwin compilation (Unix Makefiles on Windows).
 #This isn't really supported, and since we only use Makefiles on Windows for the compile_commands.json file right now this isn't really an issue.
 #Should we choose to support Cygwin we will need the import libraries though.
-option( CLANG_DB_BUILD "Whether this is a Clang database build. If enabled, some settings are disabled in order to function on Windows" )
+set( CLANG_DB_BUILD OFF CACHE BOOL "Whether this is a Clang database build. If enabled, some settings are disabled in order to function on Windows" )
 
 if( NOT USE_ANGELSCRIPT AND USE_AS_SQL )
-	message( STATUS "Forcing USE_AS_SQL to off due to no Angelscript usage" )
-	set( USE_AS_SQL OFF )
+	MESSAGE( STATUS "Forcing USE_AS_SQL to off due to no Angelscript usage" )
+	set( USE_AS_SQL 0 )
 endif()
 
-ternary( USE_ANGELSCRIPT_DEFINE USE_ANGELSCRIPT 1 0 )
-ternary( USE_AS_SQL_DEFINE USE_AS_SQL 1 0 )
-ternary( USE_OPFOR_DEFINE USE_OPFOR 1 0 )
-ternary( USE_BS_DEFINE USE_BS 1 0 )
-ternary( USE_GM_DEFINE USE_GM 1 0 )
-ternary( USE_ASHEEP_DEFINE USE_ASHEEP 1 0 )
-ternary( USE_DOD_DEFINE USE_DOD 1 0 )
-ternary( USE_VGUI2_DEFINE USE_VGUI2 1 0 )
+if( USE_ANGELSCRIPT )
+	set( USE_ANGELSCRIPT_DEFINE 1 )
+else()
+	set( USE_ANGELSCRIPT_DEFINE 0 )
+endif()
+
+if( USE_AS_SQL )
+	set( USE_AS_SQL_DEFINE 1 )
+else()
+	set( USE_AS_SQL_DEFINE 0 )
+endif()
+
+if( USE_OPFOR )
+	set( USE_OPFOR_DEFINE 1 )
+else()
+	set( USE_OPFOR_DEFINE 0 )
+endif()
+
+if( USE_BS )
+	set( USE_BS_DEFINE 1 )
+else()
+	set( USE_BS_DEFINE 0 )
+endif()
+
+if( USE_GM )
+	set( USE_GM_DEFINE 1 )
+else()
+	set( USE_GM_DEFINE 0 )
+endif()
+
+if( USE_ASHEEP )
+	set( USE_ASHEEP_DEFINE 1 )
+else()
+	set( USE_ASHEEP_DEFINE 0 )
+endif()
+
+if( USE_DOD )
+	set( USE_DOD_DEFINE 1 )
+else()
+	set( USE_DOD_DEFINE 0 )
+endif()
+
+#Default to false
+if( USE_VGUI2 )
+	set( USE_VGUI2_DEFINE 1 )
+else()
+	set( USE_VGUI2_DEFINE 0 )
+endif()
 
 if( CLANG_DB_BUILD )
-	message( STATUS "Exporting Compile Commands" )
+	MESSAGE( STATUS "Exporting Compile Commands" )
 	set( CMAKE_EXPORT_COMPILE_COMMANDS ON )
 endif()
 
@@ -93,6 +143,8 @@ if( MSVC )
 		_CRT_SECURE_NO_WARNINGS
 		_SCL_SECURE_NO_WARNINGS
 	)
+	
+	set( LINUX_32BIT_FLAG "" )
 else()
 	#All non-MSVC targets need this. That includes Cygwin and Mingw.
 	#Match Source 2013 in defining GNUC for UNIX platforms.
@@ -120,12 +172,13 @@ else()
 			_LINUX
 		)
 	endif()
+
+	set( LINUX_32BIT_FLAG "-m32" )
 endif()
 
 #Shared definitions for the client & server libaries.
 set( SHARED_GAME_DEFS
 	CLIENT_WEAPONS
-	NO_MALLOC_OVERRIDE
 	USE_ANGELSCRIPT=${USE_ANGELSCRIPT_DEFINE}
 	USE_OPFOR=${USE_OPFOR_DEFINE}
 	USE_BS=${USE_BS_DEFINE}
@@ -171,6 +224,7 @@ endif()
 #Shared directories
 #Include paths for external dependencies. Should always come after all project paths.
 set( SHARED_EXTERNAL_INCLUDE_PATHS
+	${EXTERNAL_DIR}/spdlog/include
 )
 
 if( USE_ANGELSCRIPT )
@@ -197,38 +251,22 @@ set( SHARED_INCLUDE_PATHS
 	${CMAKE_SOURCE_DIR}  #Should ideally get rid of this.
 )
 
+#keyvalues and utility are temporary until the code between these repositories can be shared. - Solokiller
 add_subdirectory( common )
 add_subdirectory( engine )
 add_subdirectory( game/shared )
+add_subdirectory( keyvalues )
 add_subdirectory( pm_shared )
 add_subdirectory( public )
 add_subdirectory( shared/engine )
+add_subdirectory( utility )
 
 #Save the shares sources into SHARED_SRCS
-get_sources( SHARED_SRCS )
+get_property(SHARED_SRCS GLOBAL PROPERTY SRCS_LIST)
 
 clear_sources()
 
 #Find shared dependencies
-find_package( XercesC CONFIG 3.2.0 REQUIRED )
-
-add_library( spdlog INTERFACE IMPORTED )
-
-set_property( TARGET spdlog PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${EXTERNAL_DIR}/spdlog/include )
-
-set( tier0_DIR ${GAME_BIN_PATH} CACHE PATH "tier0 library location" )
-find_package( tier0 MODULE REQUIRED )
-
-set( vstdlib_DIR ${GAME_BIN_PATH} CACHE PATH "vstdlib library location" )
-find_package( vstdlib MODULE REQUIRED )
-
-set( THREADS_PREFER_PTHREAD_FLAG ON )
-find_package( Threads REQUIRED )
-
-if( UNIX AND NOT APPLE )
-	set( UNIX_FS_LIB stdc++fs )
-endif()
-
 if( USE_ANGELSCRIPT )
 	find_library( ANGELSCRIPTLIB Angelscript PATHS external/Angelscript/lib/ )
 	find_library( ANGELSCRIPTUTILS AngelscriptUtils PATHS external/Angelscript/lib/ )
@@ -241,13 +279,29 @@ else()
 	set( ANGELSCRIPTUTILSD )
 endif()
 
+if( WIN32 )
+	find_library( TIER0 ${CMAKE_SHARED_LIBRARY_PREFIX}tier0${CMAKE_STATIC_LIBRARY_SUFFIX} PATHS ${CMAKE_SOURCE_DIR}/lib/public/ )
+	find_library( VSTDLIB vstdlib${CMAKE_STATIC_LIBRARY_SUFFIX} PATHS ${CMAKE_SOURCE_DIR}/lib/public/ )
+else()
+	find_library( TIER0 ${CMAKE_SHARED_LIBRARY_PREFIX}tier0${CMAKE_SHARED_LIBRARY_SUFFIX} PATHS ${STEAMCOMMON}/Half-Life/ ${CMAKE_SOURCE_DIR}/lib/public/ )
+	find_library( VSTDLIB ${CMAKE_SHARED_LIBRARY_PREFIX}vstdlib${CMAKE_SHARED_LIBRARY_SUFFIX} PATHS ${STEAMCOMMON}/Half-Life/ ${CMAKE_SOURCE_DIR}/lib/public/ )
+endif()
+
 set( SHARED_DEPENDENCIES
-	tier0
-	vstdlib
+	${TIER0}
+	${VSTDLIB}
 	tier1
-	XercesC::XercesC
-	spdlog
 )
+
+set( THREADS_PREFER_PTHREAD_FLAG ON )
+find_package( Threads REQUIRED )
+
+if( UNIX AND NOT APPLE )
+	set( UNIX_FS_LIB stdc++fs )
+else()
+	set( UNIX_FS_LIB )
+endif()
+
 
 #Set up source_sdk projects first
 add_subdirectory( source_sdk )
@@ -270,19 +324,16 @@ preprocess_sources()
 
 add_library( client SHARED ${PREP_SRCS} )
 
-#Needs static CRT to avoid alloc issues.
-configure_msvc_runtime( client STATIC )
-
-check_winxp_support( client )
-
 target_include_directories( client PRIVATE
 	shared/engine/client
+	utils/vgui/include
 	vgui_utils
 	game/client
 	game/client/ui
 	game/client/ui/hud
 	game/client/ui/vgui
 	${SHARED_INCLUDE_PATHS}
+	external/SDL2/include
 	${SHARED_EXTERNAL_INCLUDE_PATHS}
 )
 
@@ -291,15 +342,40 @@ target_compile_definitions( client PRIVATE
 	${SHARED_GAME_DEFS}
 	CLIENT_DLL
 	USE_VGUI2=${USE_VGUI2_DEFINE}
+	NO_MALLOC_OVERRIDE
 )
 
 #Find client dependencies
-set( vgui_DIR ${GAME_BIN_PATH} CACHE PATH "VGUI1 shared library location" )
-find_package( vgui MODULE REQUIRED )
+if( UNIX )
+	if ( ${CMAKE_SYSTEM_NAME} MATCHES "Darwin" )
+		set( VGUI1_NAME "vgui.dylib" )
+	else()
+		set( VGUI1_NAME "vgui.so" )
+	endif()
+else()
+	set( VGUI1_NAME "vgui.lib" )
+endif()
+
+#VGUI1 has issues linking with the client due to its non-standard filename. To work around this, we can instead import it and manually specify the location.
+#That sets the correct linker path and filename.
+add_library( vgui SHARED IMPORTED )
+set_property( TARGET vgui PROPERTY IMPORTED_LOCATION ${GAME_BIN_PATH}/${VGUI1_NAME} )
+set_property( TARGET vgui PROPERTY IMPORTED_IMPLIB ${CMAKE_SOURCE_DIR}/utils/vgui/lib/win32_vc6/vgui.lib )
 
 if( NOT CLANG_DB_BUILD )
-	set( SDL2_DIR ${GAME_BIN_PATH} CACHE PATH "SDL2 shared library location" )
-	find_package( SDL2 MODULE REQUIRED )
+	if( UNIX )
+		if ( ${CMAKE_SYSTEM_NAME} MATCHES "Darwin" )
+			set( SDL2_NAME "libSDL2-2.0.0.dylib" )
+		else()
+			set( SDL2_NAME "libSDL2-2.0.so.0" )
+		endif()
+	else()
+		set( SDL2_NAME "${CMAKE_SHARED_LIBRARY_PREFIX}SDL2${CMAKE_STATIC_LIBRARY_SUFFIX}" )
+	endif()
+
+	find_library( SDL2 ${SDL2_NAME} PATHS lib/public/ external/SDL2/lib "${STEAMCOMMON}/Half-Life/" )
+else()
+	set( SDL2 )
 endif()
 
 
@@ -330,11 +406,10 @@ if( USE_ANGELSCRIPT )
 endif()
 
 target_link_libraries( client 
-	${DELAYIMP}
 	vgui
 	${VGUI2_LIBS}
 	${CLIENT_PLAT_LIBS}
-	SDL2
+	${SDL2}
 	${SHARED_DEPENDENCIES}
 	Threads::Threads
 	${UNIX_FS_LIB}
@@ -350,9 +425,7 @@ set_target_properties( client PROPERTIES
 
 set( CLIENT_LINK_FLAGS )
 
-if( MSVC )
-	set( CLIENT_LINK_FLAGS "${CLIENT_LINK_FLAGS} " )
-elseif( NOT APPLE )
+if( NOT MSVC AND NOT APPLE )
 	#Generate a map file that provides information about the linking stage.
 	set( CLIENT_LINK_FLAGS
 		${CLIENT_LINK_FLAGS} "-Wl,-Map,client_map.txt "
@@ -360,12 +433,12 @@ elseif( NOT APPLE )
 endif()
 
 set_target_properties( client PROPERTIES
-	COMPILE_FLAGS "${WARNING_LEVEL_STRICTEST}"
-	LINK_FLAGS "${SHARED_GAME_LINKER_FLAGS} ${CLIENT_LINK_FLAGS}"
+	COMPILE_FLAGS "${LINUX_32BIT_FLAG} ${WARNING_LEVEL_STRICTEST}"
+	LINK_FLAGS "${SHARED_GAME_LINKER_FLAGS} ${CLIENT_LINK_FLAGS} ${LINUX_32BIT_FLAG}"
 )
 
 #No lib prefix
-set_target_properties( client PROPERTIES PREFIX "" )
+SET_TARGET_PROPERTIES( client PROPERTIES PREFIX "" )
 
 #Create filters
 create_source_groups( "${CMAKE_SOURCE_DIR}" )
@@ -393,11 +466,6 @@ add_subdirectory( game/server )
 preprocess_sources()
 
 add_library( hl SHARED ${PREP_SRCS} )
-
-#Needs static CRT to avoid alloc issues.
-configure_msvc_runtime( hl STATIC )
-
-check_winxp_support( hl )
 
 target_include_directories( hl PRIVATE
 	${SHARED_INCLUDE_PATHS}
@@ -435,7 +503,7 @@ if( USE_AS_SQL AND NOT CLANG_DB_BUILD )
 endif()
 
 foreach( lib IN LISTS LIBS_TO_COPY )
-	message( STATUS "Copying library \"${lib}\"" )
+	MESSAGE( STATUS "Copying library \"${lib}\"" )
 	file( COPY ${lib} DESTINATION ${GAME_BASE_PATH} )
 endforeach()
 
@@ -525,7 +593,7 @@ if( MSVC )
 
 	#Add the module definition file. Needed for GiveFnptrsToDll function export.
 	#Add delay loaded libraries.
-	set( SERVER_LINK_FLAGS "/DEF:hl.def ${SQL_DLL_DELAYLOAD}" )
+	set( SERVER_LINK_FLAGS "/DEF:hl.def ${SQL_DLL_DELAYLOAD} " )
 else()
 	if( NOT APPLE )
 		#Generate a map file that provides information about the linking stage.
@@ -537,12 +605,12 @@ endif()
 
 #SQL libraries are delay loaded to keep them in the game directory.
 set_target_properties( hl PROPERTIES
-	COMPILE_FLAGS "${WARNING_LEVEL_STRICTEST}" 
-	LINK_FLAGS "${SHARED_GAME_LINKER_FLAGS} ${SERVER_LINK_FLAGS}"
+	COMPILE_FLAGS "${LINUX_32BIT_FLAG} ${WARNING_LEVEL_STRICTEST}" 
+	LINK_FLAGS "${SHARED_GAME_LINKER_FLAGS} ${SERVER_LINK_FLAGS} ${LINUX_32BIT_FLAG}"
 )
 
 #No lib prefix
-set_target_properties( hl PROPERTIES PREFIX "" )
+SET_TARGET_PROPERTIES( hl PROPERTIES PREFIX "" )
 
 #Create filters
 create_source_groups( "${CMAKE_SOURCE_DIR}" )
