@@ -13,3 +13,4 @@ gamerc/mapsrc/*.rmx
 
 #Ignore temporary files created by Linux text editors like vim and gedit.
 *~
+vs/
