@@ -71,12 +71,12 @@ void CFuncTrackAuto::UpdateAutoTargets( int toggleState )
 	}
 	if( pTarget )
 	{
-		pTarget->GetSpawnFlags().ClearFlags( SF_PATH_DISABLED );
-		if( m_code == TRAIN_FOLLOWING && m_train && m_train->GetSpeed() == 0 )
+		ClearBits( pTarget->pev->spawnflags, SF_PATH_DISABLED );
+		if( m_code == TRAIN_FOLLOWING && m_train && m_train->pev->speed == 0 )
 			m_train->Use( this, this, USE_ON, 0 );
 	}
 
 	if( pNextTarget )
-		pNextTarget->GetSpawnFlags().AddFlags( SF_PATH_DISABLED );
+		SetBits( pNextTarget->pev->spawnflags, SF_PATH_DISABLED );
 
 }

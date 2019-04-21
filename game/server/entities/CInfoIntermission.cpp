@@ -9,11 +9,11 @@ LINK_ENTITY_TO_CLASS( info_intermission, CInfoIntermission );
 void CInfoIntermission::Spawn( void )
 {
 	SetAbsOrigin( GetAbsOrigin() );
-	SetSolidType( SOLID_NOT );
-	GetEffects() = EF_NODRAW;
-	SetViewAngle( g_vecZero );
+	pev->solid = SOLID_NOT;
+	pev->effects = EF_NODRAW;
+	pev->v_angle = g_vecZero;
 
-	SetNextThink( gpGlobals->time + 2 );// let targets spawn!
+	pev->nextthink = gpGlobals->time + 2;// let targets spawn!
 
 }
 
@@ -24,8 +24,7 @@ void CInfoIntermission::Think( void )
 
 	if( pTarget )
 	{
-		Vector vecViewAngle = UTIL_VecToAngles( ( pTarget->GetAbsOrigin() - GetAbsOrigin() ).Normalize() );
-		vecViewAngle.x = -vecViewAngle.x;
-		SetViewAngle( vecViewAngle );
+		pev->v_angle = UTIL_VecToAngles( ( pTarget->GetAbsOrigin() - GetAbsOrigin() ).Normalize() );
+		pev->v_angle.x = -pev->v_angle.x;
 	}
 }

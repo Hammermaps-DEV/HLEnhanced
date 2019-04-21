@@ -47,7 +47,7 @@ void CChangeLevel::Spawn( void )
 		SetUse( &CChangeLevel::UseChangeLevel );
 	}
 	InitTrigger();
-	if( !GetSpawnFlags().Any( SF_CHANGELEVEL_USEONLY ) )
+	if( !( pev->spawnflags & SF_CHANGELEVEL_USEONLY ) )
 		SetTouch( &CChangeLevel::TouchChangeLevel );
 	//	ALERT( at_console, "TRANSITION: %s (%s)\n", m_szMapName, m_szLandmarkName );
 }
@@ -126,10 +126,10 @@ void CChangeLevel::ChangeLevelNow( CBaseEntity *pActivator )
 		return;
 
 	// Some people are firing these multiple times in a frame, disable
-	if( gpGlobals->time == GetDamageTime() )
+	if( gpGlobals->time == pev->dmgtime )
 		return;
 
-	SetDamageTime( gpGlobals->time );
+	pev->dmgtime = gpGlobals->time;
 
 
 	CBaseEntity *pPlayer = CBaseEntity::Instance( g_engfuncs.pfnPEntityOfEntIndex( 1 ) );
@@ -146,9 +146,9 @@ void CChangeLevel::ChangeLevelNow( CBaseEntity *pActivator )
 		if( pFireAndDie )
 		{
 			// Set target and delay
-			pFireAndDie->SetTarget( m_changeTarget );
+			pFireAndDie->pev->target = m_changeTarget;
 			pFireAndDie->m_flDelay = m_changeTargetDelay;
-			pFireAndDie->SetAbsOrigin( pPlayer->GetAbsOrigin() );
+			pFireAndDie->pev->origin = pPlayer->GetAbsOrigin();
 			// Call spawn
 			DispatchSpawn( pFireAndDie->edict() );
 		}
@@ -317,11 +317,10 @@ bool CChangeLevel::InTransitionVolume( CBaseEntity *pEntity, char *pVolumeName )
 		return true;
 
 	// If you're following another entity, follow it through the transition (weapons follow the player)
-	if( pEntity->GetMoveType() == MOVETYPE_FOLLOW )
+	if( pEntity->pev->movetype == MOVETYPE_FOLLOW )
 	{
-		auto pAimEnt = pEntity->GetAimEntity();
-		if( pAimEnt )
-			pEntity = pAimEnt;
+		if( pEntity->pev->aiment != NULL )
+			pEntity = CBaseEntity::Instance( pEntity->pev->aiment );
 	}
 
 	bool inVolume = true;	// Unless we find a trigger_transition, everything is in the volume

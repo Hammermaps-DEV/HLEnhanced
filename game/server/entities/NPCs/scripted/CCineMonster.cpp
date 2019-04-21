@@ -57,9 +57,9 @@ LINK_ENTITY_TO_CLASS( scripted_sequence, CCineMonster );
 
 void CCineMonster::Spawn( void )
 {
-	// SetSolidType( SOLID_TRIGGER );
+	// pev->solid = SOLID_TRIGGER;
 	// SetSize( Vector(-8, -8, -8), Vector(8, 8, 8));
-	SetSolidType( SOLID_NOT );
+	pev->solid = SOLID_NOT;
 
 
 	// REMOVE: The old side-effect
@@ -72,12 +72,12 @@ void CCineMonster::Spawn( void )
 	if( !HasTargetname() || !FStringNull( m_iszIdle ) )
 	{
 		SetThink( &CCineMonster::CineThink );
-		SetNextThink( gpGlobals->time + 1.0 );
+		pev->nextthink = gpGlobals->time + 1.0;
 		// Wait to be used?
 		if( HasTargetname() )
 			m_startTime = gpGlobals->time + 1E6;
 	}
-	if( GetSpawnFlags().Any( SF_SCRIPT_NOINTERRUPT ) )
+	if( pev->spawnflags & SF_SCRIPT_NOINTERRUPT )
 		m_interruptable = false;
 	else
 		m_interruptable = true;
@@ -153,7 +153,7 @@ void CCineMonster::Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE 
 	{
 		// if not, try finding them
 		SetThink( &CCineMonster::CineThink );
-		SetNextThink( gpGlobals->time );
+		pev->nextthink = gpGlobals->time;
 	}
 }
 
@@ -175,7 +175,7 @@ void CCineMonster::Touch( CBaseEntity *pOther )
 }
 
 /*
-if( !pOther->GetFlags().Any( FL_MONSTER ) )
+if( !FBitSet( pOther->pev->flags, FL_MONSTER ) )
 {
 	// touched by a non-monster.
 	return;
@@ -183,20 +183,18 @@ if( !pOther->GetFlags().Any( FL_MONSTER ) )
 
 pOther->GetAbsOrigin().z += 1;
 
-if( pOther->GetFlags().Any( FL_ONGROUND ) )
+if( FBitSet ( pOther->pev->flags, FL_ONGROUND ) )
 {
 	// clear the onground so physics don't bitch
-	pOther->GetFlags().ClearFlags( FL_ONGROUND );
+	pOther->pev->flags -= FL_ONGROUND;
 }
 
 // toss the monster!
-Vector vecVelocity = pOther->GetAbsVelocity();
-vecVelocity = GetMoveDir() * GetSpeed();
-vecVelocity.z += m_flHeight;
-pOther->SetAbsVelocity( vecVelocity );
+pOther->pev->velocity = pev->movedir * pev->speed;
+pOther->pev->velocity.z += m_flHeight;
 
 
-SetSolidType( SOLID_NOT );// kill the trigger for now !!!UNDONE
+pev->solid = SOLID_NOT;// kill the trigger for now !!!UNDONE
 }
 */
 
@@ -255,7 +253,7 @@ void CCineMonster::CineThink( void )
 	{
 		CancelScript();
 		ALERT( at_aiconsole, "script \"%s\" can't find monster \"%s\"\n", GetTargetname(), STRING( m_iszEntity ) );
-		SetNextThink( gpGlobals->time + 1.0 );
+		pev->nextthink = gpGlobals->time + 1.0;
 	}
 }
 
@@ -371,10 +369,10 @@ void CCineMonster::PossessEntity( void )
 		pTarget->m_pCine = this;
 		pTarget->m_hTargetEnt = this;
 
-		m_saved_movetype = pTarget->GetMoveType();
-		m_saved_solid = pTarget->GetSolidType();
-		m_saved_effects = pTarget->GetEffects();
-		pTarget->GetEffects() |= GetEffects();
+		m_saved_movetype = pTarget->pev->movetype;
+		m_saved_solid = pTarget->pev->solid;
+		m_saved_effects = pTarget->pev->effects;
+		pTarget->pev->effects |= pev->effects;
 
 		switch( m_fMoveTo )
 		{
@@ -394,20 +392,18 @@ void CCineMonster::PossessEntity( void )
 
 		case 4:
 			pTarget->SetAbsOrigin( GetAbsOrigin() );
-			pTarget->SetIdealYaw( GetAbsAngles().y );
-			pTarget->SetAngularVelocity( g_vecZero );
-			pTarget->SetAbsVelocity( Vector( 0, 0, 0 ) );
-			pTarget->GetEffects() |= EF_NOINTERP;
-			Vector vecAngles = pTarget->GetAbsAngles();
-			vecAngles.y = GetAbsAngles().y;
-			pTarget->SetAbsAngles( vecAngles );
+			pTarget->pev->ideal_yaw = pev->angles.y;
+			pTarget->pev->avelocity = Vector( 0, 0, 0 );
+			pTarget->pev->velocity = Vector( 0, 0, 0 );
+			pTarget->pev->effects |= EF_NOINTERP;
+			pTarget->pev->angles.y = pev->angles.y;
 			pTarget->m_scriptState = SCRIPT_WAIT;
 			m_startTime = gpGlobals->time + 1E6;
 			// UNDONE: Add a flag to do this so people can fixup physics after teleporting monsters
-			//			pTarget->GetFlags().ClearFlags( FL_ONGROUND );
+			//			pTarget->pev->flags &= ~FL_ONGROUND;
 			break;
 		}
-		//		ALERT( at_aiconsole, "\"%s\" found and used (INT: %s)\n", pTarget->GetTargetname(), GetSpawnFlags().Any( SF_SCRIPT_NOINTERRUPT ) ?"No":"Yes" );
+		//		ALERT( at_aiconsole, "\"%s\" found and used (INT: %s)\n", pTarget->GetTargetname(), FBitSet(pev->spawnflags, SF_SCRIPT_NOINTERRUPT)?"No":"Yes" );
 
 		pTarget->m_IdealMonsterState = MONSTERSTATE_SCRIPT;
 		if( m_iszIdle )
@@ -415,7 +411,7 @@ void CCineMonster::PossessEntity( void )
 			StartSequence( pTarget, m_iszIdle, false );
 			if( FStrEq( STRING( m_iszIdle ), STRING( m_iszPlay ) ) )
 			{
-				pTarget->SetFrameRate( 0 );
+				pTarget->pev->framerate = 0;
 			}
 		}
 	}
@@ -449,17 +445,17 @@ bool CCineMonster::StartSequence( CBaseMonster *pTarget, int iszSeq, const bool 
 		return false;
 	}
 
-	pTarget->SetSequence( pTarget->LookupSequence( STRING( iszSeq ) ) );
-	if( pTarget->GetSequence() == -1 )
+	pTarget->pev->sequence = pTarget->LookupSequence( STRING( iszSeq ) );
+	if( pTarget->pev->sequence == -1 )
 	{
 		ALERT( at_error, "%s: unknown scripted sequence \"%s\"\n", pTarget->GetTargetname(), STRING( iszSeq ) );
-		pTarget->SetSequence( 0 );
+		pTarget->pev->sequence = 0;
 		// return false;
 	}
 
 #if 0
 	char *s;
-	if( GetSpawnFlags().Any( SF_SCRIPT_NOINTERRUPT ) )
+	if( pev->spawnflags & SF_SCRIPT_NOINTERRUPT )
 		s = "No";
 	else
 		s = "Yes";
@@ -467,7 +463,7 @@ bool CCineMonster::StartSequence( CBaseMonster *pTarget, int iszSeq, const bool 
 	ALERT( at_console, "%s (%s): started \"%s\":INT:%s\n", pTarget->GetTargetname(), pTarget->GetClassname(), STRING( iszSeq ), s );
 #endif
 
-	pTarget->SetFrame( 0 );
+	pTarget->pev->frame = 0;
 	pTarget->ResetSequenceInfo();
 	return true;
 }
@@ -478,7 +474,7 @@ bool CCineMonster::StartSequence( CBaseMonster *pTarget, int iszSeq, const bool 
 //=========================================================
 bool CCineMonster::FCanOverrideState() const
 {
-	if( GetSpawnFlags().Any( SF_SCRIPT_OVERRIDESTATE ) )
+	if( pev->spawnflags & SF_SCRIPT_OVERRIDESTATE )
 		return true;
 	return false;
 }
@@ -494,10 +490,10 @@ void CCineMonster::SequenceDone( CBaseMonster *pMonster )
 {
 	//ALERT( at_aiconsole, "Sequence %s finished\n", STRING( m_pCine->m_iszPlay ) );
 
-	if( !GetSpawnFlags().Any( SF_SCRIPT_REPEATABLE ) )
+	if( !( pev->spawnflags & SF_SCRIPT_REPEATABLE ) )
 	{
 		SetThink( &CCineMonster::SUB_Remove );
-		SetNextThink( gpGlobals->time + 0.1 );
+		pev->nextthink = gpGlobals->time + 0.1;
 	}
 
 	// This is done so that another sequence can take over the monster when triggered by the first
@@ -533,7 +529,7 @@ bool CCineMonster::CanInterrupt() const
 
 	const CBaseEntity *pTarget = m_hTargetEnt;
 
-	if( pTarget != NULL && pTarget->GetDeadFlag() == DEAD_NO )
+	if( pTarget != NULL && pTarget->pev->deadflag == DEAD_NO )
 		return true;
 
 	return false;
@@ -541,7 +537,7 @@ bool CCineMonster::CanInterrupt() const
 
 void CCineMonster::AllowInterrupt( const bool fAllow )
 {
-	if( GetSpawnFlags().Any( SF_SCRIPT_NOINTERRUPT ) )
+	if( pev->spawnflags & SF_SCRIPT_NOINTERRUPT )
 		return;
 	m_interruptable = fAllow;
 }

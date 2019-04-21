@@ -24,7 +24,7 @@ void CTriggerEndSection::Spawn( void )
 
 	SetUse( &CTriggerEndSection::EndSectionUse );
 	// If it is a "use only" trigger, then don't set the touch function.
-	if( !GetSpawnFlags().Any( SF_ENDSECTION_USEONLY ) )
+	if( !( pev->spawnflags & SF_ENDSECTION_USEONLY ) )
 		SetTouch( &CTriggerEndSection::EndSectionTouch );
 }
 
@@ -36,9 +36,9 @@ void CTriggerEndSection::EndSectionTouch( CBaseEntity *pOther )
 
 	SetTouch( NULL );
 
-	if( HasMessage() )
+	if( pev->message )
 	{
-		g_engfuncs.pfnEndSection( GetMessage() );
+		g_engfuncs.pfnEndSection( STRING( pev->message ) );
 	}
 	UTIL_Remove( this );
 }
@@ -49,7 +49,7 @@ void CTriggerEndSection::KeyValue( KeyValueData *pkvd )
 	{
 		//		m_iszSectionName = ALLOC_STRING( pkvd->szValue );
 		// Store this in message so we don't have to write save/restore for this ent
-		SetMessage( ALLOC_STRING( pkvd->szValue ) );
+		pev->message = ALLOC_STRING( pkvd->szValue );
 		pkvd->fHandled = true;
 	}
 	else
@@ -64,9 +64,9 @@ void CTriggerEndSection::EndSectionUse( CBaseEntity *pActivator, CBaseEntity *pC
 
 	SetUse( NULL );
 
-	if( HasMessage() )
+	if( pev->message )
 	{
-		g_engfuncs.pfnEndSection( GetMessage() );
+		g_engfuncs.pfnEndSection( STRING( pev->message ) );
 	}
 	UTIL_Remove( this );
 }

@@ -31,12 +31,20 @@ END_DATADESC()
 
 LINK_ENTITY_TO_CLASS( monster_gman, CGMan );
 
+//=========================================================
+// Classify - indicates this monster's place in the 
+// relationship table.
+//=========================================================
 EntityClassification_t CGMan::GetClassification()
 {
 	return EntityClassifications().GetNoneId();
 }
 
-void CGMan::UpdateYawSpeed()
+//=========================================================
+// SetYawSpeed - allows each sequence to have a different
+// turn rate associated with it.
+//=========================================================
+void CGMan :: SetYawSpeed ( void )
 {
 	int ys;
 
@@ -47,9 +55,13 @@ void CGMan::UpdateYawSpeed()
 		ys = 90;
 	}
 
-	SetYawSpeed( ys );
+	pev->yaw_speed = ys;
 }
 
+//=========================================================
+// HandleAnimEvent - catches the monster-specific messages
+// that occur when tagged animation frames are played.
+//=========================================================
 void CGMan :: HandleAnimEvent( AnimEvent_t& event )
 {
 	switch( event.event )
@@ -61,12 +73,17 @@ void CGMan :: HandleAnimEvent( AnimEvent_t& event )
 	}
 }
 
+//=========================================================
+// ISoundMask - generic monster can't hear.
+//=========================================================
 int CGMan :: ISoundMask ( void )
 {
-	//generic monster can't hear.
 	return 0;
 }
 
+//=========================================================
+// Spawn
+//=========================================================
 void CGMan :: Spawn()
 {
 	Precache();
@@ -74,16 +91,19 @@ void CGMan :: Spawn()
 	SetModel( "models/gman.mdl" );
 	SetSize( VEC_HUMAN_HULL_MIN, VEC_HUMAN_HULL_MAX );
 
-	SetSolidType( SOLID_SLIDEBOX );
-	SetMoveType( MOVETYPE_STEP );
+	pev->solid			= SOLID_SLIDEBOX;
+	pev->movetype		= MOVETYPE_STEP;
 	m_bloodColor		= DONT_BLEED;
-	SetHealth( 100 );
+	pev->health			= 100;
 	m_flFieldOfView		= 0.5;// indicates the width of this monster's forward view cone ( as a dotproduct result )
 	m_MonsterState		= MONSTERSTATE_NONE;
 
 	MonsterInit();
 }
 
+//=========================================================
+// Precache - precaches all resources this monster needs
+//=========================================================
 void CGMan :: Precache()
 {
 	PRECACHE_MODEL( "models/gman.mdl" );
@@ -95,9 +115,9 @@ void CGMan :: Precache()
 //=========================================================
 
 
-void CGMan :: StartTask( const Task_t& task )
+void CGMan :: StartTask( const Task_t* pTask )
 {
-	switch( task.iTask )
+	switch( pTask->iTask )
 	{
 	case TASK_WAIT:
 		if (m_hPlayer == NULL)
@@ -106,18 +126,18 @@ void CGMan :: StartTask( const Task_t& task )
 		}
 		break;
 	}
-	CBaseMonster::StartTask( task );
+	CBaseMonster::StartTask( pTask );
 }
 
-void CGMan :: RunTask( const Task_t& task )
+void CGMan :: RunTask( const Task_t* pTask )
 {
-	switch( task.iTask )
+	switch( pTask->iTask )
 	{
 	case TASK_WAIT:
 		// look at who I'm talking to
 		if (m_flTalkTime > gpGlobals->time && m_hTalkTarget != NULL)
 		{
-			float yaw = VecToYaw(m_hTalkTarget->GetAbsOrigin() - GetAbsOrigin()) - GetAbsAngles().y;
+			float yaw = VecToYaw(m_hTalkTarget->GetAbsOrigin() - GetAbsOrigin()) - pev->angles.y;
 
 			if (yaw > 180) yaw -= 360;
 			if (yaw < -180) yaw += 360;
@@ -126,9 +146,9 @@ void CGMan :: RunTask( const Task_t& task )
 			SetBoneController( 0, yaw );
 		}
 		// look at player, but only if playing a "safe" idle animation
-		else if (m_hPlayer != NULL && GetSequence() == 0)
+		else if (m_hPlayer != NULL && pev->sequence == 0)
 		{
-			float yaw = VecToYaw(m_hPlayer->GetAbsOrigin() - GetAbsOrigin()) - GetAbsAngles().y;
+			float yaw = VecToYaw(m_hPlayer->GetAbsOrigin() - GetAbsOrigin()) - pev->angles.y;
 
 			if (yaw > 180) yaw -= 360;
 			if (yaw < -180) yaw += 360;
@@ -140,11 +160,11 @@ void CGMan :: RunTask( const Task_t& task )
 		{
 			SetBoneController( 0, 0 );
 		}
-		CBaseMonster::RunTask( task );
+		CBaseMonster::RunTask( pTask );
 		break;
 	default:
 		SetBoneController( 0, 0 );
-		CBaseMonster::RunTask( task );
+		CBaseMonster::RunTask( pTask );
 		break;
 	}
 }
@@ -155,7 +175,7 @@ void CGMan :: RunTask( const Task_t& task )
 //=========================================================
 void CGMan::OnTakeDamage( const CTakeDamageInfo& info )
 {
-	SetHealth( GetMaxHealth() / 2 ); // always trigger the 50% damage aitrigger
+	pev->health = pev->max_health / 2; // always trigger the 50% damage aitrigger
 
 	if ( info.GetDamage() > 0 )
 	{
@@ -169,9 +189,9 @@ void CGMan::OnTakeDamage( const CTakeDamageInfo& info )
 }
 
 
-void CGMan::TraceAttack( const CTakeDamageInfo& info, Vector vecDir, TraceResult& tr )
+void CGMan::TraceAttack( const CTakeDamageInfo& info, Vector vecDir, TraceResult *ptr )
 {
-	UTIL_Ricochet( tr.vecEndPos, 1.0 );
+	UTIL_Ricochet( ptr->vecEndPos, 1.0 );
 	g_MultiDamage.AddMultiDamage( info, this );
 }
 

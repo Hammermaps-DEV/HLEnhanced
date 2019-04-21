@@ -60,11 +60,9 @@ std::string CBaseEntity_GetModelName( const CBaseEntity* pThis );
 
 void CBaseEntity_SetModel( CBaseEntity* pThis, const std::string& szModelName );
 
-#ifdef SERVER_DLL
 std::string CBaseEntity_GetViewModelName( const CBaseEntity* pThis );
 
 void CBaseEntity_SetViewModelName( CBaseEntity* pThis, const std::string& szViewModelName );
-#endif
 
 std::string CBaseEntity_GetWeaponModelName( const CBaseEntity* pThis );
 
@@ -242,6 +240,10 @@ inline void RegisterScriptCBaseEntity( asIScriptEngine& engine, const char* cons
 		asMETHOD( CLASS, GetAngularVelocity ), asCALL_THISCALL );
 
 	engine.RegisterObjectMethod(
+		pszObjectName, "Vector& GetMutableAVelocity()",
+		asMETHOD( CLASS, GetMutableAVelocity ), asCALL_THISCALL );
+
+	engine.RegisterObjectMethod(
 		pszObjectName, "void SetAngularVelocity(const Vector& in vecVelocity)",
 		asMETHOD( CLASS, SetAngularVelocity ), asCALL_THISCALL );
 
@@ -250,12 +252,20 @@ inline void RegisterScriptCBaseEntity( asIScriptEngine& engine, const char* cons
 		asMETHOD( CLASS, GetPunchAngle ), asCALL_THISCALL );
 
 	engine.RegisterObjectMethod(
+		pszObjectName, "Vector& GetMutablePunchAngle()",
+		asMETHOD( CLASS, GetMutablePunchAngle ), asCALL_THISCALL );
+
+	engine.RegisterObjectMethod(
 		pszObjectName, "void SetPunchAngle(const Vector& in vecPunchAngle)",
 		asMETHOD( CLASS, SetPunchAngle ), asCALL_THISCALL );
 
 	engine.RegisterObjectMethod(
 		pszObjectName, "const Vector& GetViewAngle() const",
 		asMETHOD( CLASS, GetViewAngle ), asCALL_THISCALL );
+
+	engine.RegisterObjectMethod(
+		pszObjectName, "Vector& GetMutableViewAngle()",
+		asMETHOD( CLASS, GetMutableViewAngle ), asCALL_THISCALL );
 
 	engine.RegisterObjectMethod(
 		pszObjectName, "void SetViewAngle(const Vector& in vecViewAngle)",
@@ -327,7 +337,6 @@ inline void RegisterScriptCBaseEntity( asIScriptEngine& engine, const char* cons
 		pszObjectName, "void ClearModel()",
 		asMETHOD( CLASS, ClearModel ), asCALL_THISCALL );
 
-#ifdef SERVER_DLL
 	engine.RegisterObjectMethod(
 		pszObjectName, "string GetViewModelName() const",
 		asFUNCTION( CBaseEntity_GetViewModelName ), asCALL_CDECL_OBJFIRST );
@@ -339,7 +348,6 @@ inline void RegisterScriptCBaseEntity( asIScriptEngine& engine, const char* cons
 	engine.RegisterObjectMethod(
 		pszObjectName, "void ClearViewModelName()",
 		asMETHOD( CLASS, ClearViewModelName ), asCALL_THISCALL );
-#endif
 
 	engine.RegisterObjectMethod(
 		pszObjectName, "string GetWeaponModelName() const",
@@ -386,12 +394,12 @@ inline void RegisterScriptCBaseEntity( asIScriptEngine& engine, const char* cons
 		asMETHOD( CLASS, SetSwimSoundTime ), asCALL_THISCALL );
 
 	engine.RegisterObjectMethod(
-		pszObjectName, "int GetDuckTime() const",
-		asMETHOD( CLASS, GetDuckTime ), asCALL_THISCALL );
+		pszObjectName, "int GetDuckSoundTime() const",
+		asMETHOD( CLASS, GetDuckSoundTime ), asCALL_THISCALL );
 
 	engine.RegisterObjectMethod(
-		pszObjectName, "void SetDuckTime(const int iTime)",
-		asMETHOD( CLASS, SetDuckTime ), asCALL_THISCALL );
+		pszObjectName, "void SetDuckSoundTime(const int iTime)",
+		asMETHOD( CLASS, SetDuckSoundTime ), asCALL_THISCALL );
 
 	engine.RegisterObjectMethod(
 		pszObjectName, "bool IsStepLeft() const",
@@ -514,12 +522,20 @@ inline void RegisterScriptCBaseEntity( asIScriptEngine& engine, const char* cons
 		asMETHOD( CLASS, GetGravity ), asCALL_THISCALL );
 
 	engine.RegisterObjectMethod(
+		pszObjectName, "float& GetMutableGravity()",
+		asMETHOD( CLASS, GetMutableGravity ), asCALL_THISCALL );
+
+	engine.RegisterObjectMethod(
 		pszObjectName, "void SetGravity(const float flGravity)",
 		asMETHOD( CLASS, SetGravity ), asCALL_THISCALL );
 
 	engine.RegisterObjectMethod(
 		pszObjectName, "float GetFriction() const",
 		asMETHOD( CLASS, GetFriction ), asCALL_THISCALL );
+
+	engine.RegisterObjectMethod(
+		pszObjectName, "float& GetMutableFriction()",
+		asMETHOD( CLASS, GetMutableFriction ), asCALL_THISCALL );
 
 	engine.RegisterObjectMethod(
 		pszObjectName, "void SetFriction(const float flFriction)",
@@ -548,6 +564,10 @@ inline void RegisterScriptCBaseEntity( asIScriptEngine& engine, const char* cons
 	engine.RegisterObjectMethod(
 		pszObjectName, "float GetFrame() const",
 		asMETHOD( CLASS, GetFrame ), asCALL_THISCALL );
+
+	engine.RegisterObjectMethod(
+		pszObjectName, "float& GetMutableFrame()",
+		asMETHOD( CLASS, GetMutableFrame ), asCALL_THISCALL );
 
 	engine.RegisterObjectMethod(
 		pszObjectName, "void SetFrame(const float flFrame)",
@@ -596,6 +616,10 @@ inline void RegisterScriptCBaseEntity( asIScriptEngine& engine, const char* cons
 	engine.RegisterObjectMethod(
 		pszObjectName, "const Vector& GetRenderColor() const",
 		asMETHOD( CLASS, GetRenderColor ), asCALL_THISCALL );
+
+	engine.RegisterObjectMethod(
+		pszObjectName, "Vector& GetMutableRenderColor()",
+		asMETHOD( CLASS, GetMutableRenderColor ), asCALL_THISCALL );
 
 	engine.RegisterObjectMethod(
 		pszObjectName, "void SetRenderColor(const Vector& in vecColor)",
@@ -702,12 +726,12 @@ inline void RegisterScriptCBaseEntity( asIScriptEngine& engine, const char* cons
 		asMETHODPR( CLASS, GetOldButtons, (), CEntBitSet& ), asCALL_THISCALL );
 
 	engine.RegisterObjectMethod(
-		pszObjectName, "int GetImpulse() const",
-		asMETHODPR( CLASS, GetImpulse, () const, int ), asCALL_THISCALL );
+		pszObjectName, "const CEntBitSet& GetImpulse() const",
+		asMETHODPR( CLASS, GetImpulse, () const, const CEntBitSet& ), asCALL_THISCALL );
 
 	engine.RegisterObjectMethod(
-		pszObjectName, "void SetImpulse(const int iImpulse)",
-		asMETHODPR( CLASS, SetImpulse, ( const int ), void ), asCALL_THISCALL );
+		pszObjectName, "CEntBitSet& GetImpulse()",
+		asMETHODPR( CLASS, GetImpulse, (), CEntBitSet& ), asCALL_THISCALL );
 
 	engine.RegisterObjectMethod(
 		pszObjectName, "const CEntBitSet& GetSpawnFlags() const",
@@ -838,12 +862,8 @@ inline void RegisterScriptCBaseEntity( asIScriptEngine& engine, const char* cons
 		asMETHOD( CLASS, SetDamage ), asCALL_THISCALL );
 
 	engine.RegisterObjectMethod(
-		pszObjectName, "CBaseEntity@ GetOwner() const",
-		asMETHODPR( CLASS, GetOwner, () const, CBaseEntity* ), asCALL_THISCALL );
-
-	engine.RegisterObjectMethod(
 		pszObjectName, "CBaseEntity@ GetOwner()",
-		asMETHODPR( CLASS, GetOwner, (), CBaseEntity* ), asCALL_THISCALL );
+		asMETHOD( CLASS, GetOwner ), asCALL_THISCALL );
 
 	engine.RegisterObjectMethod(
 		pszObjectName, "void SetOwner(CBaseEntity@ pOwner)",
@@ -1293,13 +1313,13 @@ int BaseEntity_BloodColor( const CLASS* pThis )
 template<typename CLASS>
 void BaseEntity_TraceAttack( CLASS* pThis, const CTakeDamageInfo& info, Vector vecDir, TraceResult& tr )
 {
-	pThis->CLASS::TraceAttack( info, vecDir, tr );
+	pThis->CLASS::TraceAttack( info, vecDir, &tr );
 }
 
 template<typename CLASS>
 void BaseEntity_TraceBleed( CLASS* pThis, const CTakeDamageInfo& info, Vector vecDir, TraceResult& tr )
 {
-	pThis->CLASS::TraceBleed( info, vecDir, tr );
+	pThis->CLASS::TraceBleed( info, vecDir, &tr );
 }
 
 template<typename CLASS>

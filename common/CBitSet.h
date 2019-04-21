@@ -31,11 +31,6 @@ public:
 	bool All( const T flags ) const;
 
 	/**
-	*	@brief Whether no flags are set
-	*/
-	bool None() const { return m_Data == 0; }
-
-	/**
 	*	@return The bit vector.
 	*/
 	inline T Get() const { return m_Data; }

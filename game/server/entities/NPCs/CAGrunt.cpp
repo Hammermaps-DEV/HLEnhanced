@@ -93,6 +93,10 @@ END_DATADESC()
 
 LINK_ENTITY_TO_CLASS( monster_alien_grunt, CAGrunt );
 
+//=========================================================
+// IRelationship - overridden because Human Grunts are 
+// Alien Grunt's nemesis.
+//=========================================================
 Relationship CAGrunt::IRelationship ( CBaseEntity *pTarget )
 {
 	if ( pTarget->ClassnameIs( "monster_human_grunt" ) )
@@ -103,6 +107,9 @@ Relationship CAGrunt::IRelationship ( CBaseEntity *pTarget )
 	return CSquadMonster :: IRelationship( pTarget );
 }
 
+//=========================================================
+// ISoundMask 
+//=========================================================
 int CAGrunt :: ISoundMask ( void )
 {
 	return	bits_SOUND_WORLD	|
@@ -111,17 +118,20 @@ int CAGrunt :: ISoundMask ( void )
 			bits_SOUND_DANGER;
 }
 
-void CAGrunt :: TraceAttack( const CTakeDamageInfo& info, Vector vecDir, TraceResult& tr )
+//=========================================================
+// TraceAttack
+//=========================================================
+void CAGrunt :: TraceAttack( const CTakeDamageInfo& info, Vector vecDir, TraceResult *ptr )
 {
 	CTakeDamageInfo newInfo = info;
 
-	if ( tr.iHitgroup == 10 && (newInfo.GetDamageTypes() & (DMG_BULLET | DMG_SLASH | DMG_CLUB)))
+	if ( ptr->iHitgroup == 10 && (newInfo.GetDamageTypes() & (DMG_BULLET | DMG_SLASH | DMG_CLUB)))
 	{
 		// hit armor
-		if ( GetDamageTime() != gpGlobals->time || (RANDOM_LONG(0,10) < 1) )
+		if ( pev->dmgtime != gpGlobals->time || (RANDOM_LONG(0,10) < 1) )
 		{
-			UTIL_Ricochet( tr.vecEndPos, RANDOM_FLOAT( 1, 2) );
-			SetDamageTime( gpGlobals->time );
+			UTIL_Ricochet( ptr->vecEndPos, RANDOM_FLOAT( 1, 2) );
+			pev->dmgtime = gpGlobals->time;
 		}
 
 		if ( RANDOM_LONG( 0, 1 ) == 0 )
@@ -134,11 +144,11 @@ void CAGrunt :: TraceAttack( const CTakeDamageInfo& info, Vector vecDir, TraceRe
 
 			vecTracerDir = vecTracerDir * -512;
 
-			MESSAGE_BEGIN( MSG_PVS, SVC_TEMPENTITY, tr.vecEndPos );
+			MESSAGE_BEGIN( MSG_PVS, SVC_TEMPENTITY, ptr->vecEndPos );
 			WRITE_BYTE( TE_TRACER );
-				WRITE_COORD( tr.vecEndPos.x );
-				WRITE_COORD( tr.vecEndPos.y );
-				WRITE_COORD( tr.vecEndPos.z );
+				WRITE_COORD( ptr->vecEndPos.x );
+				WRITE_COORD( ptr->vecEndPos.y );
+				WRITE_COORD( ptr->vecEndPos.z );
 
 				WRITE_COORD( vecTracerDir.x );
 				WRITE_COORD( vecTracerDir.y );
@@ -152,8 +162,8 @@ void CAGrunt :: TraceAttack( const CTakeDamageInfo& info, Vector vecDir, TraceRe
 	}
 	else
 	{
-		SpawnBlood( tr.vecEndPos, BloodColor(), newInfo.GetDamage());// a little surface blood.
-		TraceBleed( newInfo, vecDir, tr );
+		SpawnBlood(ptr->vecEndPos, BloodColor(), newInfo.GetDamage());// a little surface blood.
+		TraceBleed( newInfo, vecDir, ptr );
 	}
 
 	g_MultiDamage.AddMultiDamage( info, this );
@@ -178,7 +188,7 @@ bool CAGrunt::ShouldSpeak()
 		return false;
 	}
 
-	if ( GetSpawnFlags().Any( SF_MONSTER_GAG ) )
+	if ( pev->spawnflags & SF_MONSTER_GAG )
 	{
 		if ( m_MonsterState != MONSTERSTATE_COMBAT )
 		{
@@ -194,6 +204,9 @@ bool CAGrunt::ShouldSpeak()
 	return true;
 }
 
+//=========================================================
+// PrescheduleThink 
+//=========================================================
 void CAGrunt :: PrescheduleThink ( void )
 {
 	if ( ShouldSpeak() )
@@ -226,6 +239,9 @@ void CAGrunt :: PrescheduleThink ( void )
 	}
 }
 
+//=========================================================
+// DieSound
+//=========================================================
 void CAGrunt :: DeathSound ( void )
 {
 	StopTalking();
@@ -233,6 +249,9 @@ void CAGrunt :: DeathSound ( void )
 	EMIT_SOUND ( this, CHAN_VOICE, pDieSounds[RANDOM_LONG(0,ARRAYSIZE(pDieSounds)-1)], 1.0, ATTN_NORM );
 }
 
+//=========================================================
+// AlertSound
+//=========================================================
 void CAGrunt :: AlertSound ( void )
 {
 	StopTalking();
@@ -240,6 +259,9 @@ void CAGrunt :: AlertSound ( void )
 	EMIT_SOUND ( this, CHAN_VOICE, pAlertSounds[RANDOM_LONG(0,ARRAYSIZE(pAlertSounds)-1)], 1.0, ATTN_NORM );
 }
 
+//=========================================================
+// AttackSound
+//=========================================================
 void CAGrunt :: AttackSound ( void )
 {
 	StopTalking();
@@ -247,6 +269,9 @@ void CAGrunt :: AttackSound ( void )
 	EMIT_SOUND ( this, CHAN_VOICE, pAttackSounds[RANDOM_LONG(0,ARRAYSIZE(pAttackSounds)-1)], 1.0, ATTN_NORM );
 }
 
+//=========================================================
+// PainSound
+//=========================================================
 void CAGrunt :: PainSound ( void )
 {
 	if ( m_flNextPainTime > gpGlobals->time )
@@ -261,12 +286,20 @@ void CAGrunt :: PainSound ( void )
 	EMIT_SOUND ( this, CHAN_VOICE, pPainSounds[RANDOM_LONG(0,ARRAYSIZE(pPainSounds)-1)], 1.0, ATTN_NORM );
 }
 
+//=========================================================
+// Classify - indicates this monster's place in the 
+// relationship table.
+//=========================================================
 EntityClassification_t CAGrunt::GetClassification()
 {
 	return EntityClassifications().GetClassificationId( classify::ALIEN_MILITARY );
 }
 
-void CAGrunt::UpdateYawSpeed()
+//=========================================================
+// SetYawSpeed - allows each sequence to have a different
+// turn rate associated with it.
+//=========================================================
+void CAGrunt :: SetYawSpeed ( void )
 {
 	int ys;
 
@@ -279,9 +312,15 @@ void CAGrunt::UpdateYawSpeed()
 	default:			ys = 100;
 	}
 
-	SetYawSpeed( ys );
+	pev->yaw_speed = ys;
 }
 
+//=========================================================
+// HandleAnimEvent - catches the monster-specific messages
+// that occur when tagged animation frames are played.
+//
+// Returns number of events handled, 0 if none.
+//=========================================================
 void CAGrunt :: HandleAnimEvent( AnimEvent_t& event )
 {
 	switch( event.event )
@@ -305,12 +344,12 @@ void CAGrunt :: HandleAnimEvent( AnimEvent_t& event )
 			}
 			else
 			{
-				angDir = GetAbsAngles();
+				angDir = pev->angles;
 				UTIL_MakeAimVectors( angDir );
 				vecDirToEnemy = gpGlobals->v_forward;
 			}
 
-			GetEffects() = EF_MUZZLEFLASH;
+			pev->effects = EF_MUZZLEFLASH;
 
 			// make angles +-180
 			if (angDir.x > 180)
@@ -333,8 +372,8 @@ void CAGrunt :: HandleAnimEvent( AnimEvent_t& event )
 			MESSAGE_END();
 
 			CBaseEntity *pHornet = CBaseEntity::Create( "hornet", vecArmPos, UTIL_VecToAngles( vecDirToEnemy ), edict() );
-			UTIL_MakeVectors ( pHornet->GetAbsAngles() );
-			pHornet->SetAbsVelocity( gpGlobals->v_forward * 300 );
+			UTIL_MakeVectors ( pHornet->pev->angles );
+			pHornet->pev->velocity = gpGlobals->v_forward * 300;
 			
 			
 			
@@ -377,16 +416,14 @@ void CAGrunt :: HandleAnimEvent( AnimEvent_t& event )
 			
 			if ( pHurt )
 			{
-				Vector vecPunchAngle = pHurt->GetPunchAngle();
-				vecPunchAngle.y = -25;
-				vecPunchAngle.x = 8;
-				pHurt->SetPunchAngle( vecPunchAngle );
+				pHurt->pev->punchangle.y = -25;
+				pHurt->pev->punchangle.x = 8;
 
 				// OK to use gpGlobals without calling MakeVectors, cause CheckTraceHullAttack called it above.
 				if ( pHurt->IsPlayer() )
 				{
 					// this is a player. Knock him around.
-					pHurt->SetAbsVelocity( pHurt->GetAbsVelocity() + gpGlobals->v_right * 250 );
+					pHurt->pev->velocity = pHurt->pev->velocity + gpGlobals->v_right * 250;
 				}
 
 				EMIT_SOUND_DYN ( this, CHAN_WEAPON, pAttackHitSounds[ RANDOM_LONG(0,ARRAYSIZE(pAttackHitSounds)-1) ], 1.0, ATTN_NORM, 0, 100 + RANDOM_LONG(-5,5) );
@@ -409,16 +446,14 @@ void CAGrunt :: HandleAnimEvent( AnimEvent_t& event )
 
 			if ( pHurt )
 			{
-				Vector vecPunchAngle = pHurt->GetPunchAngle();
-				vecPunchAngle.y = 25;
-				vecPunchAngle.x = 8;
-				pHurt->SetPunchAngle( vecPunchAngle );
+				pHurt->pev->punchangle.y = 25;
+				pHurt->pev->punchangle.x = 8;
 
 				// OK to use gpGlobals without calling MakeVectors, cause CheckTraceHullAttack called it above.
 				if ( pHurt->IsPlayer() )
 				{
 					// this is a player. Knock him around.
-					pHurt->SetAbsVelocity( pHurt->GetAbsVelocity() + gpGlobals->v_right * -250 );
+					pHurt->pev->velocity = pHurt->pev->velocity + gpGlobals->v_right * -250;
 				}
 
 				EMIT_SOUND_DYN ( this, CHAN_WEAPON, pAttackHitSounds[ RANDOM_LONG(0,ARRAYSIZE(pAttackHitSounds)-1) ], 1.0, ATTN_NORM, 0, 100 + RANDOM_LONG(-5,5) );
@@ -441,6 +476,9 @@ void CAGrunt :: HandleAnimEvent( AnimEvent_t& event )
 	}
 }
 
+//=========================================================
+// Spawn
+//=========================================================
 void CAGrunt :: Spawn()
 {
 	Precache( );
@@ -448,11 +486,11 @@ void CAGrunt :: Spawn()
 	SetModel( "models/agrunt.mdl");
 	SetSize( Vector(-32, -32, 0), Vector(32, 32, 64));
 
-	SetSolidType( SOLID_SLIDEBOX );
-	SetMoveType( MOVETYPE_STEP );
+	pev->solid			= SOLID_SLIDEBOX;
+	pev->movetype		= MOVETYPE_STEP;
 	m_bloodColor		= BLOOD_COLOR_GREEN;
-	GetEffects().ClearAll();
-	SetHealth( gSkillData.GetAGruntHealth() );
+	pev->effects		= 0;
+	pev->health			= gSkillData.GetAGruntHealth();
 	m_flFieldOfView		= 0.2;// indicates the width of this monster's forward view cone ( as a dotproduct result )
 	m_MonsterState		= MONSTERSTATE_NONE;
 	m_afCapability		= 0;
@@ -466,6 +504,9 @@ void CAGrunt :: Spawn()
 	MonsterInit();
 }
 
+//=========================================================
+// Precache - precaches all resources this monster needs
+//=========================================================
 void CAGrunt :: Precache()
 {
 	size_t i;
@@ -749,6 +790,11 @@ BEGIN_SCHEDULES( CAGrunt )
 	slAGruntThreatDisplay,
 END_SCHEDULES()
 
+//=========================================================
+// FCanCheckAttacks - this is overridden for alien grunts
+// because they can use their smart weapons against unseen
+// enemies. Base class doesn't attack anyone it can't see.
+//=========================================================
 bool CAGrunt::FCanCheckAttacks() const
 {
 	if ( !HasConditions( bits_COND_ENEMY_TOOFAR ) )
@@ -761,6 +807,10 @@ bool CAGrunt::FCanCheckAttacks() const
 	}
 }
 
+//=========================================================
+// CheckMeleeAttack1 - alien grunts zap the crap out of 
+// any enemy that gets too close. 
+//=========================================================
 bool CAGrunt :: CheckMeleeAttack1 ( float flDot, float flDist )
 {
 	if ( HasConditions ( bits_COND_SEE_ENEMY ) && flDist <= AGRUNT_MELEE_DIST && flDot >= 0.6 && m_hEnemy != NULL )
@@ -770,12 +820,15 @@ bool CAGrunt :: CheckMeleeAttack1 ( float flDot, float flDist )
 	return false;
 }
 
+//=========================================================
+// CheckRangeAttack1 
+//
+// !!!LATER - we may want to load balance this. Several
+// tracelines are done, so we may not want to do this every
+// server frame. Definitely not while firing. 
+//=========================================================
 bool CAGrunt :: CheckRangeAttack1 ( float flDot, float flDist )
 {
-	// !!!LATER - we may want to load balance this. Several
-	// tracelines are done, so we may not want to do this every
-	// server frame. Definitely not while firing. 
-
 	if ( gpGlobals->time < m_flNextHornetAttackCheck )
 	{
 		return m_fCanHornetAttack;
@@ -788,7 +841,7 @@ bool CAGrunt :: CheckRangeAttack1 ( float flDot, float flDist )
 
 		// verify that a shot fired from the gun will hit the enemy before the world.
 		// !!!LATER - we may wish to do something different for projectile weapons as opposed to instant-hit
-		UTIL_MakeVectors( GetAbsAngles() );
+		UTIL_MakeVectors( pev->angles );
 		GetAttachment( 0, vecArmPos, vecArmDir );
 //		UTIL_TraceLine( vecArmPos, vecArmPos + gpGlobals->v_forward * 256, ignore_monsters, ENT(pev), &tr);
 		UTIL_TraceLine( vecArmPos, m_hEnemy->BodyTarget(vecArmPos), dont_ignore_monsters, ENT(pev), &tr);
@@ -806,13 +859,16 @@ bool CAGrunt :: CheckRangeAttack1 ( float flDot, float flDist )
 	return m_fCanHornetAttack;
 }
 
-void CAGrunt :: StartTask ( const Task_t& task )
+//=========================================================
+// StartTask
+//=========================================================
+void CAGrunt :: StartTask ( const Task_t* pTask )
 {
-	switch ( task.iTask )
+	switch ( pTask->iTask )
 	{
 	case TASK_AGRUNT_GET_PATH_TO_ENEMY_CORPSE:
 		{
-			UTIL_MakeVectors( GetAbsAngles() );
+			UTIL_MakeVectors( pev->angles );
 			if ( BuildRoute ( m_vecEnemyLKP - gpGlobals->v_forward * 50, bits_MF_TO_LOCATION, NULL ) )
 			{
 				TaskComplete();
@@ -898,11 +954,17 @@ void CAGrunt :: StartTask ( const Task_t& task )
 		break;
 
 	default:
-		CSquadMonster :: StartTask ( task );
+		CSquadMonster :: StartTask ( pTask );
 		break;
 	}
 }
 
+//=========================================================
+// GetSchedule - Decides which type of schedule best suits
+// the monster's current state and conditions. Then calls
+// monster's member function to get a pointer to a schedule
+// of the proper type.
+//=========================================================
 Schedule_t *CAGrunt :: GetSchedule ( void )
 {
 	if ( HasConditions(bits_COND_HEAR_SOUND) )

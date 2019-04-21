@@ -39,10 +39,6 @@ public:
 	void Spawn( void ) override;
 	void Precache( void ) override;
 	EntityClassification_t GetClassification() override;
-
-	/**
-	*	@brief Hornets will never get mad at each other, no matter who the owner is
-	*/
 	Relationship IRelationship( CBaseEntity *pTarget ) override;
 
 	void IgniteTrail( void );

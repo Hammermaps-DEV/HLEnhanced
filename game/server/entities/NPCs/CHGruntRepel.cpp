@@ -29,7 +29,7 @@ LINK_ENTITY_TO_CLASS( monster_grunt_repel, CHGruntRepel );
 void CHGruntRepel::Spawn( void )
 {
 	Precache();
-	SetSolidType( SOLID_NOT );
+	pev->solid = SOLID_NOT;
 
 	SetUse( &CHGruntRepel::RepelUse );
 }
@@ -45,24 +45,24 @@ void CHGruntRepel::RepelUse( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_
 	TraceResult tr;
 	UTIL_TraceLine( GetAbsOrigin(), GetAbsOrigin() + Vector( 0, 0, -4096.0 ), dont_ignore_monsters, ENT( pev ), &tr );
 	/*
-	if ( tr.pHit && Instance( tr.pHit )->GetSolidType() != SOLID_BSP)
+	if ( tr.pHit && Instance( tr.pHit )->pev->solid != SOLID_BSP)
 	return NULL;
 	*/
 
-	CBaseEntity *pEntity = Create( "monster_human_grunt", GetAbsOrigin(), GetAbsAngles() );
+	CBaseEntity *pEntity = Create( "monster_human_grunt", GetAbsOrigin(), pev->angles );
 	CBaseMonster *pGrunt = pEntity->MyMonsterPointer();
-	pGrunt->SetMoveType( MOVETYPE_FLY );
-	pGrunt->SetAbsVelocity( Vector( 0, 0, RANDOM_FLOAT( -196, -128 ) ) );
+	pGrunt->pev->movetype = MOVETYPE_FLY;
+	pGrunt->pev->velocity = Vector( 0, 0, RANDOM_FLOAT( -196, -128 ) );
 	pGrunt->SetActivity( ACT_GLIDE );
 	// UNDONE: position?
 	pGrunt->m_vecLastPosition = tr.vecEndPos;
 
 	CBeam *pBeam = CBeam::BeamCreate( "sprites/rope.spr", 10 );
 	pBeam->PointEntInit( GetAbsOrigin() + Vector( 0, 0, 112 ), pGrunt->entindex() );
-	pBeam->SetBeamFlags( BEAM_FSOLID );
+	pBeam->SetFlags( BEAM_FSOLID );
 	pBeam->SetColor( 255, 255, 255 );
 	pBeam->SetThink( &CBeam::SUB_Remove );
-	pBeam->SetNextThink( gpGlobals->time + -4096.0 * tr.flFraction / pGrunt->GetAbsVelocity().z + 0.5 );
+	pBeam->pev->nextthink = gpGlobals->time + -4096.0 * tr.flFraction / pGrunt->pev->velocity.z + 0.5;
 
 	UTIL_Remove( this );
 }

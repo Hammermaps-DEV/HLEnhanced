@@ -17,21 +17,21 @@ LINK_ENTITY_TO_CLASS( trigger, CBaseTrigger );
 void CBaseTrigger::TeleportTouch( CBaseEntity *pOther )
 {
 	// Only teleport monsters or clients
-	if( !pOther->GetFlags().Any( FL_CLIENT | FL_MONSTER ) )
+	if( !FBitSet( pOther->pev->flags, FL_CLIENT | FL_MONSTER ) )
 		return;
 
 	if( !UTIL_IsMasterTriggered( m_sMaster, pOther ) )
 		return;
 
-	if( !GetSpawnFlags().Any( SF_TRIGGER_ALLOWMONSTERS ) )
+	if( !( pev->spawnflags & SF_TRIGGER_ALLOWMONSTERS ) )
 	{// no monsters allowed!
-		if( pOther->GetFlags().Any( FL_MONSTER ) )
+		if( FBitSet( pOther->pev->flags, FL_MONSTER ) )
 		{
 			return;
 		}
 	}
 
-	if( GetSpawnFlags().Any( SF_TRIGGER_NOCLIENTS ) )
+	if( ( pev->spawnflags & SF_TRIGGER_NOCLIENTS ) )
 	{// no clients allowed
 		if( pOther->IsPlayer() )
 		{
@@ -47,41 +47,40 @@ void CBaseTrigger::TeleportTouch( CBaseEntity *pOther )
 
 	if( pOther->IsPlayer() )
 	{
-		tmp.z -= pOther->GetRelMin().z;// make origin adjustments in case the teleportee is a player. (origin in center, not at feet)
+		tmp.z -= pOther->pev->mins.z;// make origin adjustments in case the teleportee is a player. (origin in center, not at feet)
 	}
 
 	tmp.z++;
 
-	pOther->GetFlags().ClearFlags( FL_ONGROUND );
+	pOther->pev->flags &= ~FL_ONGROUND;
 
 	pOther->SetAbsOrigin( tmp );
 
-	pOther->SetAbsAngles( pTarget->GetAbsAngles() );
+	pOther->pev->angles = pTarget->GetAbsAngles();
 
 	if( pOther->IsPlayer() )
 	{
-		pOther->SetViewAngle( pTarget->GetAbsAngles() );
+		pOther->pev->v_angle = pTarget->GetAbsAngles();
 	}
 
 	pOther->SetFixAngleMode( FIXANGLE_SET );
-	pOther->SetAbsVelocity( g_vecZero );
-	pOther->SetBaseVelocity( g_vecZero );
+	pOther->pev->velocity = pOther->pev->basevelocity = g_vecZero;
 }
 
 void CBaseTrigger::MultiTouch( CBaseEntity *pOther )
 {
 	// Only touch clients, monsters, or pushables (depending on flags)
-	if( ( pOther->GetFlags().Any( FL_CLIENT ) && !GetSpawnFlags().Any( SF_TRIGGER_NOCLIENTS ) ) ||
-		( pOther->GetFlags().Any( FL_MONSTER ) && GetSpawnFlags().Any( SF_TRIGGER_ALLOWMONSTERS ) ) ||
-		( GetSpawnFlags().Any( SF_TRIGGER_PUSHABLES ) && pOther->ClassnameIs( "func_pushable" ) ) )
+	if( ( ( pOther->pev->flags & FL_CLIENT ) && !( pev->spawnflags & SF_TRIGGER_NOCLIENTS ) ) ||
+		( ( pOther->pev->flags & FL_MONSTER ) && ( pev->spawnflags & SF_TRIGGER_ALLOWMONSTERS ) ) ||
+		( ( pev->spawnflags & SF_TRIGGER_PUSHABLES ) && pOther->ClassnameIs( "func_pushable" ) ) )
 	{
 
 #if 0
 		// if the trigger has an angles field, check player's facing direction
-		if( GetMoveDir() != g_vecZero )
+		if( pev->movedir != g_vecZero )
 		{
-			UTIL_MakeVectors( pOther->GetAbsAngles() );
-			if( DotProduct( gpGlobals->v_forward, GetMoveDir() ) < 0 )
+			UTIL_MakeVectors( pOther->pev->angles );
+			if( DotProduct( gpGlobals->v_forward, pev->movedir ) < 0 )
 				return;         // not facing the right way
 		}
 #endif
@@ -97,7 +96,7 @@ void CBaseTrigger::MultiTouch( CBaseEntity *pOther )
 //
 void CBaseTrigger::ActivateMultiTrigger( CBaseEntity *pActivator )
 {
-	if( GetNextThink() > gpGlobals->time )
+	if( pev->nextthink > gpGlobals->time )
 		return;         // still waiting for reset time
 
 	if( !UTIL_IsMasterTriggered( m_sMaster, pActivator ) )
@@ -115,28 +114,28 @@ void CBaseTrigger::ActivateMultiTrigger( CBaseEntity *pActivator )
 		EMIT_SOUND( this, CHAN_VOICE, ( char* ) STRING( pev->noise ), 1, ATTN_NORM );
 
 	// don't trigger again until reset
-	// SetTakeDamageMode( DAMAGE_NO );
+	// pev->takedamage = DAMAGE_NO;
 
 	m_hActivator = pActivator;
 	SUB_UseTargets( m_hActivator, USE_TOGGLE, 0 );
 
-	if( HasMessage() && pActivator->IsPlayer() )
+	if( pev->message && pActivator->IsPlayer() )
 	{
-		UTIL_ShowMessage( GetMessage(), pActivator );
-		//ClientPrint( pActivator, HUD_PRINTCENTER, GetMessage() );
+		UTIL_ShowMessage( STRING( pev->message ), pActivator );
+		//ClientPrint( pActivator, HUD_PRINTCENTER, STRING(pev->message) );
 	}
 
 	if( m_flWait > 0 )
 	{
 		SetThink( &CBaseTrigger::MultiWaitOver );
-		SetNextThink( gpGlobals->time + m_flWait );
+		pev->nextthink = gpGlobals->time + m_flWait;
 	}
 	else
 	{
 		// we can't just remove (self) here, because this is a touch function
 		// called while C code is looping through area links...
 		SetTouch( NULL );
-		SetNextThink( gpGlobals->time + 0.1 );
+		pev->nextthink = gpGlobals->time + 0.1;
 		SetThink( &CBaseTrigger::SUB_Remove );
 	}
 }
@@ -144,11 +143,11 @@ void CBaseTrigger::ActivateMultiTrigger( CBaseEntity *pActivator )
 // the wait time has passed, so set back up for another activation
 void CBaseTrigger::MultiWaitOver( void )
 {
-	//	if ( GetMaxHealth() )
+	//	if (pev->max_health)
 	//		{
-	//		SetHealth( GetMaxHealth() );
-	//		SetTakeDamageMode( DAMAGE_YES );
-	//		SetSolidType( SOLID_BBOX );
+	//		pev->health		= pev->max_health;
+	//		pev->takedamage	= DAMAGE_YES;
+	//		pev->solid		= SOLID_BBOX;
 	//		}
 	SetThink( NULL );
 }
@@ -164,7 +163,7 @@ void CBaseTrigger::CounterUse( CBaseEntity *pActivator, CBaseEntity *pCaller, US
 	const bool fTellActivator =
 		( m_hActivator != nullptr ) &&
 		m_hActivator->IsPlayer() &&
-		!GetSpawnFlags().Any( SPAWNFLAG_NOMESSAGE );
+		!FBitSet( pev->spawnflags, SPAWNFLAG_NOMESSAGE );
 
 	if( m_cTriggersLeft != 0 )
 	{
@@ -196,7 +195,7 @@ void CBaseTrigger::KeyValue( KeyValueData *pkvd )
 {
 	if( FStrEq( pkvd->szKeyName, "damage" ) )
 	{
-		SetDamage( atof( pkvd->szValue ) );
+		pev->dmg = atof( pkvd->szValue );
 		pkvd->fHandled = true;
 	}
 	else if( FStrEq( pkvd->szKeyName, "count" ) )
@@ -218,16 +217,16 @@ void CBaseTrigger::KeyValue( KeyValueData *pkvd )
 //
 void CBaseTrigger::ToggleUse( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value )
 {
-	if( GetSolidType() == SOLID_NOT )
+	if( pev->solid == SOLID_NOT )
 	{// if the trigger is off, turn it on
-		SetSolidType( SOLID_TRIGGER );
+		pev->solid = SOLID_TRIGGER;
 
 		// Force retouch
 		gpGlobals->force_retouch++;
 	}
 	else
 	{// turn the trigger off
-		SetSolidType( SOLID_NOT );
+		pev->solid = SOLID_NOT;
 	}
 	SetAbsOrigin( GetAbsOrigin() );
 }
@@ -241,11 +240,11 @@ void CBaseTrigger::InitTrigger()
 {
 	// trigger angles are used for one-way touches.  An angle of 0 is assumed
 	// to mean no restrictions, so use a yaw of 360 instead.
-	if( GetAbsAngles() != g_vecZero )
+	if( pev->angles != g_vecZero )
 		SetMovedir( this );
-	SetSolidType( SOLID_TRIGGER );
-	SetMoveType( MOVETYPE_NONE );
-	SetModel( GetModelName() );    // set size and link into world
+	pev->solid = SOLID_TRIGGER;
+	pev->movetype = MOVETYPE_NONE;
+	SetModel( STRING( pev->model ) );    // set size and link into world
 	if( CVAR_GET_FLOAT( "showtriggers" ) == 0 )
-		GetEffects() |= EF_NODRAW;
+		SetBits( pev->effects, EF_NODRAW );
 }

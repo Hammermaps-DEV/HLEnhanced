@@ -483,7 +483,7 @@ struct entvars_t
 	float		max_health;
 
 	/**
-	*	Used in physics code as playermove_t::waterjumptime, is save/restored.
+	*	Never used, is save/restored.
 	*	Copied to clientdata_t::waterjumptime.
 	*/
 	float		teleport_time;

@@ -97,7 +97,7 @@ bool CKnife::Swing( const bool bFirst )
 
 	TraceResult tr;
 
-	UTIL_MakeVectors( m_pPlayer->GetViewAngle() );
+	UTIL_MakeVectors( m_pPlayer->pev->v_angle );
 	Vector vecSrc = m_pPlayer->GetGunPosition();
 	Vector vecEnd = vecSrc + gpGlobals->v_forward * 32;
 
@@ -166,12 +166,12 @@ bool CKnife::Swing( const bool bFirst )
 			if( ( m_flNextPrimaryAttack + 1 < UTIL_WeaponTimeBase() ) || g_pGameRules->IsMultiplayer() )
 			{
 				// first swing does full damage
-				pEntity->TraceAttack( CTakeDamageInfo( m_pPlayer, gSkillData.GetPlrDmgKnife(), DMG_CLUB ), gpGlobals->v_forward, tr );
+				pEntity->TraceAttack( CTakeDamageInfo( m_pPlayer, gSkillData.GetPlrDmgKnife(), DMG_CLUB ), gpGlobals->v_forward, &tr );
 			}
 			else
 			{
 				// subsequent swings do half
-				pEntity->TraceAttack( CTakeDamageInfo( m_pPlayer, gSkillData.GetPlrDmgKnife() / 2, DMG_CLUB ), gpGlobals->v_forward, tr );
+				pEntity->TraceAttack( CTakeDamageInfo( m_pPlayer, gSkillData.GetPlrDmgKnife() / 2, DMG_CLUB ), gpGlobals->v_forward, &tr );
 			}
 			g_MultiDamage.ApplyMultiDamage( m_pPlayer, m_pPlayer );
 		}
@@ -235,7 +235,7 @@ bool CKnife::Swing( const bool bFirst )
 		m_pPlayer->m_iWeaponVolume = flVol * MELEE_WALLHIT_VOLUME;
 
 		SetThink( &CKnife::Smack );
-		SetNextThink( UTIL_WeaponTimeBase() + 0.2 );
+		pev->nextthink = UTIL_WeaponTimeBase() + 0.2;
 #endif
 		m_flNextPrimaryAttack = GetNextAttackDelay( 0.25 );
 	}

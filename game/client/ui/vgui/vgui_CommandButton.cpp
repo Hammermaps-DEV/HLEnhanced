@@ -93,7 +93,7 @@ void CommandButton::RecalculateText( void )
 	Button::setText( szBuf );
 }
 
-void CommandButton::setButtonText( const char *text )
+void CommandButton::setText( const char *text )
 {
 	strncpy( m_sMainText, text, MAX_BUTTON_SIZE );
 	m_sMainText[ MAX_BUTTON_SIZE - 1 ] = 0;

@@ -22,5 +22,5 @@ void CTriggerGravity::GravityTouch( CBaseEntity *pOther )
 	if( !pOther->IsPlayer() )
 		return;
 
-	pOther->SetGravity( GetGravity() );
+	pOther->pev->gravity = pev->gravity;
 }

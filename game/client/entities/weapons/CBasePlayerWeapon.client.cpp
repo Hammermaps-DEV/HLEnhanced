@@ -50,7 +50,7 @@ Animate weapon model
 */
 void CBasePlayerWeapon::SendWeaponAnim( int iAnim, int body )
 {
-	m_pPlayer->SetWeaponAnim( iAnim );
+	m_pPlayer->pev->weaponanim = iAnim;
 
 	HUD_SendWeaponAnim( iAnim, body, 0 );
 }
@@ -101,7 +101,7 @@ void CBasePlayerWeapon::Holster()
 {
 	m_fInReload = false; // cancel any reload in progress.
 	g_brunninggausspred = false;
-	m_pPlayer->ClearViewModelIndex();
+	m_pPlayer->pev->viewmodel = 0;
 }
 
 float CBasePlayerWeapon::GetNextAttackDelay( float flTime )

@@ -26,7 +26,7 @@ END_DATADESC()
 // take health
 float CBaseCombatCharacter::GiveHealth( float flHealth, int bitsDamageType )
 {
-	if( GetTakeDamageMode() == DAMAGE_NO )
+	if( !pev->takedamage )
 		return 0;
 
 	// clear out any damage types we healed.

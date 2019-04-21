@@ -23,7 +23,7 @@ LINK_ENTITY_TO_CLASS( func_wall_toggle, CFuncWallToggle );
 void CFuncWallToggle::Spawn( void )
 {
 	CFuncWall::Spawn();
-	if( GetSpawnFlags().Any( SF_WALL_START_OFF ) )
+	if( pev->spawnflags & SF_WALL_START_OFF )
 		TurnOff();
 }
 
@@ -42,21 +42,21 @@ void CFuncWallToggle::Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TY
 
 void CFuncWallToggle::TurnOff( void )
 {
-	SetSolidType( SOLID_NOT );
-	GetEffects() |= EF_NODRAW;
+	pev->solid = SOLID_NOT;
+	pev->effects |= EF_NODRAW;
 	SetAbsOrigin( GetAbsOrigin() );
 }
 
 void CFuncWallToggle::TurnOn( void )
 {
-	SetSolidType( SOLID_BSP );
-	GetEffects().ClearFlags( EF_NODRAW );
+	pev->solid = SOLID_BSP;
+	pev->effects &= ~EF_NODRAW;
 	SetAbsOrigin( GetAbsOrigin() );
 }
 
 bool CFuncWallToggle::IsOn() const
 {
-	if( GetSolidType() == SOLID_NOT )
+	if( pev->solid == SOLID_NOT )
 		return false;
 	return true;
 }

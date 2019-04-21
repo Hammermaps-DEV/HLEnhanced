@@ -10,18 +10,18 @@ LINK_ENTITY_TO_CLASS( target_cdaudio, CTargetCDAudio );
 
 void CTargetCDAudio::Spawn( void )
 {
-	SetSolidType( SOLID_NOT );
-	SetMoveType( MOVETYPE_NONE );
+	pev->solid = SOLID_NOT;
+	pev->movetype = MOVETYPE_NONE;
 
-	if( GetScale() > 0 )
-		SetNextThink( gpGlobals->time + 1.0 );
+	if( pev->scale > 0 )
+		pev->nextthink = gpGlobals->time + 1.0;
 }
 
 void CTargetCDAudio::KeyValue( KeyValueData *pkvd )
 {
 	if( FStrEq( pkvd->szKeyName, "radius" ) )
 	{
-		SetScale( atof( pkvd->szValue ) );
+		pev->scale = atof( pkvd->szValue );
 		pkvd->fHandled = true;
 	}
 	else
@@ -45,15 +45,15 @@ void CTargetCDAudio::Think( void )
 	if( !pClient )
 		return;
 
-	SetNextThink( gpGlobals->time + 0.5 );
+	pev->nextthink = gpGlobals->time + 0.5;
 
-	if( ( pClient->v.origin - GetAbsOrigin() ).Length() <= GetScale() )
+	if( ( pClient->v.origin - GetAbsOrigin() ).Length() <= pev->scale )
 		Play();
 
 }
 
 void CTargetCDAudio::Play( void )
 {
-	PlayCDTrack( ( int ) GetHealth() );
+	PlayCDTrack( ( int ) pev->health );
 	UTIL_Remove( this );
 }

@@ -35,7 +35,7 @@ void CBaseDMStart::KeyValue( KeyValueData* pkvd )
 
 bool CBaseDMStart::IsTriggered( const CBaseEntity* const pEntity ) const
 {
-	return UTIL_IsMasterTriggered( MAKE_STRING( GetNetName() ), pEntity );
+	return UTIL_IsMasterTriggered( pev->netname, pEntity );
 }
 
 bool CBaseDMStart::CanUseSpawnPoint( CBasePlayer* const pPlayer )

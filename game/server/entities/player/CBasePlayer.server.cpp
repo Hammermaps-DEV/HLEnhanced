@@ -117,10 +117,10 @@ void CBasePlayer::InitialSpawn()
 	SetCustomDecalFrames( -1 ); // Assume none;
 
 	// Reset interpolation during first frame
-	GetEffects() |= EF_NOINTERP;
+	pev->effects |= EF_NOINTERP;
 
-	InternalSetObserverMode( 0 );	// disable any spec modes
-	SetObserverTargetIndex( 0 );
+	pev->iuser1 = 0;	// disable any spec modes
+	pev->iuser2 = 0;
 
 	SetConnectTime( gpGlobals->time );
 	SetConnectState( ConnectState::CONNECTED );
@@ -131,22 +131,22 @@ void CBasePlayer::InitialSpawn()
 void CBasePlayer::Spawn()
 {
 	SetClassname( "player" );
-	SetHealth( 100 );
-	SetArmorAmount( 0 );
-	SetTakeDamageMode( DAMAGE_AIM );
-	SetSolidType( SOLID_SLIDEBOX );
-	SetMoveType( MOVETYPE_WALK );
-	SetMaxHealth( GetHealth() );
-	GetFlags().ClearFlags( ~FL_PROXY );	// keep proxy flag sey by engine
-	GetFlags() |= FL_CLIENT;
+	pev->health			= 100;
+	pev->armorvalue		= 0;
+	pev->takedamage		= DAMAGE_AIM;
+	pev->solid			= SOLID_SLIDEBOX;
+	pev->movetype		= MOVETYPE_WALK;
+	pev->max_health		= pev->health;
+	pev->flags			&= FL_PROXY;	// keep proxy flag sey by engine
+	pev->flags			|= FL_CLIENT;
 	pev->air_finished	= gpGlobals->time + 12;
-	SetDamage( 2 );				// initial water damage
-	GetEffects().ClearAll();
-	SetDeadFlag( DEAD_NO );
+	pev->dmg			= 2;				// initial water damage
+	pev->effects		= 0;
+	pev->deadflag		= DEAD_NO;
 	pev->dmg_take		= 0;
 	pev->dmg_save		= 0;
-	SetFriction( 1.0 );
-	SetGravity( 1.0 );
+	pev->friction		= 1.0;
+	pev->gravity		= 1.0;
 	m_bitsHUDDamage		= -1;
 	m_bitsDamageType	= 0;
 	m_afPhysicsFlags	= 0;
@@ -155,8 +155,7 @@ void CBasePlayer::Spawn()
 	g_engfuncs.pfnSetPhysicsKeyValue( edict(), "slj", "0" );
 	g_engfuncs.pfnSetPhysicsKeyValue( edict(), "hl", "1" );
 
-	SetFOV( 0 );
-	m_iFOV = 0;// init field of view.
+	pev->fov = m_iFOV = 0;// init field of view.
 	m_iClientFOV = -1; // make sure fov reset is sent
 
 	m_flNextDecalTime = 0;// let this player decal as soon as he spawns.
@@ -181,15 +180,15 @@ void CBasePlayer::Spawn()
 	g_pGameRules->GetPlayerSpawnSpot( this );
 
 	SetModel( "models/player.mdl" );
-	g_ulModelIndexPlayer = GetModelIndex();
-	SetSequence( LookupActivity( ACT_IDLE ) );
+	g_ulModelIndexPlayer = pev->modelindex;
+	pev->sequence = LookupActivity( ACT_IDLE );
 
-	if( GetFlags().Any( FL_DUCKING ) )
+	if( FBitSet( pev->flags, FL_DUCKING ) )
 		SetSize( VEC_DUCK_HULL_MIN, VEC_DUCK_HULL_MAX );
 	else
 		SetSize( VEC_HULL_MIN, VEC_HULL_MAX );
 
-	SetViewOffset( VEC_VIEW );
+	pev->view_ofs = VEC_VIEW;
 	Precache();
 	m_HackedGunPos = Vector( 0, 32, 0 );
 
@@ -223,19 +222,22 @@ void CBasePlayer::Spawn()
 
 Vector CBasePlayer::GetGunPosition()
 {
-	//m_HackedGunPos = GetViewOffset();
-	return GetAbsOrigin() + GetViewOffset();
+	//m_HackedGunPos = pev->view_ofs;
+	return GetAbsOrigin() + pev->view_ofs;
 }
 
-void CBasePlayer::TraceAttack( const CTakeDamageInfo& info, Vector vecDir, TraceResult& tr )
+//=========================================================
+// TraceAttack
+//=========================================================
+void CBasePlayer::TraceAttack( const CTakeDamageInfo& info, Vector vecDir, TraceResult *ptr )
 {
 	CTakeDamageInfo newInfo = info;
 
-	if ( GetTakeDamageMode() != DAMAGE_NO )
+	if ( pev->takedamage )
 	{
-		m_LastHitGroup = tr.iHitgroup;
+		m_LastHitGroup = ptr->iHitgroup;
 
-		switch ( tr.iHitgroup )
+		switch ( ptr->iHitgroup )
 		{
 		case HITGROUP_GENERIC:
 			break;
@@ -260,8 +262,8 @@ void CBasePlayer::TraceAttack( const CTakeDamageInfo& info, Vector vecDir, Trace
 			break;
 		}
 
-		SpawnBlood( tr.vecEndPos, BloodColor(), newInfo .GetDamage());// a little surface blood.
-		TraceBleed( newInfo, vecDir, tr );
+		SpawnBlood(ptr->vecEndPos, BloodColor(), newInfo .GetDamage());// a little surface blood.
+		TraceBleed( newInfo, vecDir, ptr );
 		g_MultiDamage.AddMultiDamage( newInfo, this );
 	}
 }
@@ -281,7 +283,7 @@ void CBasePlayer::OnTakeDamage( const CTakeDamageInfo& info )
 
 	// have suit diagnose the problem - ie: report damage type
 	int bitsDamage = newInfo.GetDamageTypes();
-	float flHealthPrev = GetHealth();
+	float flHealthPrev = pev->health;
 
 	float flBonus = PLAYER_ARMOR_BONUS;
 	float flRatio = PLAYER_ARMOR_RATIO;
@@ -335,10 +337,10 @@ void CBasePlayer::OnTakeDamage( const CTakeDamageInfo& info )
 	// this cast to INT is critical!!! If a player ends up with 0.5 health, the engine will get that
 	// as an int (zero) and think the player is dead! (this will incite a clientside screentilt, etc)
 	newInfo.GetMutableDamage() = int( newInfo.GetDamage() );
-	const float flOldHealth = GetHealth();
+	const float flOldHealth = pev->health;
 	CBaseMonster::OnTakeDamage( newInfo );
 
-	const bool bTookDamage = flOldHealth != GetHealth();
+	const bool bTookDamage = flOldHealth != pev->health;
 
 	// reset damage time countdown for each type of time based damage player just sustained
 
@@ -360,9 +362,9 @@ void CBasePlayer::OnTakeDamage( const CTakeDamageInfo& info )
 
 	// how bad is it, doc?
 
-	const bool ftrivial = ( GetHealth() > 75 || m_lastDamageAmount < 5);
+	const bool ftrivial = (pev->health > 75 || m_lastDamageAmount < 5);
 	const bool fmajor = (m_lastDamageAmount > 25);
-	const bool fcritical = ( GetHealth() < 30);
+	const bool fcritical = (pev->health < 30);
 
 	// handle all bits set in this damage message,
 	// let the suit give player the diagnosis
@@ -467,9 +469,7 @@ void CBasePlayer::OnTakeDamage( const CTakeDamageInfo& info )
 		}
 	}
 
-	Vector vecPunchAngle = GetPunchAngle();
-	vecPunchAngle.x = -2;
-	SetPunchAngle( vecPunchAngle );
+	pev->punchangle.x = -2;
 
 	if ( bTookDamage && !ftrivial && fmajor && flHealthPrev >= 75)
 	{
@@ -485,9 +485,9 @@ void CBasePlayer::OnTakeDamage( const CTakeDamageInfo& info )
 	{
 
 		// already took major damage, now it's critical...
-		if ( GetHealth() < 6)
+		if (pev->health < 6)
 			SetSuitUpdate("!HEV_HLTH3", SUIT_SENTENCE, SUIT_NEXT_IN_10MIN);	// near death
-		else if ( GetHealth() < 20)
+		else if (pev->health < 20)
 			SetSuitUpdate("!HEV_HLTH2", SUIT_SENTENCE, SUIT_NEXT_IN_10MIN);	// health critical
 	
 		// give critical health warnings
@@ -535,17 +535,13 @@ void CBasePlayer::Killed( const CTakeDamageInfo& info, GibAction gibAction )
 	
 	m_iRespawnFrames = 0;
 
-	SetModelIndex( g_ulModelIndexPlayer );    // don't use eyes
+	pev->modelindex = g_ulModelIndexPlayer;    // don't use eyes
 
-	SetDeadFlag( DEAD_DYING );
-	SetMoveType( MOVETYPE_TOSS );
-	GetFlags().ClearFlags( FL_ONGROUND );
-	if ( GetAbsVelocity().z < 10)
-	{
-		Vector vecVelocity = GetAbsVelocity();
-		vecVelocity.z += RANDOM_FLOAT(0,300);
-		SetAbsVelocity( vecVelocity );
-	}
+	pev->deadflag		= DEAD_DYING;
+	pev->movetype		= MOVETYPE_TOSS;
+	ClearBits( pev->flags, FL_ONGROUND );
+	if (pev->velocity.z < 10)
+		pev->velocity.z += RANDOM_FLOAT(0,300);
 
 	// clear out the suit message cache so we don't keep chattering
 	SetSuitUpdate(NULL, SUIT_SENTENCE, 0);
@@ -564,8 +560,7 @@ void CBasePlayer::Killed( const CTakeDamageInfo& info, GibAction gibAction )
 	MESSAGE_END();
 
 	// reset FOV
-	SetFOV( m_iFOV );
-	m_iFOV = m_iClientFOV = 0;
+	pev->fov = m_iFOV = m_iClientFOV = 0;
 
 	MESSAGE_BEGIN( MSG_ONE, gmsgSetFOV, NULL, this );
 		WRITE_BYTE(0);
@@ -575,23 +570,21 @@ void CBasePlayer::Killed( const CTakeDamageInfo& info, GibAction gibAction )
 	// UNDONE: Put this in, but add FFADE_PERMANENT and make fade time 8.8 instead of 4.12
 	// UTIL_ScreenFade( edict(), Vector(128,0,0), 6, 15, 255, FFADE_OUT | FFADE_MODULATE );
 
-	if ( ( GetHealth() < -40 && gibAction != GIB_NEVER ) || gibAction == GIB_ALWAYS )
+	if ( ( pev->health < -40 && gibAction != GIB_NEVER ) || gibAction == GIB_ALWAYS )
 	{
-		SetSolidType( SOLID_NOT );
+		pev->solid			= SOLID_NOT;
 		GibMonster();	// This clears pev->model
-		GetEffects() |= EF_NODRAW;
+		pev->effects |= EF_NODRAW;
 		return;
 	}
 
 	DeathSound();
 	
-	Vector vecAngles = GetAbsAngles();
-	vecAngles.x = 0;
-	vecAngles.z = 0;
-	SetAbsAngles( vecAngles );
+	pev->angles.x = 0;
+	pev->angles.z = 0;
 
 	SetThink(&CBasePlayer::PlayerDeathThink);
-	SetNextThink( gpGlobals->time + 0.1 );
+	pev->nextthink = gpGlobals->time + 0.1;
 }
 
 const char *CBasePlayer::TeamID() const
@@ -616,22 +609,20 @@ bool CBasePlayer::Restore( CRestore &restore )
 
 		// default to normal spawn
 		CBaseEntity* pSpawnSpot = EntSelectSpawnPoint( this );
-		SetAbsOrigin( pSpawnSpot->GetAbsOrigin() + Vector( 0, 0, 1 ) );
-		SetAbsAngles( pSpawnSpot->GetAbsAngles() );
+		pev->origin = pSpawnSpot->GetAbsOrigin() + Vector( 0, 0, 1 );
+		pev->angles = pSpawnSpot->pev->angles;
 	}
-	Vector vecViewAngle = GetViewAngle();
-	vecViewAngle.z = 0;	// Clear out roll
-	SetViewAngle( vecViewAngle );
-	SetAbsAngles( GetViewAngle() );
+	pev->v_angle.z = 0;	// Clear out roll
+	pev->angles = pev->v_angle;
 
 	SetFixAngleMode( FIXANGLE_SET );		// turn this way immediately
 
 											// Copied from spawn() for now
 	m_bloodColor = BLOOD_COLOR_RED;
 
-	g_ulModelIndexPlayer = GetModelIndex();
+	g_ulModelIndexPlayer = pev->modelindex;
 
-	if( GetFlags().Any( FL_DUCKING ) )
+	if( FBitSet( pev->flags, FL_DUCKING ) )
 	{
 		// Use the crouch HACK
 		//FixPlayerCrouchStuck( edict() );
@@ -688,7 +679,7 @@ bool CBasePlayer::BarnacleVictimGrabbed( CBaseEntity* pBarnacle )
 //=========================================================
 void CBasePlayer::BarnacleVictimBitten( CBaseEntity* pBarnacle )
 {
-	TakeDamage( pBarnacle, pBarnacle, GetHealth() + GetArmorAmount(), DMG_SLASH | DMG_ALWAYSGIB );
+	TakeDamage( pBarnacle, pBarnacle, pev->health + pev->armorvalue, DMG_SLASH | DMG_ALWAYSGIB );
 }
 
 //=========================================================
@@ -762,7 +753,7 @@ void CBasePlayer::UpdateStatusBar()
 
 	// Find an ID Target
 	TraceResult tr;
-	UTIL_MakeVectors( GetViewAngle() + GetPunchAngle() );
+	UTIL_MakeVectors( pev->v_angle + pev->punchangle );
 	Vector vecSrc = EyePosition();
 	Vector vecEnd = vecSrc + (gpGlobals->v_forward * MAX_ID_RANGE);
 	UTIL_TraceLine( vecSrc, vecEnd, dont_ignore_monsters, edict(), &tr);
@@ -786,8 +777,8 @@ void CBasePlayer::UpdateStatusBar()
 				// allies and medics get to see the targets health
 				if ( g_pGameRules->PlayerRelationship( this, pEntity ) == GR_TEAMMATE )
 				{
-					newSBarState[ SBAR_ID_TARGETHEALTH ] = 100 * (pEntity->GetHealth() / pEntity->GetMaxHealth() );
-					newSBarState[ SBAR_ID_TARGETARMOR ] = pEntity->GetArmorAmount(); //No need to get it % based since 100 it's the max. TODO unless you're a modder - Solokiller
+					newSBarState[ SBAR_ID_TARGETHEALTH ] = 100 * (pEntity->pev->health / pEntity->pev->max_health);
+					newSBarState[ SBAR_ID_TARGETARMOR ] = pEntity->pev->armorvalue; //No need to get it % based since 100 it's the max.
 				}
 
 				m_flStatusBarDisappearDelay = gpGlobals->time + 1.0;

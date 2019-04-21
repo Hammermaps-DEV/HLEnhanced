@@ -64,7 +64,7 @@ void CGlock::Precache( void )
 
 bool CGlock::Deploy()
 {
-	// SetBody( 1 );
+	// pev->body = 1;
 	return DefaultDeploy( "models/v_9mmhandgun.mdl", "models/p_9mmhandgun.mdl", GLOCK_DRAW, "onehanded" );
 }
 
@@ -93,7 +93,7 @@ void CGlock::GlockFire( float flSpread , float flCycleTime, const bool fUseAutoA
 
 	m_iClip--;
 
-	m_pPlayer->GetEffects().AddFlags( EF_MUZZLEFLASH );
+	m_pPlayer->pev->effects = (int)(m_pPlayer->pev->effects) | EF_MUZZLEFLASH;
 
 	int flags;
 
@@ -107,7 +107,7 @@ void CGlock::GlockFire( float flSpread , float flCycleTime, const bool fUseAutoA
 	m_pPlayer->SetAnimation( PLAYER_ATTACK1 );
 
 	// silenced
-	if (GetBody() == 1)
+	if (pev->body == 1)
 	{
 		m_pPlayer->m_iWeaponVolume = QUIET_GUN_VOLUME;
 		m_pPlayer->m_iWeaponFlash = DIM_GUN_FLASH;

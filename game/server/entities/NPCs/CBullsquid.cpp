@@ -65,6 +65,10 @@ int CBullsquid::IgnoreConditions ( void )
 	return iIgnore;
 }
 
+//=========================================================
+// IRelationship - overridden for bullsquid so that it can
+// be made to ignore its love of headcrabs for a while.
+//=========================================================
 Relationship CBullsquid::IRelationship ( CBaseEntity *pTarget )
 {
 	if ( gpGlobals->time - m_flLastHurtTime < 5 && pTarget->ClassnameIs( "monster_headcrab" ) )
@@ -112,6 +116,9 @@ void CBullsquid::OnTakeDamage( const CTakeDamageInfo& info )
 	CBaseMonster::OnTakeDamage( info );
 }
 
+//=========================================================
+// CheckRangeAttack1
+//=========================================================
 bool CBullsquid :: CheckRangeAttack1 ( float flDot, float flDist )
 {
 	if ( IsMoving() && flDist >= 512 )
@@ -148,18 +155,27 @@ bool CBullsquid :: CheckRangeAttack1 ( float flDot, float flDist )
 	return false;
 }
 
+//=========================================================
+// CheckMeleeAttack1 - bullsquid is a big guy, so has a longer
+// melee range than most monsters. This is the tailwhip attack
+//=========================================================
 bool CBullsquid :: CheckMeleeAttack1 ( float flDot, float flDist )
 {
-	if ( m_hEnemy->GetHealth() <= gSkillData.GetBullsquidDmgWhip() && flDist <= 85 && flDot >= 0.7 )
+	if ( m_hEnemy->pev->health <= gSkillData.GetBullsquidDmgWhip() && flDist <= 85 && flDot >= 0.7 )
 	{
 		return true;
 	}
 	return false;
 }
 
+//=========================================================
+// CheckMeleeAttack2 - bullsquid is a big guy, so has a longer
+// melee range than most monsters. This is the bite attack.
+// this attack will not be performed if the tailwhip attack
+// is valid.
+//=========================================================
 bool CBullsquid :: CheckMeleeAttack2 ( float flDot, float flDist )
 {
-	//TODO: compute distance based on target size - Solokiller
 	if ( flDist <= 85 && flDot >= 0.7 && !HasConditions( bits_COND_CAN_MELEE_ATTACK1 ) )		// The player & bullsquid can be as much as their bboxes 
 	{										// apart (48 * sqrt(3)) and he can still attack (85 is a little more than 48*sqrt(3))
 		return true;
@@ -189,6 +205,11 @@ bool CBullsquid::FValidateHintType( short sHint ) const
 	return false;
 }
 
+//=========================================================
+// ISoundMask - returns a bit mask indicating which types
+// of sounds this monster regards. In the base class implementation,
+// monsters care about all sounds, but no scents.
+//=========================================================
 int CBullsquid :: ISoundMask ( void )
 {
 	return	bits_SOUND_WORLD	|
@@ -199,6 +220,10 @@ int CBullsquid :: ISoundMask ( void )
 			bits_SOUND_PLAYER;
 }
 
+//=========================================================
+// Classify - indicates this monster's place in the 
+// relationship table.
+//=========================================================
 EntityClassification_t CBullsquid::GetClassification()
 {
 	return EntityClassifications().GetClassificationId( classify::ALIEN_PREDATOR );
@@ -230,6 +255,9 @@ void CBullsquid :: IdleSound ( void )
 	}
 }
 
+//=========================================================
+// PainSound 
+//=========================================================
 void CBullsquid :: PainSound ( void )
 {
 	int iPitch = RANDOM_LONG( 85, 120 );
@@ -251,6 +279,9 @@ void CBullsquid :: PainSound ( void )
 	}
 }
 
+//=========================================================
+// AlertSound
+//=========================================================
 void CBullsquid :: AlertSound ( void )
 {
 	int iPitch = RANDOM_LONG( 140, 160 );
@@ -266,7 +297,11 @@ void CBullsquid :: AlertSound ( void )
 	}
 }
 
-void CBullsquid::UpdateYawSpeed()
+//=========================================================
+// SetYawSpeed - allows each sequence to have a different
+// turn rate associated with it.
+//=========================================================
+void CBullsquid :: SetYawSpeed ( void )
 {
 	int ys;
 
@@ -283,9 +318,13 @@ void CBullsquid::UpdateYawSpeed()
 		break;
 	}
 
-	SetYawSpeed( ys );
+	pev->yaw_speed = ys;
 }
 
+//=========================================================
+// HandleAnimEvent - catches the monster-specific messages
+// that occur when tagged animation frames are played.
+//=========================================================
 void CBullsquid :: HandleAnimEvent( AnimEvent_t& event )
 {
 	switch( event.event )
@@ -295,13 +334,13 @@ void CBullsquid :: HandleAnimEvent( AnimEvent_t& event )
 			Vector	vecSpitOffset;
 			Vector	vecSpitDir;
 
-			UTIL_MakeVectors ( GetAbsAngles() );
+			UTIL_MakeVectors ( pev->angles );
 
 			// !!!HACKHACK - the spot at which the spit originates (in front of the mouth) was measured in 3ds and hardcoded here.
 			// we should be able to read the position of bones at runtime for this info.
 			vecSpitOffset = ( gpGlobals->v_right * 8 + gpGlobals->v_forward * 37 + gpGlobals->v_up * 23 );		
 			vecSpitOffset = ( GetAbsOrigin() + vecSpitOffset );
-			vecSpitDir = ( ( m_hEnemy->GetAbsOrigin() + m_hEnemy->GetViewOffset() ) - vecSpitOffset ).Normalize();
+			vecSpitDir = ( ( m_hEnemy->GetAbsOrigin() + m_hEnemy->pev->view_ofs ) - vecSpitOffset ).Normalize();
 
 			vecSpitDir.x += RANDOM_FLOAT( -0.05, 0.05 );
 			vecSpitDir.y += RANDOM_FLOAT( -0.05, 0.05 );
@@ -337,14 +376,10 @@ void CBullsquid :: HandleAnimEvent( AnimEvent_t& event )
 			
 			if ( pHurt )
 			{
-				//Vector vecPunchAngle = pHurt->GetPunchAngle();
-				//vecPunchAngle.z = -15;
-				//vecPunchAngle.x = -45;
-				//pHurt->SetPunchAngle( vecPunchAngle );
-				Vector vecVelocity = pHurt->GetAbsVelocity();
-				vecVelocity = vecVelocity - gpGlobals->v_forward * 100;
-				vecVelocity = vecVelocity + gpGlobals->v_up * 100;
-				pHurt->SetAbsVelocity( vecVelocity );
+				//pHurt->pev->punchangle.z = -15;
+				//pHurt->pev->punchangle.x = -45;
+				pHurt->pev->velocity = pHurt->pev->velocity - gpGlobals->v_forward * 100;
+				pHurt->pev->velocity = pHurt->pev->velocity + gpGlobals->v_up * 100;
 			}
 		}
 		break;
@@ -354,14 +389,10 @@ void CBullsquid :: HandleAnimEvent( AnimEvent_t& event )
 			CBaseEntity *pHurt = CheckTraceHullAttack( 70, gSkillData.GetBullsquidDmgWhip(), DMG_CLUB | DMG_ALWAYSGIB );
 			if ( pHurt ) 
 			{
-				Vector vecPunchAngle = pHurt->GetPunchAngle();
-				vecPunchAngle.z = -20;
-				vecPunchAngle.x = 20;
-				pHurt->SetPunchAngle( vecPunchAngle );
-				Vector vecVelocity = pHurt->GetAbsVelocity();
-				vecVelocity = vecVelocity + gpGlobals->v_right * 200;
-				vecVelocity = vecVelocity + gpGlobals->v_up * 100;
-				pHurt->SetAbsVelocity( vecVelocity );
+				pHurt->pev->punchangle.z = -20;
+				pHurt->pev->punchangle.x = 20;
+				pHurt->pev->velocity = pHurt->pev->velocity + gpGlobals->v_right * 200;
+				pHurt->pev->velocity = pHurt->pev->velocity + gpGlobals->v_up * 100;
 			}
 		}
 		break;
@@ -369,7 +400,7 @@ void CBullsquid :: HandleAnimEvent( AnimEvent_t& event )
 		case BSQUID_AE_BLINK:
 		{
 			// close eye. 
-				SetSkin( 1 );
+			pev->skin = 1;
 		}
 		break;
 
@@ -378,16 +409,14 @@ void CBullsquid :: HandleAnimEvent( AnimEvent_t& event )
 			float flGravity = g_psv_gravity->value;
 
 			// throw the squid up into the air on this frame.
-			if ( GetFlags().Any( FL_ONGROUND ) )
+			if ( FBitSet ( pev->flags, FL_ONGROUND ) )
 			{
-				GetFlags().ClearFlags( FL_ONGROUND );
+				pev->flags -= FL_ONGROUND;
 			}
 
 			// jump into air for 0.8 (24/30) seconds
-			Vector vecVelocity = GetAbsVelocity();
-//			vecVelocity.z += (0.875 * flGravity) * 0.5;
-			vecVelocity.z += (0.625 * flGravity) * 0.5;
-			SetAbsVelocity( vecVelocity );
+//			pev->velocity.z += (0.875 * flGravity) * 0.5;
+			pev->velocity.z += (0.625 * flGravity) * 0.5;
 		}
 		break;
 
@@ -413,19 +442,18 @@ void CBullsquid :: HandleAnimEvent( AnimEvent_t& event )
 						break;
 					}
 
-					//pHurt->SetPunchAngle( Vector(
-					//	RANDOM_LONG( 0, 34 ) - 5,
-					//	RANDOM_LONG( 0, 89 ) - 45,
-					//	RANDOM_LONG( 0, 49 ) - 25
-					//) );
+					
+					//pHurt->pev->punchangle.x = RANDOM_LONG(0,34) - 5;
+					//pHurt->pev->punchangle.z = RANDOM_LONG(0,49) - 25;
+					//pHurt->pev->punchangle.y = RANDOM_LONG(0,89) - 45;
 		
 					// screeshake transforms the viewmodel as well as the viewangle. No problems with seeing the ends of the viewmodels.
 					UTIL_ScreenShake( pHurt->GetAbsOrigin(), 25.0, 1.5, 0.7, 2 );
 
 					if ( pHurt->IsPlayer() )
 					{
-						UTIL_MakeVectors( GetAbsAngles() );
-						pHurt->SetAbsVelocity( pHurt->GetAbsVelocity() + gpGlobals->v_forward * 300 + gpGlobals->v_up * 300 );
+						UTIL_MakeVectors( pev->angles );
+						pHurt->pev->velocity = pHurt->pev->velocity + gpGlobals->v_forward * 300 + gpGlobals->v_up * 300;
 					}
 				}
 			}
@@ -436,6 +464,9 @@ void CBullsquid :: HandleAnimEvent( AnimEvent_t& event )
 	}
 }
 
+//=========================================================
+// Spawn
+//=========================================================
 void CBullsquid :: Spawn()
 {
 	Precache( );
@@ -443,11 +474,11 @@ void CBullsquid :: Spawn()
 	SetModel( "models/bullsquid.mdl");
 	SetSize( Vector( -32, -32, 0 ), Vector( 32, 32, 64 ) );
 
-	SetSolidType( SOLID_SLIDEBOX );
-	SetMoveType( MOVETYPE_STEP );
+	pev->solid			= SOLID_SLIDEBOX;
+	pev->movetype		= MOVETYPE_STEP;
 	m_bloodColor		= BLOOD_COLOR_GREEN;
-	GetEffects().ClearAll();
-	SetHealth( gSkillData.GetBullsquidHealth() );
+	pev->effects		= 0;
+	pev->health			= gSkillData.GetBullsquidHealth();
 	m_flFieldOfView		= 0.2;// indicates the width of this monster's forward view cone ( as a dotproduct result )
 	m_MonsterState		= MONSTERSTATE_NONE;
 
@@ -457,6 +488,9 @@ void CBullsquid :: Spawn()
 	MonsterInit();
 }
 
+//=========================================================
+// Precache - precaches all resources this monster needs
+//=========================================================
 void CBullsquid :: Precache()
 {
 	PRECACHE_MODEL("models/bullsquid.mdl");
@@ -499,6 +533,9 @@ void CBullsquid :: Precache()
 
 }	
 
+//=========================================================
+// DeathSound
+//=========================================================
 void CBullsquid :: DeathSound ( void )
 {
 	switch ( RANDOM_LONG(0,2) )
@@ -515,6 +552,9 @@ void CBullsquid :: DeathSound ( void )
 	}
 }
 
+//=========================================================
+// AttackSound
+//=========================================================
 void CBullsquid :: AttackSound ( void )
 {
 	switch ( RANDOM_LONG(0,1) )
@@ -538,15 +578,15 @@ void CBullsquid :: RunAI ( void )
 	// first, do base class stuff
 	CBaseMonster :: RunAI();
 
-	if ( GetSkin() != 0 )
+	if ( pev->skin != 0 )
 	{
 		// close eye if it was open.
-		SetSkin( 0 );
+		pev->skin = 0; 
 	}
 
 	if ( RANDOM_LONG(0,39) == 0 )
 	{
-		SetSkin( 1 );
+		pev->skin = 1;
 	}
 
 	if ( m_hEnemy != NULL && m_Activity == ACT_RUN )
@@ -554,7 +594,7 @@ void CBullsquid :: RunAI ( void )
 		// chasing enemy. Sprint for last bit
 		if ( (GetAbsOrigin() - m_hEnemy->GetAbsOrigin()).Length2D() < SQUID_SPRINT_DIST )
 		{
-			SetFrameRate( 1.25 );
+			pev->framerate = 1.25;
 		}
 	}
 
@@ -774,6 +814,9 @@ BEGIN_SCHEDULES( CBullsquid )
 	slSquidWallow
 END_SCHEDULES()
 
+//=========================================================
+// GetSchedule 
+//=========================================================
 Schedule_t *CBullsquid :: GetSchedule( void )
 {
 	switch	( m_MonsterState )
@@ -911,11 +954,18 @@ Schedule_t* CBullsquid :: GetScheduleOfType ( int Type )
 	return CBaseMonster :: GetScheduleOfType ( Type );
 }
 
-void CBullsquid :: StartTask ( const Task_t& task )
+//=========================================================
+// Start task - selects the correct activity and performs
+// any necessary calculations to start the next task on the
+// schedule.  OVERRIDDEN for bullsquid because it needs to
+// know explicitly when the last attempt to chase the enemy
+// failed, since that impacts its attack choices.
+//=========================================================
+void CBullsquid :: StartTask ( const Task_t* pTask )
 {
 	m_iTaskStatus = TASKSTATUS_RUNNING;
 
-	switch ( task.iTask )
+	switch ( pTask->iTask )
 	{
 	case TASK_MELEE_ATTACK2:
 		{
@@ -932,7 +982,7 @@ void CBullsquid :: StartTask ( const Task_t& task )
 				break;
 			}
 
-			CBaseMonster :: StartTask ( task );
+			CBaseMonster :: StartTask ( pTask );
 			break;
 		}
 	case TASK_SQUID_HOPTURN:
@@ -956,20 +1006,23 @@ void CBullsquid :: StartTask ( const Task_t& task )
 		}
 	default:
 		{
-			CBaseMonster :: StartTask ( task );
+			CBaseMonster :: StartTask ( pTask );
 			break;
 		}
 	}
 }
 
-void CBullsquid :: RunTask ( const Task_t& task )
+//=========================================================
+// RunTask
+//=========================================================
+void CBullsquid :: RunTask ( const Task_t* pTask )
 {
-	switch ( task.iTask )
+	switch ( pTask->iTask )
 	{
 	case TASK_SQUID_HOPTURN:
 		{
 			MakeIdealYaw( m_vecEnemyLKP );
-			ChangeYaw( GetYawSpeed() );
+			ChangeYaw( pev->yaw_speed );
 
 			if ( m_fSequenceFinished )
 			{
@@ -979,7 +1032,7 @@ void CBullsquid :: RunTask ( const Task_t& task )
 		}
 	default:
 		{
-			CBaseMonster :: RunTask( task );
+			CBaseMonster :: RunTask( pTask );
 			break;
 		}
 	}

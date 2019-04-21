@@ -15,16 +15,14 @@ void CTentacleMaw::Spawn()
 	SetModel( "models/maw.mdl" );
 	SetSize( Vector( -32, -32, 0 ), Vector( 32, 32, 64 ) );
 
-	SetSolidType( SOLID_NOT );
-	SetMoveType( MOVETYPE_STEP );
-	GetEffects().ClearAll();
-	SetHealth( 75 );
-	SetYawSpeed( 8 );
-	SetSequence( 0 );
+	pev->solid = SOLID_NOT;
+	pev->movetype = MOVETYPE_STEP;
+	pev->effects = 0;
+	pev->health = 75;
+	pev->yaw_speed = 8;
+	pev->sequence = 0;
 
-	Vector vecAngles = GetAbsAngles();
-	vecAngles.x = 90;
-	SetAbsAngles( vecAngles );
+	pev->angles.x = 90;
 	// ResetSequenceInfo( );
 }
 

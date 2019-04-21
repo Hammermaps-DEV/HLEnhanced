@@ -10,33 +10,33 @@ void CMessage::Spawn( void )
 {
 	Precache();
 
-	SetSolidType( SOLID_NOT );
-	SetMoveType( MOVETYPE_NONE );
+	pev->solid = SOLID_NOT;
+	pev->movetype = MOVETYPE_NONE;
 
-	switch( GetImpulse() )
+	switch( pev->impulse )
 	{
 	case 1: // Medium radius
-		SetSpeed( ATTN_STATIC );
+		pev->speed = ATTN_STATIC;
 		break;
 
 	case 2:	// Large radius
-		SetSpeed( ATTN_NORM );
+		pev->speed = ATTN_NORM;
 		break;
 
 	case 3:	//EVERYWHERE
-		SetSpeed( ATTN_NONE );
+		pev->speed = ATTN_NONE;
 		break;
 
 	default:
 	case 0: // Small radius
-		SetSpeed( ATTN_IDLE );
+		pev->speed = ATTN_IDLE;
 		break;
 	}
-	SetImpulse( 0 );
+	pev->impulse = 0;
 
 	// No volume, use normal
-	if( GetScale() <= 0 )
-		SetScale( 1.0 );
+	if( pev->scale <= 0 )
+		pev->scale = 1.0;
 }
 
 void CMessage::Precache( void )
@@ -49,8 +49,8 @@ void CMessage::Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useT
 {
 	CBaseEntity *pPlayer = NULL;
 
-	if( GetSpawnFlags().Any( SF_MESSAGE_ALL ) )
-		UTIL_ShowMessageAll( GetMessage() );
+	if( pev->spawnflags & SF_MESSAGE_ALL )
+		UTIL_ShowMessageAll( STRING( pev->message ) );
 	else
 	{
 		if( pActivator && pActivator->IsPlayer() )
@@ -60,13 +60,13 @@ void CMessage::Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useT
 			pPlayer = CBaseEntity::Instance( g_engfuncs.pfnPEntityOfEntIndex( 1 ) );
 		}
 		if( pPlayer )
-			UTIL_ShowMessage( GetMessage(), pPlayer );
+			UTIL_ShowMessage( STRING( pev->message ), pPlayer );
 	}
 	if( pev->noise )
 	{
-		EMIT_SOUND( this, CHAN_BODY, STRING( pev->noise ), GetScale(), GetSpeed() );
+		EMIT_SOUND( this, CHAN_BODY, STRING( pev->noise ), pev->scale, pev->speed );
 	}
-	if( GetSpawnFlags().Any( SF_MESSAGE_ONCE ) )
+	if( pev->spawnflags & SF_MESSAGE_ONCE )
 		UTIL_Remove( this );
 
 	SUB_UseTargets( this, USE_TOGGLE, 0 );
@@ -81,12 +81,12 @@ void CMessage::KeyValue( KeyValueData *pkvd )
 	}
 	else if( FStrEq( pkvd->szKeyName, "messagevolume" ) )
 	{
-		SetScale( atof( pkvd->szValue ) * 0.1 );
+		pev->scale = atof( pkvd->szValue ) * 0.1;
 		pkvd->fHandled = true;
 	}
 	else if( FStrEq( pkvd->szKeyName, "messageattenuation" ) )
 	{
-		SetImpulse( atoi( pkvd->szValue ) );
+		pev->impulse = atoi( pkvd->szValue );
 		pkvd->fHandled = true;
 	}
 	else

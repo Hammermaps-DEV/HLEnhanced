@@ -67,6 +67,10 @@ END_DATADESC()
 LINK_ENTITY_TO_CLASS( monster_alien_slave, CISlave );
 LINK_ENTITY_TO_CLASS( monster_vortigaunt, CISlave );
 
+//=========================================================
+// Classify - indicates this monster's place in the 
+// relationship table.
+//=========================================================
 EntityClassification_t CISlave::GetClassification()
 {
 	return EntityClassifications().GetClassificationId( classify::ALIEN_MILITARY );
@@ -76,7 +80,7 @@ EntityClassification_t CISlave::GetClassification()
 Relationship CISlave::IRelationship( CBaseEntity *pTarget )
 {
 	if ( (pTarget->IsPlayer()) )
-		if ( GetSpawnFlags().Any( SF_MONSTER_WAIT_UNTIL_PROVOKED ) && ! (m_afMemory & bits_MEMORY_PROVOKED ))
+		if ( (pev->spawnflags & SF_MONSTER_WAIT_UNTIL_PROVOKED ) && ! (m_afMemory & bits_MEMORY_PROVOKED ))
 			return R_NO;
 	return CBaseMonster::IRelationship( pTarget );
 }
@@ -109,6 +113,10 @@ void CISlave::CallForHelp( const char* const pszClassname, float flDist, EHANDLE
 	}
 }
 
+
+//=========================================================
+// ALertSound - scream
+//=========================================================
 void CISlave :: AlertSound( void )
 {
 	if ( m_hEnemy != NULL )
@@ -135,7 +143,7 @@ void CISlave :: IdleSound( void )
 	ClearBeams( );
 	ArmBeam( side );
 
-	UTIL_MakeAimVectors( GetAbsAngles() );
+	UTIL_MakeAimVectors( pev->angles );
 	Vector vecSrc = GetAbsOrigin() + gpGlobals->v_right * 2 * side;
 	MESSAGE_BEGIN( MSG_PVS, SVC_TEMPENTITY, vecSrc );
 		WRITE_BYTE(TE_DLIGHT);
@@ -154,6 +162,9 @@ void CISlave :: IdleSound( void )
 #endif
 }
 
+//=========================================================
+// PainSound
+//=========================================================
 void CISlave :: PainSound( void )
 {
 	if (RANDOM_LONG( 0, 2 ) == 0)
@@ -162,11 +173,20 @@ void CISlave :: PainSound( void )
 	}
 }
 
+//=========================================================
+// DieSound
+//=========================================================
+
 void CISlave :: DeathSound( void )
 {
 	EMIT_SOUND_DYN ( this, CHAN_WEAPON, pDeathSounds[ RANDOM_LONG(0,ARRAYSIZE(pDeathSounds)-1) ], 1.0, ATTN_NORM, 0, m_voicePitch );
 }
 
+
+//=========================================================
+// ISoundMask - returns a bit mask indicating which types
+// of sounds this monster regards. 
+//=========================================================
 int CISlave :: ISoundMask ( void) 
 {
 	return	bits_SOUND_WORLD	|
@@ -182,7 +202,11 @@ void CISlave::Killed( const CTakeDamageInfo& info, GibAction gibAction )
 	CSquadMonster::Killed( info, gibAction );
 }
 
-void CISlave ::UpdateYawSpeed()
+//=========================================================
+// SetYawSpeed - allows each sequence to have a different
+// turn rate associated with it.
+//=========================================================
+void CISlave :: SetYawSpeed ( void )
 {
 	int ys;
 
@@ -202,12 +226,18 @@ void CISlave ::UpdateYawSpeed()
 		break;
 	}
 
-	SetYawSpeed( ys );
+	pev->yaw_speed = ys;
 }
 
+//=========================================================
+// HandleAnimEvent - catches the monster-specific messages
+// that occur when tagged animation frames are played.
+//
+// Returns number of events handled, 0 if none.
+//=========================================================
 void CISlave :: HandleAnimEvent( AnimEvent_t& event )
 {
-	// ALERT( at_console, "event %d : %f\n", pEvent->event, GetFrame() );
+	// ALERT( at_console, "event %d : %f\n", pEvent->event, pev->frame );
 	switch( event.event )
 	{
 		case ISLAVE_AE_CLAW:
@@ -216,12 +246,10 @@ void CISlave :: HandleAnimEvent( AnimEvent_t& event )
 			CBaseEntity *pHurt = CheckTraceHullAttack( 70, gSkillData.GetSlaveDmgClaw(), DMG_SLASH );
 			if ( pHurt )
 			{
-				if( pHurt->GetFlags().Any( FL_MONSTER | FL_CLIENT ) )
+				if ( pHurt->pev->flags & (FL_MONSTER|FL_CLIENT) )
 				{
-					Vector vecPunchAngle = pHurt->GetPunchAngle();
-					vecPunchAngle.z = -18;
-					vecPunchAngle.x = 5;
-					pHurt->SetPunchAngle( vecPunchAngle );
+					pHurt->pev->punchangle.z = -18;
+					pHurt->pev->punchangle.x = 5;
 				}
 				// Play a random attack hit sound
 				EMIT_SOUND_DYN ( this, CHAN_WEAPON, pAttackHitSounds[ RANDOM_LONG(0,ARRAYSIZE(pAttackHitSounds)-1) ], 1.0, ATTN_NORM, 0, m_voicePitch );
@@ -239,12 +267,10 @@ void CISlave :: HandleAnimEvent( AnimEvent_t& event )
 			CBaseEntity *pHurt = CheckTraceHullAttack( 70, gSkillData.GetSlaveDmgClawrake(), DMG_SLASH );
 			if ( pHurt )
 			{
-				if( pHurt->GetFlags().Any( FL_MONSTER | FL_CLIENT ) )
+				if ( pHurt->pev->flags & (FL_MONSTER|FL_CLIENT) )
 				{
-					Vector vecPunchAngle = pHurt->GetPunchAngle();
-					vecPunchAngle.z = -18;
-					vecPunchAngle.x = 5;
-					pHurt->SetPunchAngle( vecPunchAngle );
+					pHurt->pev->punchangle.z = -18;
+					pHurt->pev->punchangle.x = 5;
 				}
 				EMIT_SOUND_DYN ( this, CHAN_WEAPON, pAttackHitSounds[ RANDOM_LONG(0,ARRAYSIZE(pAttackHitSounds)-1) ], 1.0, ATTN_NORM, 0, m_voicePitch );
 			}
@@ -259,9 +285,9 @@ void CISlave :: HandleAnimEvent( AnimEvent_t& event )
 		{
 			// speed up attack when on hard
 			if (gSkillData.GetSkillLevel() == SKILL_HARD)
-				SetFrameRate( 1.5 );
+				pev->framerate = 1.5;
 
-			UTIL_MakeAimVectors( GetAbsAngles() );
+			UTIL_MakeAimVectors( pev->angles );
 
 			if (m_iBeams == 0)
 			{
@@ -275,7 +301,7 @@ void CISlave :: HandleAnimEvent( AnimEvent_t& event )
 					WRITE_BYTE( 255 );		// r
 					WRITE_BYTE( 180 );		// g
 					WRITE_BYTE( 96 );		// b
-					WRITE_BYTE( 20 / GetFrameRate() );		// time * 10
+					WRITE_BYTE( 20 / pev->framerate );		// time * 10
 					WRITE_BYTE( 0 );		// decay * 0.1
 				MESSAGE_END( );
 
@@ -293,7 +319,7 @@ void CISlave :: HandleAnimEvent( AnimEvent_t& event )
 			}
 
 			EMIT_SOUND_DYN( this, CHAN_WEAPON, "debris/zap4.wav", 1, ATTN_NORM, 0, 100 + m_iBeams * 10 );
-			SetSkin( m_iBeams / 2 );
+			pev->skin = m_iBeams / 2;
 		}
 		break;
 
@@ -309,8 +335,8 @@ void CISlave :: HandleAnimEvent( AnimEvent_t& event )
 
 				if ( !trace.fStartSolid )
 				{
-					CBaseEntity *pNew = Create( "monster_alien_slave", m_hDead->GetAbsOrigin(), m_hDead->GetAbsAngles() );
-					pNew->GetSpawnFlags() |= SF_MONSTER_WAIT_TILL_SEEN;
+					CBaseEntity *pNew = Create( "monster_alien_slave", m_hDead->GetAbsOrigin(), m_hDead->pev->angles );
+					pNew->pev->spawnflags |= SF_MONSTER_WAIT_TILL_SEEN;
 					WackBeam( -1, pNew );
 					WackBeam( 1, pNew );
 					UTIL_Remove( m_hDead );
@@ -320,7 +346,7 @@ void CISlave :: HandleAnimEvent( AnimEvent_t& event )
 			}
 			g_MultiDamage.Clear();
 
-			UTIL_MakeAimVectors( GetAbsAngles() );
+			UTIL_MakeAimVectors( pev->angles );
 
 			ZapBeam( -1 );
 			ZapBeam( 1 );
@@ -345,6 +371,9 @@ void CISlave :: HandleAnimEvent( AnimEvent_t& event )
 	}
 }
 
+//=========================================================
+// CheckRangeAttack1 - normal beam attack 
+//=========================================================
 bool CISlave :: CheckRangeAttack1 ( float flDot, float flDist )
 {
 	if (m_flNextAttack > gpGlobals->time)
@@ -355,6 +384,9 @@ bool CISlave :: CheckRangeAttack1 ( float flDot, float flDist )
 	return CSquadMonster::CheckRangeAttack1( flDot, flDist );
 }
 
+//=========================================================
+// CheckRangeAttack2 - check bravery and try to resurect dead comrades
+//=========================================================
 bool CISlave :: CheckRangeAttack2 ( float flDot, float flDist )
 {
 	return false;
@@ -375,7 +407,7 @@ bool CISlave :: CheckRangeAttack2 ( float flDot, float flDist )
 		UTIL_TraceLine( EyePosition( ), pEntity->EyePosition( ), ignore_monsters, ENT(pev), &tr );
 		if (tr.flFraction == 1.0 || tr.pHit == pEntity->edict())
 		{
-			if (pEntity->GetDeadFlag() == DEAD_DEAD)
+			if (pEntity->pev->deadflag == DEAD_DEAD)
 			{
 				float d = (GetAbsOrigin() - pEntity->GetAbsOrigin()).Length();
 				if (d < flDist)
@@ -397,13 +429,21 @@ bool CISlave :: CheckRangeAttack2 ( float flDot, float flDist )
 		return false;
 }
 
-void CISlave :: StartTask ( const Task_t& task )
+
+//=========================================================
+// StartTask
+//=========================================================
+void CISlave :: StartTask ( const Task_t* pTask )
 {
 	ClearBeams( );
 
-	CSquadMonster :: StartTask ( task );
+	CSquadMonster :: StartTask ( pTask );
 }
 
+
+//=========================================================
+// Spawn
+//=========================================================
 void CISlave :: Spawn()
 {
 	Precache( );
@@ -411,12 +451,12 @@ void CISlave :: Spawn()
 	SetModel( "models/islave.mdl");
 	SetSize( VEC_HUMAN_HULL_MIN, VEC_HUMAN_HULL_MAX );
 
-	SetSolidType( SOLID_SLIDEBOX );
-	SetMoveType( MOVETYPE_STEP );
+	pev->solid			= SOLID_SLIDEBOX;
+	pev->movetype		= MOVETYPE_STEP;
 	m_bloodColor		= BLOOD_COLOR_GREEN;
-	GetEffects().ClearAll();
-	SetHealth( gSkillData.GetSlaveHealth() );
-	SetViewOffset( Vector ( 0, 0, 64 ) );// position of the eyes relative to monster's origin.
+	pev->effects		= 0;
+	pev->health			= gSkillData.GetSlaveHealth();
+	pev->view_ofs		= Vector ( 0, 0, 64 );// position of the eyes relative to monster's origin.
 	m_flFieldOfView		= VIEW_FIELD_WIDE; // NOTE: we need a wide field of view so npc will notice player and say hello
 	m_MonsterState		= MONSTERSTATE_NONE;
 	m_afCapability		= bits_CAP_HEAR | bits_CAP_TURN_HEAD | bits_CAP_RANGE_ATTACK2 | bits_CAP_DOORS_GROUP;
@@ -426,6 +466,9 @@ void CISlave :: Spawn()
 	MonsterInit();
 }
 
+//=========================================================
+// Precache - precaches all resources this monster needs
+//=========================================================
 void CISlave :: Precache()
 {
 	size_t i;
@@ -476,12 +519,12 @@ void CISlave::OnTakeDamage( const CTakeDamageInfo& info )
 }
 
 
-void CISlave::TraceAttack( const CTakeDamageInfo& info, Vector vecDir, TraceResult& tr )
+void CISlave::TraceAttack( const CTakeDamageInfo& info, Vector vecDir, TraceResult *ptr )
 {
 	if (info.GetDamageTypes() & DMG_SHOCK)
 		return;
 
-	CSquadMonster::TraceAttack( info, vecDir, tr );
+	CSquadMonster::TraceAttack( info, vecDir, ptr );
 }
 
 
@@ -526,9 +569,9 @@ Schedule_t *CISlave :: GetSchedule( void )
 	ClearBeams( );
 
 /*
-	if ( !GetSpawnFlags().None() )
+	if (pev->spawnflags)
 	{
-		GetSpawnFlags().ClearAll();
+		pev->spawnflags = 0;
 		return GetScheduleOfType( SCHED_RELOAD );
 	}
 */
@@ -556,7 +599,7 @@ Schedule_t *CISlave :: GetSchedule( void )
 			return CBaseMonster :: GetSchedule();
 		}
 
-		if ( GetHealth() < 20 || m_iBravery < 0)
+		if (pev->health < 20 || m_iBravery < 0)
 		{
 			if (!HasConditions( bits_COND_CAN_MELEE_ATTACK1 ))
 			{
@@ -611,7 +654,7 @@ void CISlave :: ArmBeam( int side )
 	if (m_iBeams >= ISLAVE_MAX_BEAMS)
 		return;
 
-	UTIL_MakeAimVectors( GetAbsAngles() );
+	UTIL_MakeAimVectors( pev->angles );
 	Vector vecSrc = GetAbsOrigin() + gpGlobals->v_up * 36 + gpGlobals->v_right * side * 16 + gpGlobals->v_forward * 32;
 
 	for (int i = 0; i < 3; i++)
@@ -720,9 +763,9 @@ void CISlave :: ZapBeam( int side )
 	m_iBeams++;
 
 	pEntity = CBaseEntity::Instance(tr.pHit);
-	if (pEntity != NULL && pEntity->GetTakeDamageMode() != DAMAGE_NO )
+	if (pEntity != NULL && pEntity->pev->takedamage)
 	{
-		pEntity->TraceAttack( CTakeDamageInfo( this, gSkillData.GetSlaveDmgZap(), DMG_SHOCK ), vecAim, tr );
+		pEntity->TraceAttack( CTakeDamageInfo( this, gSkillData.GetSlaveDmgZap(), DMG_SHOCK ), vecAim, &tr );
 	}
 	UTIL_EmitAmbientSound( this, tr.vecEndPos, "weapons/electro4.wav", 0.5, ATTN_NORM, 0, RANDOM_LONG( 140, 160 ) );
 }
@@ -742,7 +785,7 @@ void CISlave :: ClearBeams( )
 		}
 	}
 	m_iBeams = 0;
-	SetSkin( 0 );
+	pev->skin = 0;
 
 	STOP_SOUND( this, CHAN_WEAPON, "debris/zap4.wav" );
 }

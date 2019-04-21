@@ -23,9 +23,35 @@
 #define		BARNEY_AE_SHOOT		( 3 )
 #define		BARNEY_AE_HOLSTER	( 4 )
 
-#define	BARNEY_BODY_GUNHOLSTERED	0
-#define	BARNEY_BODY_GUNDRAWN		1
-#define BARNEY_BODY_GUNGONE			2
+enum BarneyBodyGroup
+{
+	BARNEY_BODYGROUP_GUN = 1
+};
+
+/**
+*	@brief Submodels for the barney gun body group
+*/
+enum BarneyGunSubModel
+{
+	BARNEY_BODY_GUNHOLSTERED	= 0,
+	BARNEY_BODY_GUNDRAWN		= 1,
+	BARNEY_BODY_GUNGONE			= 2,
+};
+
+/**
+*	@brief Barney gun states
+*	TODO: should generalize this to cover all monsters - Solokiller
+*/
+enum class BarneyGunState
+{
+	HOLSTERED = 0,
+	DRAWN,
+
+	/**
+	*	@brief Dropped while dying or perhaps stolen
+	*/
+	GONE
+};
 
 class CBarney : public CTalkMonster
 {
@@ -33,40 +59,37 @@ public:
 	DECLARE_CLASS( CBarney, CTalkMonster );
 	DECLARE_DATADESC();
 
-	void Spawn( void ) override;
-	void Precache( void ) override;
-	void UpdateYawSpeed() override;
-	int  ISoundMask( void ) override;
-	void BarneyFirePistol( void );
-	/**
-	*	@brief barney says "Freeze!"
-	*/
-	void AlertSound( void ) override;
+	void Spawn() override;
+	void Precache() override;
+	void SetYawSpeed() override;
+	int ISoundMask() override;
+	void BarneyFirePistol();
+	void AlertSound() override;
 	EntityClassification_t GetClassification() override;
 	void HandleAnimEvent( AnimEvent_t& event ) override;
 
-	void RunTask( const Task_t& task ) override;
-	void StartTask( const Task_t& task ) override;
-	virtual int	ObjectCaps() const override { return CTalkMonster::ObjectCaps() | FCAP_IMPULSE_USE; }
+	void RunTask( const Task_t* pTask ) override;
+	void StartTask( const Task_t* pTask ) override;
+	int	ObjectCaps() const override { return CTalkMonster::ObjectCaps() | FCAP_IMPULSE_USE; }
 	void OnTakeDamage( const CTakeDamageInfo& info ) override;
 	bool CheckRangeAttack1( float flDot, float flDist ) override;
 
-	void DeclineFollowing( void ) override;
+	void DeclineFollowing() override;
 
 	// Override these to set behavior
 	Schedule_t *GetScheduleOfType( int Type ) override;
-	Schedule_t *GetSchedule( void ) override;
-	MONSTERSTATE GetIdealState( void ) override;
+	Schedule_t *GetSchedule() override;
+	MONSTERSTATE GetIdealState() override;
 
-	void DeathSound( void ) override;
-	void PainSound( void ) override;
+	void DeathSound() override;
+	void PainSound() override;
 
-	void TalkInit( void );
+	void TalkInit();
 
-	void TraceAttack( const CTakeDamageInfo& info, Vector vecDir, TraceResult& tr ) override;
+	void TraceAttack( const CTakeDamageInfo& info, Vector vecDir, TraceResult *ptr ) override;
 	void Killed( const CTakeDamageInfo& info, GibAction gibAction ) override;
 
-	bool	m_fGunDrawn;
+	BarneyGunState m_GunState;
 	float	m_painTime;
 	float	m_checkAttackTime;
 	bool	m_lastAttackCheck;

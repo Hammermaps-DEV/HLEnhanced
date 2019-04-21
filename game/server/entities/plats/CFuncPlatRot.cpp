@@ -22,8 +22,8 @@ void CFuncPlatRot::SetupRotation( void )
 	if( m_vecFinalAngle.x != 0 )		// This plat rotates too!
 	{
 		CBaseToggle::AxisDir( this );
-		m_start = GetAbsAngles();
-		m_end = GetAbsAngles() + GetMoveDir() * m_vecFinalAngle.x;
+		m_start = pev->angles;
+		m_end = pev->angles + pev->movedir * m_vecFinalAngle.x;
 	}
 	else
 	{
@@ -32,7 +32,7 @@ void CFuncPlatRot::SetupRotation( void )
 	}
 	if( HasTargetname() )	// Start at top
 	{
-		SetAbsAngles( m_end );
+		pev->angles = m_end;
 	}
 }
 
@@ -42,13 +42,13 @@ void CFuncPlatRot::SetupRotation( void )
 void CFuncPlatRot::GoUp( void )
 {
 	CFuncPlat::GoUp();
-	RotMove( m_end, GetNextThink() - GetLastThink() );
+	RotMove( m_end, pev->nextthink - pev->ltime );
 }
 
 void CFuncPlatRot::GoDown( void )
 {
 	CFuncPlat::GoDown();
-	RotMove( m_start, GetNextThink() - GetLastThink() );
+	RotMove( m_start, pev->nextthink - pev->ltime );
 }
 
 //
@@ -57,8 +57,8 @@ void CFuncPlatRot::GoDown( void )
 void CFuncPlatRot::HitTop( void )
 {
 	CFuncPlat::HitTop();
-	SetAngularVelocity( g_vecZero );
-	SetAbsAngles( m_end );
+	pev->avelocity = g_vecZero;
+	pev->angles = m_end;
 }
 
 //
@@ -67,21 +67,21 @@ void CFuncPlatRot::HitTop( void )
 void CFuncPlatRot::HitBottom( void )
 {
 	CFuncPlat::HitBottom();
-	SetAngularVelocity( g_vecZero );
-	SetAbsAngles( m_start );
+	pev->avelocity = g_vecZero;
+	pev->angles = m_start;
 }
 
 void CFuncPlatRot::RotMove( Vector &destAngle, float time )
 {
 	// set destdelta to the vector needed to move
-	Vector vecDestDelta = destAngle - GetAbsAngles();
+	Vector vecDestDelta = destAngle - pev->angles;
 
 	// Travel time is so short, we're practically there already;  so make it so.
 	if( time >= 0.1 )
-		SetAngularVelocity( vecDestDelta / time );
+		pev->avelocity = vecDestDelta / time;
 	else
 	{
-		SetAngularVelocity( vecDestDelta );
-		SetNextThink( GetLastThink() + 1 );
+		pev->avelocity = vecDestDelta;
+		pev->nextthink = pev->ltime + 1;
 	}
 }

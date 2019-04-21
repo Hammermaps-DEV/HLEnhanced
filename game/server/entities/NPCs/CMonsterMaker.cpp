@@ -71,13 +71,13 @@ void CMonsterMaker :: KeyValue( KeyValueData *pkvd )
 
 void CMonsterMaker :: Spawn( )
 {
-	SetSolidType( SOLID_NOT );
+	pev->solid = SOLID_NOT;
 
 	m_cLiveChildren = 0;
 	Precache();
 	if ( HasTargetname() )
 	{
-		if ( GetSpawnFlags().Any( SF_MONSTERMAKER_CYCLIC ) )
+		if ( pev->spawnflags & SF_MONSTERMAKER_CYCLIC )
 		{
 			SetUse ( &CMonsterMaker::CyclicUse );// drop one monster each time we fire
 		}
@@ -86,7 +86,7 @@ void CMonsterMaker :: Spawn( )
 			SetUse ( &CMonsterMaker::ToggleUse );// so can be turned on/off
 		}
 
-		if ( GetSpawnFlags().Any( SF_MONSTERMAKER_START_ON ) )
+		if ( FBitSet ( pev->spawnflags, SF_MONSTERMAKER_START_ON ) )
 		{// start making monsters as soon as monstermaker spawns
 			m_fActive = true;
 			SetThink ( &CMonsterMaker::MakerThink );
@@ -99,7 +99,7 @@ void CMonsterMaker :: Spawn( )
 	}
 	else
 	{// no targetname, just start.
-		SetNextThink( gpGlobals->time + m_flDelay );
+			pev->nextthink = gpGlobals->time + m_flDelay;
 			m_fActive = true;
 			SetThink ( &CMonsterMaker::MakerThink );
 	}
@@ -253,7 +253,7 @@ void CMonsterMaker :: ToggleUse ( CBaseEntity *pActivator, CBaseEntity *pCaller,
 		SetThink ( &CMonsterMaker::MakerThink );
 	}
 
-	SetNextThink( gpGlobals->time );
+	pev->nextthink = gpGlobals->time;
 }
 
 //=========================================================
@@ -261,7 +261,7 @@ void CMonsterMaker :: ToggleUse ( CBaseEntity *pActivator, CBaseEntity *pCaller,
 //=========================================================
 void CMonsterMaker :: MakerThink ( void )
 {
-	SetNextThink( gpGlobals->time + m_flDelay );
+	pev->nextthink = gpGlobals->time + m_flDelay;
 
 	MakeMonster();
 }
@@ -276,7 +276,7 @@ void CMonsterMaker::DeathNotice( CBaseEntity* pChild )
 
 	if( !m_fFadeChildren )
 	{
-		pChild->SetOwner( nullptr );
+		pChild->pev->owner = nullptr;
 	}
 }
 

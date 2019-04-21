@@ -102,7 +102,7 @@ void CNodeViewer::Spawn()
 
 	m_iDraw = 0;
 	SetThink( &CNodeViewer::DrawThink );
-	SetNextThink( gpGlobals->time );
+	pev->nextthink = gpGlobals->time;
 }
 
 void CNodeViewer::FindNodeConnections( int iNode )
@@ -142,7 +142,7 @@ void CNodeViewer::AddNode( int iFrom, int iTo )
 
 void CNodeViewer::DrawThink( void )
 {
-	SetNextThink( gpGlobals->time );
+	pev->nextthink = gpGlobals->time;
 
 	for( int i = 0; i < 10; i++ )
 	{

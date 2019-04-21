@@ -22,6 +22,6 @@ LINK_ENTITY_TO_CLASS( info_target, CPointEntity );
 // Landmark class
 void CPointEntity::Spawn( void )
 {
-	SetSolidType( SOLID_NOT );
+	pev->solid = SOLID_NOT;
 	//	SetSize( g_vecZero, g_vecZero);
 }

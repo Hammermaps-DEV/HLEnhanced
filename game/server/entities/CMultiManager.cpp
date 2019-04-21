@@ -67,7 +67,7 @@ void CMultiManager::KeyValue( KeyValueData *pkvd )
 
 void CMultiManager::Spawn( void )
 {
-	SetSolidType( SOLID_NOT );
+	pev->solid = SOLID_NOT;
 	SetUse( &CMultiManager::ManagerUse );
 	SetThink( &CMultiManager::ManagerThink );
 
@@ -130,7 +130,7 @@ void CMultiManager::ManagerThink( void )
 		SetUse( &CMultiManager::ManagerUse );// allow manager re-use 
 	}
 	else
-		SetNextThink( m_startTime + m_flTargetDelay[ m_index ] );
+		pev->nextthink = m_startTime + m_flTargetDelay[ m_index ];
 }
 
 CMultiManager *CMultiManager::Clone( void )
@@ -141,7 +141,7 @@ CMultiManager *CMultiManager::Clone( void )
 	memcpy( pMulti->pev, pev, sizeof( *pev ) );
 	pMulti->pev->pContainingEntity = pEdict;
 
-	pMulti->GetSpawnFlags() |= SF_MULTIMAN_CLONE;
+	pMulti->pev->spawnflags |= SF_MULTIMAN_CLONE;
 	pMulti->m_cTargets = m_cTargets;
 	memcpy( pMulti->m_iTargetName, m_iTargetName, sizeof( m_iTargetName ) );
 	memcpy( pMulti->m_flTargetDelay, m_flTargetDelay, sizeof( m_flTargetDelay ) );
@@ -169,7 +169,7 @@ void CMultiManager::ManagerUse( CBaseEntity *pActivator, CBaseEntity *pCaller, U
 	SetUse( NULL );// disable use until all targets have fired
 
 	SetThink( &CMultiManager::ManagerThink );
-	SetNextThink( gpGlobals->time );
+	pev->nextthink = gpGlobals->time;
 }
 
 #if _DEBUG

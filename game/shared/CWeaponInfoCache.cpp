@@ -1,6 +1,3 @@
-#include <xercesc/dom/DOMDocument.hpp>
-#include <xercesc/dom/DOMNodeList.hpp>
-
 #include "extdll.h"
 #include "util.h"
 #include "cbase.h"
@@ -14,11 +11,6 @@
 #endif
 
 #include "CWeaponInfoCache.h"
-
-#include "xml/CStrX.h"
-#include "xml/CXMLManager.h"
-#include "xml/XMLUtils.h"
-#include "xml/CXStr.h"
 
 CWeaponInfoCache g_WeaponInfoCache;
 
@@ -137,11 +129,11 @@ bool CWeaponInfoCache::LoadWeaponInfoFromFile( const char* const pszWeaponName, 
 	
 	if( pszSubDir )
 	{
-		iResult = snprintf( szPath, sizeof( szPath ), "%s/%s/%s.xml", WEAPON_INFO_DIR, pszSubDir, pszWeaponName );
+		iResult = snprintf( szPath, sizeof( szPath ), "%s/%s/%s.txt", WEAPON_INFO_DIR, pszSubDir, pszWeaponName );
 	}
 	else
 	{
-		iResult = snprintf( szPath, sizeof( szPath ), "%s/%s.xml", WEAPON_INFO_DIR, pszWeaponName );
+		iResult = snprintf( szPath, sizeof( szPath ), "%s/%s.txt", WEAPON_INFO_DIR, pszWeaponName );
 	}
 
 	if( iResult < 0 || static_cast<size_t>( iResult ) >= sizeof( szPath ) )
@@ -151,53 +143,81 @@ bool CWeaponInfoCache::LoadWeaponInfoFromFile( const char* const pszWeaponName, 
 		return false;
 	}
 
-	auto document = xml::XMLManager().ParseFile( szPath );
+	FileHandle_t hFile = g_pFileSystem->Open( szPath, "r" );
 
-	if( !document )
+	if( hFile == FILESYSTEM_INVALID_HANDLE )
 	{
+		Alert( at_error, "CWeaponInfoCache::LoadWeaponInfoFromFile: Failed to open file \"%s\"!\n", szPath );
 		return false;
 	}
+
+	Alert( at_aiconsole, "CWeaponInfoCache::LoadWeaponInfoFromFile: Opened file \"%s\"\n", szPath );
 
 	info.SetWeaponName( pszWeaponName );
 
-	auto pRoot = document->getDocumentElement();
+	const size_t uiSize = g_pFileSystem->Size( hFile );
 
-	if( !pRoot || xercesc::XMLString::compareString( pRoot->getNodeName(), xml::AsciiToXMLCh( "weapon" ).data() ) != 0 )
+	auto buffer = std::make_unique<char[]>( uiSize + 1 );
+
+	g_pFileSystem->Read( buffer.get(), uiSize, hFile );
+
+	g_pFileSystem->Close( hFile );
+
+	const char* pszBuffer = buffer.get();
+
+	pszBuffer = COM_Parse( pszBuffer );
+
+	if( stricmp( com_token, pszWeaponName ) )
 	{
-		Alert( at_console, "CWeaponInfoCache::LoadWeaponInfoFromFile: File \"%s\": No weapon data found, ignoring\n", szPath );
+		Alert( at_error, "CWeaponInfoCache::LoadWeaponInfoFromFile: Expected weapon name \"%s\", got \"%s\"\n", pszWeaponName, com_token );
 		return false;
 	}
 
-	auto pKeyvalues = xml::GetElementsByTagName( *pRoot, "keyvalue" );
+	pszBuffer = COM_Parse( pszBuffer );
 
-	if( pKeyvalues )
+	if( com_token[ 0 ] != '{' )
 	{
-		const auto count = pKeyvalues->getLength();
+		Alert( at_error, "CWeaponInfoCache::LoadWeaponInfoFromFile: Expected token '{', got \"%s\"!\n", com_token );
+		return false;
+	}
 
-		std::string szKey, szValue;
+	//Parse in all values.
+	char szKey[ MAX_COM_TOKEN ];
 
-		for( decltype( pKeyvalues->getLength() ) index = 0; index < count; ++index )
+	while( true )
+	{
+		pszBuffer = COM_Parse( pszBuffer );
+
+		if( !pszBuffer )
 		{
-			const auto pKeyvalue = pKeyvalues->item( index );
+			Alert( at_error, "CWeaponInfoCache::LoadWeaponInfoFromFile: Unexpected EOF while reading from file (searching key)!\n" );
+			return false;
+		}
 
-			if( !pKeyvalue->hasAttributes() )
-			{
-				Alert( at_aiconsole, "CWeaponInfoCache::LoadWeaponInfoFromFile: Keyvalue with no attributes, ignoring\n" );
-				continue;
-			}
+		if( com_token[ 0 ] == '}' )
+		{
+			break;
+		}
 
-			auto& attrs = *pKeyvalue->getAttributes();
+		strncpy( szKey, com_token, sizeof( szKey ) );
+		szKey[ sizeof( szKey ) - 1 ] = '\0';
 
-			if( !xml::GetKeyValue( attrs, szKey, szValue ) )
-			{
-				Alert( at_console, "CWeaponInfoCache::LoadWeaponInfoFromFile: File \"%s\": encountered keyvalue with one or more missing parameters, ignoring\n", szPath );
-				continue;
-			}
+		pszBuffer = COM_Parse( pszBuffer );
 
-			if( !info.KeyValue( szKey.c_str(), szValue.c_str() ) )
-			{
-				Alert( at_aiconsole, "CWeaponInfoCache::LoadWeaponInfoFromFile: Unhandled keyvalue \"%s\" \"%s\"\n", szKey.c_str(), szValue.c_str() );
-			}
+		if( !pszBuffer )
+		{
+			Alert( at_error, "CWeaponInfoCache::LoadWeaponInfoFromFile: Unexpected EOF while reading from file (searching value for \"%s\"!\n", szKey );
+			return false;
+		}
+
+		if( com_token[ 0 ] == '}' )
+		{
+			break;
+		}
+
+		if( !info.KeyValue( szKey, com_token ) )
+		{
+			Alert( at_aiconsole, "CWeaponInfoCache::LoadWeaponInfoFromFile: Unhandled keyvalue \"%s\" \"%s\"\n", szKey, com_token );
 		}
 	}
 

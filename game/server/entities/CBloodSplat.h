@@ -21,7 +21,7 @@ public:
 	DECLARE_CLASS( CBloodSplat, CBaseEntity );
 	DECLARE_DATADESC();
 
-	void	CreateSplat( CBaseEntity* pOwner );
+	void	Spawn( CBaseEntity* pOwner );
 	void	Spray();
 };
 

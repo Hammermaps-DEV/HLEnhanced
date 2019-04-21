@@ -28,28 +28,28 @@ LINK_ENTITY_TO_CLASS( func_trackchange, CFuncTrackChange );
 void CFuncTrackChange::Spawn( void )
 {
 	Setup();
-	if( GetSpawnFlags().Any( SF_TRACK_DONT_MOVE ) )
+	if( FBitSet( pev->spawnflags, SF_TRACK_DONT_MOVE ) )
 		m_vecPosition2.z = GetAbsOrigin().z;
 
 	SetupRotation();
 
-	if( GetSpawnFlags().Any( SF_TRACK_STARTBOTTOM ) )
+	if( FBitSet( pev->spawnflags, SF_TRACK_STARTBOTTOM ) )
 	{
 		SetAbsOrigin( m_vecPosition2 );
 		m_toggle_state = TS_AT_BOTTOM;
-		SetAbsAngles( m_start );
+		pev->angles = m_start;
 		m_targetState = TS_AT_TOP;
 	}
 	else
 	{
 		SetAbsOrigin( m_vecPosition1 );
 		m_toggle_state = TS_AT_TOP;
-		SetAbsAngles( m_end );
+		pev->angles = m_end;
 		m_targetState = TS_AT_BOTTOM;
 	}
 
 	EnableUse();
-	SetNextThink( GetLastThink() + 2.0 );
+	pev->nextthink = pev->ltime + 2.0;
 	SetThink( &CFuncTrackChange::Find );
 	Precache();
 }
@@ -74,18 +74,18 @@ void CFuncTrackChange::GoUp( void )
 	// before you call GoUp();
 
 	UpdateAutoTargets( TS_GOING_UP );
-	if( GetSpawnFlags().Any( SF_TRACK_DONT_MOVE ) )
+	if( FBitSet( pev->spawnflags, SF_TRACK_DONT_MOVE ) )
 	{
 		m_toggle_state = TS_GOING_UP;
 		SetMoveDone( &CFuncTrackChange::CallHitTop );
-		AngularMove( m_end, GetSpeed() );
+		AngularMove( m_end, pev->speed );
 	}
 	else
 	{
 		// If ROTMOVE, move & rotate
 		CFuncPlat::GoUp();
 		SetMoveDone( &CFuncTrackChange::CallHitTop );
-		RotMove( m_end, GetNextThink() - GetLastThink() );
+		RotMove( m_end, pev->nextthink - pev->ltime );
 	}
 
 	// Otherwise, move first, rotate second
@@ -108,17 +108,17 @@ void CFuncTrackChange::GoDown( void )
 
 	UpdateAutoTargets( TS_GOING_DOWN );
 	// If ROTMOVE, move & rotate
-	if( GetSpawnFlags().Any( SF_TRACK_DONT_MOVE ) )
+	if( FBitSet( pev->spawnflags, SF_TRACK_DONT_MOVE ) )
 	{
 		SetMoveDone( &CFuncTrackChange::CallHitBottom );
 		m_toggle_state = TS_GOING_DOWN;
-		AngularMove( m_start, GetSpeed() );
+		AngularMove( m_start, pev->speed );
 	}
 	else
 	{
 		CFuncPlat::GoDown();
 		SetMoveDone( &CFuncTrackChange::CallHitBottom );
-		RotMove( m_start, GetNextThink() - GetLastThink() );
+		RotMove( m_start, pev->nextthink - pev->ltime );
 	}
 	// Otherwise, rotate first, move second
 
@@ -205,7 +205,7 @@ void CFuncTrackChange::Find( void )
 					ALERT( at_error, "Can't find train for track change! %s\n", STRING( m_trainName ) );
 					return;
 				}
-				Vector center = ( GetAbsMin() + GetAbsMax() ) * 0.5;
+				Vector center = ( pev->absmin + pev->absmax ) * 0.5;
 				m_trackBottom = m_trackBottom->Nearest( center );
 				m_trackTop = m_trackTop->Nearest( center );
 				UpdateAutoTargets( m_toggle_state );
@@ -233,7 +233,7 @@ TRAIN_CODE CFuncTrackChange::EvaluateTrain( CPathTrack *pcurrent )
 	if( m_train->m_ppath == pcurrent || ( pcurrent->m_pprevious && m_train->m_ppath == pcurrent->m_pprevious ) ||
 		( pcurrent->m_pnext && m_train->m_ppath == pcurrent->m_pnext ) )
 	{
-		if( m_train->GetSpeed() != 0 )
+		if( m_train->pev->speed != 0 )
 			return TRAIN_BLOCKING;
 
 		Vector dist = GetAbsOrigin() - m_train->GetAbsOrigin();
@@ -251,18 +251,18 @@ TRAIN_CODE CFuncTrackChange::EvaluateTrain( CPathTrack *pcurrent )
 
 void CFuncTrackChange::UpdateTrain( Vector &dest )
 {
-	float time = ( GetNextThink() - GetLastThink() );
+	float time = ( pev->nextthink - pev->ltime );
 
-	m_train->SetAbsVelocity( GetAbsVelocity() );
-	m_train->SetAngularVelocity( GetAngularVelocity() );
-	m_train->NextThink( m_train->GetLastThink() + time, false );
+	m_train->pev->velocity = pev->velocity;
+	m_train->pev->avelocity = pev->avelocity;
+	m_train->NextThink( m_train->pev->ltime + time, false );
 
 	// Attempt at getting the train to rotate properly around the origin of the trackchange
 	if( time <= 0 )
 		return;
 
 	Vector offset = m_train->GetAbsOrigin() - GetAbsOrigin();
-	Vector delta = dest - GetAbsAngles();
+	Vector delta = dest - pev->angles;
 	// Transform offset into local coordinates
 	UTIL_MakeInvVectors( delta, gpGlobals );
 	Vector local;
@@ -271,7 +271,7 @@ void CFuncTrackChange::UpdateTrain( Vector &dest )
 	local.z = DotProduct( offset, gpGlobals->v_up );
 
 	local = local - offset;
-	m_train->SetAbsVelocity( GetAbsVelocity() + ( local * ( 1.0 / time ) ) );
+	m_train->pev->velocity = pev->velocity + ( local * ( 1.0 / time ) );
 }
 
 //
@@ -286,7 +286,7 @@ void CFuncTrackChange::HitBottom( void )
 		m_train->SetTrack( m_trackBottom );
 	}
 	SetThink( NULL );
-	SetNextThink( -1 );
+	pev->nextthink = -1;
 
 	UpdateAutoTargets( m_toggle_state );
 
@@ -307,7 +307,7 @@ void CFuncTrackChange::HitTop( void )
 
 	// Don't let the plat go back down
 	SetThink( NULL );
-	SetNextThink( -1 );
+	pev->nextthink = -1;
 	UpdateAutoTargets( m_toggle_state );
 	EnableUse();
 }
@@ -327,18 +327,18 @@ void CFuncTrackChange::UpdateAutoTargets( int toggleState )
 		return;
 
 	if( toggleState == TS_AT_TOP )
-		m_trackTop->GetSpawnFlags().ClearFlags( SF_PATH_DISABLED );
+		ClearBits( m_trackTop->pev->spawnflags, SF_PATH_DISABLED );
 	else
-		m_trackTop->GetSpawnFlags().AddFlags( SF_PATH_DISABLED );
+		SetBits( m_trackTop->pev->spawnflags, SF_PATH_DISABLED );
 
 	if( toggleState == TS_AT_BOTTOM )
-		m_trackBottom->GetSpawnFlags().ClearFlags( SF_PATH_DISABLED );
+		ClearBits( m_trackBottom->pev->spawnflags, SF_PATH_DISABLED );
 	else
-		m_trackBottom->GetSpawnFlags().AddFlags( SF_PATH_DISABLED );
+		SetBits( m_trackBottom->pev->spawnflags, SF_PATH_DISABLED );
 }
 
 void CFuncTrackChange::OverrideReset( void )
 {
-	SetNextThink( GetLastThink() + 1.0 );
+	pev->nextthink = pev->ltime + 1.0;
 	SetThink( &CFuncTrackChange::Find );
 }

@@ -115,7 +115,8 @@ void CMP5::PrimaryAttack()
 
 	m_iClip--;
 
-	m_pPlayer->GetEffects().AddFlags( EF_MUZZLEFLASH );
+
+	m_pPlayer->pev->effects = (int)(m_pPlayer->pev->effects) | EF_MUZZLEFLASH;
 
 	// player "shoot" animation
 	m_pPlayer->SetAnimation( PLAYER_ATTACK1 );
@@ -185,11 +186,11 @@ void CMP5::SecondaryAttack( void )
 	// player "shoot" animation
 	m_pPlayer->SetAnimation( PLAYER_ATTACK1 );
 
- 	UTIL_MakeVectors( m_pPlayer->GetViewAngle() + m_pPlayer->GetPunchAngle() );
+ 	UTIL_MakeVectors( m_pPlayer->pev->v_angle + m_pPlayer->pev->punchangle );
 
 	// we don't add in player velocity anymore.
 	CGrenade::ShootContact( m_pPlayer, 
-							m_pPlayer->GetAbsOrigin() + m_pPlayer->GetViewOffset() + gpGlobals->v_forward * 16,
+							m_pPlayer->GetAbsOrigin() + m_pPlayer->pev->view_ofs + gpGlobals->v_forward * 16, 
 							gpGlobals->v_forward * 800 );
 
 	int flags;

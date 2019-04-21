@@ -36,31 +36,31 @@ void CMomentaryRotButton::Spawn( void )
 {
 	CBaseToggle::AxisDir( this );
 
-	if( GetSpeed() == 0 )
-		SetSpeed( 100 );
+	if( pev->speed == 0 )
+		pev->speed = 100;
 
 	if( m_flMoveDistance < 0 )
 	{
-		m_start = GetAbsAngles() + GetMoveDir() * m_flMoveDistance;
-		m_end = GetAbsAngles();
+		m_start = pev->angles + pev->movedir * m_flMoveDistance;
+		m_end = pev->angles;
 		m_direction = 1;		// This will toggle to -1 on the first use()
 		m_flMoveDistance = -m_flMoveDistance;
 	}
 	else
 	{
-		m_start = GetAbsAngles();
-		m_end = GetAbsAngles() + GetMoveDir() * m_flMoveDistance;
+		m_start = pev->angles;
+		m_end = pev->angles + pev->movedir * m_flMoveDistance;
 		m_direction = -1;		// This will toggle to +1 on the first use()
 	}
 
-	if( GetSpawnFlags().Any( SF_MOMENTARY_DOOR ) )
-		SetSolidType( SOLID_BSP );
+	if( pev->spawnflags & SF_MOMENTARY_DOOR )
+		pev->solid = SOLID_BSP;
 	else
-		SetSolidType( SOLID_NOT );
+		pev->solid = SOLID_NOT;
 
-	SetMoveType( MOVETYPE_PUSH );
+	pev->movetype = MOVETYPE_PUSH;
 	SetAbsOrigin( GetAbsOrigin() );
-	SetModel( GetModelName() );
+	SetModel( STRING( pev->model ) );
 
 	const char* pszSound = ButtonSound( m_sounds );
 	PRECACHE_SOUND( pszSound );
@@ -89,25 +89,25 @@ void CMomentaryRotButton::KeyValue( KeyValueData *pkvd )
 // current, not future position.
 void CMomentaryRotButton::Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value )
 {
-	SetIdealYaw( CBaseToggle::AxisDelta( GetSpawnFlags().Get(), GetAbsAngles(), m_start ) / m_flMoveDistance );
+	pev->ideal_yaw = CBaseToggle::AxisDelta( pev->spawnflags, pev->angles, m_start ) / m_flMoveDistance;
 
-	UpdateAllButtons( GetIdealYaw(), 1 );
+	UpdateAllButtons( pev->ideal_yaw, 1 );
 
 	// Calculate destination angle and use it to predict value, this prevents sending target in wrong direction on retriggering
-	Vector dest = GetAbsAngles() + GetAngularVelocity() * ( GetNextThink() - GetLastThink() );
-	float value1 = CBaseToggle::AxisDelta( GetSpawnFlags().Get(), dest, m_start ) / m_flMoveDistance;
+	Vector dest = pev->angles + pev->avelocity * ( pev->nextthink - pev->ltime );
+	float value1 = CBaseToggle::AxisDelta( pev->spawnflags, dest, m_start ) / m_flMoveDistance;
 	UpdateTarget( value1 );
 
 }
 
 void CMomentaryRotButton::Off( void )
 {
-	SetAngularVelocity( g_vecZero );
+	pev->avelocity = g_vecZero;
 	m_lastUsed = 0;
-	if( GetSpawnFlags().Any( SF_PENDULUM_AUTO_RETURN ) && m_returnSpeed > 0 )
+	if( FBitSet( pev->spawnflags, SF_PENDULUM_AUTO_RETURN ) && m_returnSpeed > 0 )
 	{
 		SetThink( &CMomentaryRotButton::Return );
-		SetNextThink( GetLastThink() + 0.1 );
+		pev->nextthink = pev->ltime + 0.1;
 		m_direction = -1;
 	}
 	else
@@ -116,7 +116,7 @@ void CMomentaryRotButton::Off( void )
 
 void CMomentaryRotButton::Return( void )
 {
-	float value = CBaseToggle::AxisDelta( GetSpawnFlags().Get(), GetAbsAngles(), m_start ) / m_flMoveDistance;
+	float value = CBaseToggle::AxisDelta( pev->spawnflags, pev->angles, m_start ) / m_flMoveDistance;
 
 	UpdateAllButtons( value, 0 );	// This will end up calling UpdateSelfReturn() n times, but it still works right
 	if( value > 0 )
@@ -134,17 +134,17 @@ void CMomentaryRotButton::UpdateSelf( float value )
 	}
 	m_lastUsed = 1;
 
-	SetNextThink( GetLastThink() + 0.1 );
+	pev->nextthink = pev->ltime + 0.1;
 	if( m_direction > 0 && value >= 1.0 )
 	{
-		SetAngularVelocity( g_vecZero );
-		SetAbsAngles( m_end );
+		pev->avelocity = g_vecZero;
+		pev->angles = m_end;
 		return;
 	}
 	else if( m_direction < 0 && value <= 0 )
 	{
-		SetAngularVelocity( g_vecZero );
-		SetAbsAngles( m_start );
+		pev->avelocity = g_vecZero;
+		pev->angles = m_start;
 		return;
 	}
 
@@ -152,12 +152,12 @@ void CMomentaryRotButton::UpdateSelf( float value )
 		PlaySound();
 
 	// HACKHACK -- If we're going slow, we'll get multiple player packets per frame, bump nexthink on each one to avoid stalling
-	if( GetNextThink() < GetLastThink() )
-		SetNextThink( GetLastThink() + 0.1 );
+	if( pev->nextthink < pev->ltime )
+		pev->nextthink = pev->ltime + 0.1;
 	else
-		SetNextThink( GetNextThink() + 0.1 );
+		pev->nextthink += 0.1;
 
-	SetAngularVelocity( ( m_direction * GetSpeed() ) * GetMoveDir() );
+	pev->avelocity = ( m_direction * pev->speed ) * pev->movedir;
 	SetThink( &CMomentaryRotButton::Off );
 }
 
@@ -165,15 +165,15 @@ void CMomentaryRotButton::UpdateSelfReturn( float value )
 {
 	if( value <= 0 )
 	{
-		SetAngularVelocity( g_vecZero );
-		SetAbsAngles( m_start );
-		SetNextThink( -1 );
+		pev->avelocity = g_vecZero;
+		pev->angles = m_start;
+		pev->nextthink = -1;
 		SetThink( NULL );
 	}
 	else
 	{
-		SetAngularVelocity( -m_returnSpeed * GetMoveDir() );
-		SetNextThink( GetLastThink() + 0.1 );
+		pev->avelocity = -m_returnSpeed * pev->movedir;
+		pev->nextthink = pev->ltime + 0.1;
 	}
 }
 

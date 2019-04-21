@@ -9,32 +9,32 @@ LINK_ENTITY_TO_CLASS( env_fade, CFade );
 
 void CFade::Spawn( void )
 {
-	SetSolidType( SOLID_NOT );
-	SetMoveType( MOVETYPE_NONE );
-	GetEffects().ClearAll();
-	SetFrame( 0 );
+	pev->solid = SOLID_NOT;
+	pev->movetype = MOVETYPE_NONE;
+	pev->effects = 0;
+	pev->frame = 0;
 }
 
 void CFade::Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value )
 {
 	int fadeFlags = 0;
 
-	if( !GetSpawnFlags().Any( SF_FADE_IN ) )
+	if( !( pev->spawnflags & SF_FADE_IN ) )
 		fadeFlags |= FFADE_OUT;
 
-	if( GetSpawnFlags().Any( SF_FADE_MODULATE ) )
+	if( pev->spawnflags & SF_FADE_MODULATE )
 		fadeFlags |= FFADE_MODULATE;
 
-	if( GetSpawnFlags().Any( SF_FADE_ONLYONE ) )
+	if( pev->spawnflags & SF_FADE_ONLYONE )
 	{
 		if( pActivator->IsNetClient() )
 		{
-			UTIL_ScreenFade( pActivator, GetRenderColor(), Duration(), HoldTime(), GetRenderAmount(), fadeFlags );
+			UTIL_ScreenFade( pActivator, pev->rendercolor, Duration(), HoldTime(), pev->renderamt, fadeFlags );
 		}
 	}
 	else
 	{
-		UTIL_ScreenFadeAll( GetRenderColor(), Duration(), HoldTime(), GetRenderAmount(), fadeFlags );
+		UTIL_ScreenFadeAll( pev->rendercolor, Duration(), HoldTime(), pev->renderamt, fadeFlags );
 	}
 	SUB_UseTargets( this, USE_TOGGLE, 0 );
 }

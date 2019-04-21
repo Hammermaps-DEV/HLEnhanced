@@ -123,7 +123,7 @@ void CSniperRifle::PrimaryAttack()
 
 	m_pPlayer->SetAnimation( PLAYER_ATTACK1 );
 
-	Vector vecAngles = m_pPlayer->GetViewAngle() + m_pPlayer->GetPunchAngle();
+	Vector vecAngles = m_pPlayer->pev->v_angle + m_pPlayer->pev->punchangle;
 
 	UTIL_MakeVectors( vecAngles );
 
@@ -156,8 +156,7 @@ void CSniperRifle::SecondaryAttack()
 
 	ToggleZoom();
 
-	//TODO: use UTIL_WeaponTimeBase() - Solokiller
-	SetNextThink( 0.0 + 0.1 );
+	pev->nextthink = 0.0 + 0.1;
 
 	m_flNextSecondaryAttack = UTIL_WeaponTimeBase() + 0.1 + 0.5;
 }
@@ -195,17 +194,15 @@ void CSniperRifle::Reload()
 
 void CSniperRifle::ToggleZoom()
 {
-	if( m_pPlayer->GetFOV() == 0 )
+	if( m_pPlayer->pev->fov == 0 )
 	{
-		m_pPlayer->SetFOV( 18 );
-		m_pPlayer->m_iFOV = 18;
+		m_pPlayer->pev->fov = m_pPlayer->m_iFOV = 18;
 
 		m_bInZoom = true;
 	}
 	else
 	{
-		m_pPlayer->SetFOV( 0 );
-		m_pPlayer->m_iFOV = 0;
+		m_pPlayer->pev->fov = m_pPlayer->m_iFOV = 0;
 
 		m_bInZoom = false;
 	}

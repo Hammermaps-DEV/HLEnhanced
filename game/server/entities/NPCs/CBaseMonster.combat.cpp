@@ -65,11 +65,11 @@ bool CBaseMonster::HasAlienGibs()
 void CBaseMonster::FadeMonster( void )
 {
 	StopAnimation();
-	SetAbsVelocity( g_vecZero );
-	SetMoveType( MOVETYPE_NONE );
-	SetAngularVelocity( g_vecZero );
-	SetAnimTime( gpGlobals->time );
-	GetEffects() |= EF_NOINTERP;
+	pev->velocity = g_vecZero;
+	pev->movetype = MOVETYPE_NONE;
+	pev->avelocity = g_vecZero;
+	pev->animtime = gpGlobals->time;
+	pev->effects |= EF_NOINTERP;
 	SUB_StartFadeOut();
 }
 
@@ -109,7 +109,7 @@ void CBaseMonster :: GibMonster( void )
 		{
 			// don't remove players!
 			SetThink ( &CBaseMonster::SUB_Remove );
-			SetNextThink( gpGlobals->time );
+			pev->nextthink = gpGlobals->time;
 		}
 		else
 		{
@@ -130,7 +130,7 @@ Activity CBaseMonster :: GetDeathActivity ( void )
 	TraceResult	tr;
 	Vector		vecSrc;
 
-	if ( GetDeadFlag() != DEAD_NO )
+	if ( pev->deadflag != DEAD_NO )
 	{
 		// don't run this while dying.
 		return m_IdealActivity;
@@ -141,7 +141,7 @@ Activity CBaseMonster :: GetDeathActivity ( void )
 	fTriedDirection = false;
 	deathActivity = ACT_DIESIMPLE;// in case we can't find any special deaths to do.
 
-	UTIL_MakeVectors ( GetAbsAngles() );
+	UTIL_MakeVectors ( pev->angles );
 	flDot = DotProduct ( gpGlobals->v_forward, g_vecAttackDir * -1 );
 
 	switch ( m_LastHitGroup )
@@ -248,7 +248,7 @@ Activity CBaseMonster :: GetSmallFlinchActivity ( void )
 	Activity	flinchActivity;
 	//bool		fTriedDirection = false;
 
-	UTIL_MakeVectors ( GetAbsAngles() );
+	UTIL_MakeVectors ( pev->angles );
 	//float flDot = DotProduct ( gpGlobals->v_forward, g_vecAttackDir * -1 );
 	
 	switch ( m_LastHitGroup )
@@ -292,24 +292,24 @@ Activity CBaseMonster :: GetSmallFlinchActivity ( void )
 
 void CBaseMonster::BecomeDead( void )
 {
-	SetTakeDamageMode( DAMAGE_YES );// don't let autoaim aim at corpses.
+	pev->takedamage = DAMAGE_YES;// don't let autoaim aim at corpses.
 	
 	// give the corpse half of the monster's original maximum health. 
-	SetHealth( GetMaxHealth() / 2 );
-	SetMaxHealth( 5 ); // max_health now becomes a counter for how many blood decals the corpse can place.
+	pev->health = pev->max_health / 2;
+	pev->max_health = 5; // max_health now becomes a counter for how many blood decals the corpse can place.
 
 	// make the corpse fly away from the attack vector
-	SetMoveType( MOVETYPE_TOSS );
-	//GetFlags().ClearFlags(FL_ONGROUND );
+	pev->movetype = MOVETYPE_TOSS;
+	//pev->flags &= ~FL_ONGROUND;
 	//GetAbsOrigin().z += 2;
-	//SetAbsVelocity( g_vecAttackDir * -1 );
-	//SetAbsVelocity( GetAbsVelocity() * RANDOM_FLOAT( 300, 400 ) );
+	//pev->velocity = g_vecAttackDir * -1;
+	//pev->velocity = pev->velocity * RANDOM_FLOAT( 300, 400 );
 }
 
 
 bool CBaseMonster::ShouldGibMonster( GibAction gibAction ) const
 {
-	if ( ( gibAction == GIB_NORMAL && GetHealth() < GIB_HEALTH_VALUE ) || ( gibAction == GIB_ALWAYS ) )
+	if ( ( gibAction == GIB_NORMAL && pev->health < GIB_HEALTH_VALUE ) || ( gibAction == GIB_ALWAYS ) )
 		return true;
 	
 	return false;
@@ -331,8 +331,8 @@ void CBaseMonster::CallGibMonster( void )
 			fade = true;
 	}
 
-	SetTakeDamageMode( DAMAGE_NO );
-	SetSolidType( SOLID_NOT );// do something with the body. while monster blows up
+	pev->takedamage = DAMAGE_NO;
+	pev->solid = SOLID_NOT;// do something with the body. while monster blows up
 
 	if ( fade )
 	{
@@ -340,17 +340,17 @@ void CBaseMonster::CallGibMonster( void )
 	}
 	else
 	{
-		GetEffects() = EF_NODRAW; // make the model invisible.
+		pev->effects = EF_NODRAW; // make the model invisible.
 		GibMonster();
 	}
 
-	SetDeadFlag( DEAD_DEAD );
+	pev->deadflag = DEAD_DEAD;
 	FCheckAITrigger();
 
 	// don't let the status bar glitch for players.with <0 health.
-	if ( GetHealth() < -99)
+	if (pev->health < -99)
 	{
-		SetHealth( 0 );
+		pev->health = 0;
 	}
 	
 	if ( ShouldFadeOnDeath() && !fade )
@@ -381,7 +381,7 @@ void CBaseMonster::Killed( const CTakeDamageInfo& info, GibAction gibAction )
 	SetConditions( bits_COND_LIGHT_DAMAGE );
 	
 	// tell owner ( if any ) that we're dead.This is mostly for MonsterMaker functionality.
-	CBaseEntity *pOwner = GetOwner();
+	CBaseEntity *pOwner = CBaseEntity::Instance(pev->owner);
 	if ( pOwner )
 	{
 		pOwner->DeathNotice( this );
@@ -392,16 +392,16 @@ void CBaseMonster::Killed( const CTakeDamageInfo& info, GibAction gibAction )
 		CallGibMonster();
 		return;
 	}
-	else if ( GetFlags().Any( FL_MONSTER ) )
+	else if ( pev->flags & FL_MONSTER )
 	{
 		SetTouch( NULL );
 		BecomeDead();
 	}
 	
 	// don't let the status bar glitch for players.with <0 health.
-	if ( GetHealth() < -99)
+	if (pev->health < -99)
 	{
-		SetHealth( 0 );
+		pev->health = 0;
 	}
 	
 	//pev->enemy = ENT( info.GetAttacker() );//why? (sjb)
@@ -430,7 +430,7 @@ void CBaseMonster::OnTakeDamage( const CTakeDamageInfo& info )
 	float	flTake;
 	Vector	vecDir;
 
-	if ( GetTakeDamageMode() == DAMAGE_NO )
+	if (!pev->takedamage)
 		return;
 
 	if ( !IsAlive() )
@@ -439,7 +439,7 @@ void CBaseMonster::OnTakeDamage( const CTakeDamageInfo& info )
 		return;
 	}
 
-	if ( GetDeadFlag() == DEAD_NO )
+	if ( pev->deadflag == DEAD_NO )
 	{
 		// no pain sound during death animation.
 		PainSound();// "Ouch!"
@@ -470,20 +470,20 @@ void CBaseMonster::OnTakeDamage( const CTakeDamageInfo& info )
 		pev->dmg_take += flTake;
 
 		// check for godmode or invincibility
-		if ( GetFlags().Any( FL_GODMODE ) )
+		if ( pev->flags & FL_GODMODE )
 		{
 			return;
 		}
 	}
 
 	// if this is a player, move him around!
-	if ( ( !FNullEnt( info.GetInflictor() ) ) && ( GetMoveType() == MOVETYPE_WALK) && (!info.GetAttacker() || info.GetAttacker()->GetSolidType() != SOLID_TRIGGER) )
+	if ( ( !FNullEnt( info.GetInflictor() ) ) && (pev->movetype == MOVETYPE_WALK) && (!info.GetAttacker() || info.GetAttacker()->pev->solid != SOLID_TRIGGER) )
 	{
-		SetAbsVelocity( GetAbsVelocity() + vecDir * -DamageForce( info.GetDamage() ) );
+		pev->velocity = pev->velocity + vecDir * -DamageForce( info.GetDamage() );
 	}
 
 	// do the damage
-	SetHealth( GetHealth() - flTake );
+	pev->health -= flTake;
 
 	
 	// HACKHACK Don't kill monsters in a script.  Let them break their scripts first
@@ -493,7 +493,7 @@ void CBaseMonster::OnTakeDamage( const CTakeDamageInfo& info )
 		return;
 	}
 
-	if ( GetHealth() <= 0 )
+	if ( pev->health <= 0 )
 	{
 		if ( info.GetDamageTypes() & DMG_ALWAYSGIB )
 		{
@@ -512,9 +512,9 @@ void CBaseMonster::OnTakeDamage( const CTakeDamageInfo& info )
 	}
 
 	// react to the damage (get mad)
-	if ( GetFlags().Any( FL_MONSTER ) && !FNullEnt( info.GetAttacker() ) )
+	if ( (pev->flags & FL_MONSTER) && !FNullEnt( info.GetAttacker() ) )
 	{
-		if ( info.GetAttacker()->GetFlags().Any( FL_MONSTER | FL_CLIENT ) )
+		if ( info.GetAttacker()->pev->flags & (FL_MONSTER | FL_CLIENT) )
 		{// only if the attack was a monster or client!
 			
 			// enemy's last known position is somewhere down the vector that the attack came from.
@@ -566,13 +566,13 @@ void CBaseMonster::DeadTakeDamage( const CTakeDamageInfo& info )
 
 #if 0// turn this back on when the bounding box issues are resolved.
 
-	GetFlags().ClearFlags( FL_ONGROUND );
+	pev->flags &= ~FL_ONGROUND;
 	GetAbsOrigin().z += 1;
 	
 	// let the damage scoot the corpse around a bit.
-	if ( !FNullEnt( pAttacker ) && ( pAttacker->GetSolidType() != SOLID_TRIGGER) )
+	if ( !FNullEnt( pAttacker ) && ( pAttacker->pev->solid != SOLID_TRIGGER) )
 	{
-		SetAbsVelocity( GetAbsVelocity() + vecDir * -DamageForce( flDamage ) );
+		pev->velocity = pev->velocity + vecDir * -DamageForce( flDamage );
 	}
 
 #endif
@@ -580,21 +580,21 @@ void CBaseMonster::DeadTakeDamage( const CTakeDamageInfo& info )
 	// kill the corpse if enough damage was done to destroy the corpse and the damage is of a type that is allowed to destroy the corpse.
 	if ( info.GetDamageTypes() & DMG_GIB_CORPSE && !( info.GetDamageTypes() & DMG_NEVERGIB ) )
 	{
-		if ( GetHealth() <= info.GetDamage() )
+		if ( pev->health <= info.GetDamage() )
 		{
-			SetHealth( -50 );
+			pev->health = -50;
 			Killed( info, GIB_ALWAYS );
 			return;
 		}
 		// Accumulate corpse gibbing damage, so you can gib with multiple hits
-		SetHealth( GetHealth() - ( info.GetDamage() * 0.1 ) );
+		pev->health -= info.GetDamage() * 0.1;
 	}
 }
 
 
 float CBaseMonster :: DamageForce( float damage )
 { 
-	float force = damage * ((32 * 32 * 72.0) / ( GetBounds().x * GetBounds().y * GetBounds().z)) * 5;
+	float force = damage * ((32 * 32 * 72.0) / (pev->size.x * pev->size.y * pev->size.z)) * 5;
 	
 	if ( force > 1000.0) 
 	{
@@ -634,7 +634,7 @@ void RadiusDamage( Vector vecSrc, const CTakeDamageInfo& info, float flRadius, E
 	// iterate on all entities in the vicinity.
 	while ((pEntity = UTIL_FindEntityInSphere( pEntity, vecSrc, flRadius )) != NULL)
 	{
-		if ( pEntity->GetTakeDamageMode() != DAMAGE_NO )
+		if ( pEntity->pev->takedamage != DAMAGE_NO )
 		{
 			// UNDONE: this should check a damage mask, not an ignore
 			if ( iClassIgnore != EntityClassifications().GetNoneId() && pEntity->Classify() == iClassIgnore )
@@ -675,7 +675,7 @@ void RadiusDamage( Vector vecSrc, const CTakeDamageInfo& info, float flRadius, E
 				{
 					g_MultiDamage.Clear( );
 					pEntity->TraceAttack( CTakeDamageInfo( newInfo.GetInflictor(), newInfo.GetAttacker(), flAdjustedDamage, newInfo.GetDamageTypes() ), 
-						(tr.vecEndPos - vecSrc).Normalize( ), tr );
+						(tr.vecEndPos - vecSrc).Normalize( ), &tr );
 					g_MultiDamage.ApplyMultiDamage( newInfo.GetInflictor(), newInfo.GetAttacker() );
 				}
 				else
@@ -713,12 +713,12 @@ CBaseEntity* CBaseMonster :: CheckTraceHullAttack( float flDist, int iDamage, in
 	TraceResult tr;
 
 	if (IsPlayer())
-		UTIL_MakeVectors( GetAbsAngles() );
+		UTIL_MakeVectors( pev->angles );
 	else
-		UTIL_MakeAimVectors( GetAbsAngles() );
+		UTIL_MakeAimVectors( pev->angles );
 
 	Vector vecStart = GetAbsOrigin();
-	vecStart.z += GetBounds().z * 0.5;
+	vecStart.z += pev->size.z * 0.5;
 	Vector vecEnd = vecStart + (gpGlobals->v_forward * flDist );
 
 	UTIL_TraceHull( vecStart, vecEnd, dont_ignore_monsters, Hull::HEAD, ENT(pev), &tr );
@@ -749,7 +749,7 @@ bool CBaseMonster::FInViewCone( const CBaseEntity *pEntity ) const
 	Vector2D	vec2LOS;
 	float	flDot;
 
-	UTIL_MakeVectors ( GetAbsAngles() );
+	UTIL_MakeVectors ( pev->angles );
 	
 	vec2LOS = ( pEntity->GetAbsOrigin() - GetAbsOrigin() ).Make2D();
 	vec2LOS = vec2LOS.Normalize();
@@ -776,7 +776,7 @@ bool CBaseMonster::FInViewCone( const Vector& vecOrigin ) const
 	Vector2D	vec2LOS;
 	float		flDot;
 
-	UTIL_MakeVectors ( GetAbsAngles() );
+	UTIL_MakeVectors ( pev->angles );
 	
 	vec2LOS = ( vecOrigin - GetAbsOrigin() ).Make2D();
 	vec2LOS = vec2LOS.Normalize();
@@ -794,6 +794,9 @@ bool CBaseMonster::FInViewCone( const Vector& vecOrigin ) const
 }
 
 /*
+//=========================================================
+// TraceAttack
+//=========================================================
 void CBaseMonster::TraceAttack( const CTakeDamageInfo& info, Vector vecDir, TraceResult *ptr )
 {
 	Vector vecOrigin = ptr->vecEndPos - vecDir * 4;
@@ -801,7 +804,7 @@ void CBaseMonster::TraceAttack( const CTakeDamageInfo& info, Vector vecDir, Trac
 	ALERT ( at_console, "%d\n", ptr->iHitgroup );
 
 
-	if ( GetTakeDamageMode() != DAMAGE_NO )
+	if ( pev->takedamage )
 	{
 		g_MultiDamage.AddMultiDamage( info.GetAttacker(), this, info.GetDamage(), info.GetDamageTypes() );
 
@@ -815,15 +818,18 @@ void CBaseMonster::TraceAttack( const CTakeDamageInfo& info, Vector vecDir, Trac
 }
 */
 
-void CBaseMonster::TraceAttack( const CTakeDamageInfo& info, Vector vecDir, TraceResult& tr )
+//=========================================================
+// TraceAttack
+//=========================================================
+void CBaseMonster::TraceAttack( const CTakeDamageInfo& info, Vector vecDir, TraceResult *ptr )
 {
 	CTakeDamageInfo newInfo = info;
 
-	if ( GetTakeDamageMode() != DAMAGE_NO )
+	if ( pev->takedamage )
 	{
-		m_LastHitGroup = tr.iHitgroup;
+		m_LastHitGroup = ptr->iHitgroup;
 
-		switch ( tr.iHitgroup )
+		switch ( ptr->iHitgroup )
 		{
 		case HITGROUP_GENERIC:
 			break;
@@ -848,8 +854,8 @@ void CBaseMonster::TraceAttack( const CTakeDamageInfo& info, Vector vecDir, Trac
 			break;
 		}
 
-		SpawnBlood( tr.vecEndPos, BloodColor(), newInfo.GetDamage());// a little surface blood.
-		TraceBleed( newInfo, vecDir, tr );
+		SpawnBlood(ptr->vecEndPos, BloodColor(), newInfo.GetDamage());// a little surface blood.
+		TraceBleed( newInfo, vecDir, ptr );
 		g_MultiDamage.AddMultiDamage( newInfo, this );
 	}
 }
@@ -866,14 +872,14 @@ void CBaseMonster :: MakeDamageBloodDecal ( int cCount, float flNoise, TraceResu
 	if ( !IsAlive() )
 	{
 		// dealing with a dead monster. 
-		if ( GetMaxHealth() <= 0 )
+		if ( pev->max_health <= 0 )
 		{
 			// no blood decal for a monster that has already decalled its limit.
 			return; 
 		}
 		else
 		{
-			SetMaxHealth( GetMaxHealth() - 1 );
+			pev->max_health--;
 		}
 	}
 

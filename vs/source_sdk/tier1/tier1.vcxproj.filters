@@ -1,0 +1,759 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\tier1\bitbuf.cpp">
+      <Filter>source_sdk\tier1</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\tier1\byteswap.cpp">
+      <Filter>source_sdk\tier1</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\tier1\CharacterSet.cpp">
+      <Filter>source_sdk\tier1</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\tier1\checksum_crc.cpp">
+      <Filter>source_sdk\tier1</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\tier1\checksum_md5.cpp">
+      <Filter>source_sdk\tier1</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\tier1\ConVar.cpp">
+      <Filter>source_sdk\tier1</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\tier1\DataManager.cpp">
+      <Filter>source_sdk\tier1</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\tier1\Diff.cpp">
+      <Filter>source_sdk\tier1</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\tier1\generichash.cpp">
+      <Filter>source_sdk\tier1</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\tier1\JobThread.cpp">
+      <Filter>source_sdk\tier1</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\tier1\KeyValues.cpp">
+      <Filter>source_sdk\tier1</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\tier1\MemPool.cpp">
+      <Filter>source_sdk\tier1</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\tier1\MemStack.cpp">
+      <Filter>source_sdk\tier1</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\tier1\netadr.cpp">
+      <Filter>source_sdk\tier1</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\tier1\processor_detect.cpp">
+      <Filter>source_sdk\tier1</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\tier1\RangeCheckedVar.cpp">
+      <Filter>source_sdk\tier1</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\tier1\StringPool.cpp">
+      <Filter>source_sdk\tier1</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\tier1\strtools.cpp">
+      <Filter>source_sdk\tier1</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\tier1\tier1.cpp">
+      <Filter>source_sdk\tier1</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\tier1\TokenReader.cpp">
+      <Filter>source_sdk\tier1</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\tier1\UtlBuffer.cpp">
+      <Filter>source_sdk\tier1</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\tier1\UtlString.cpp">
+      <Filter>source_sdk\tier1</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\tier1\UtlSymbol.cpp">
+      <Filter>source_sdk\tier1</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\tier1\xboxstubs.cpp">
+      <Filter>source_sdk\tier1</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\common\randoverride.cpp">
+      <Filter>source_sdk\common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\FileSystem_Helpers.cpp">
+      <Filter>source_sdk\public</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\memoverride.cpp">
+      <Filter>source_sdk\public\tier0</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\common\ifilesystemopendialog.h">
+      <Filter>source_sdk\common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\common\xbox\xboxstubs.h">
+      <Filter>source_sdk\common\xbox</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\basetypes.h">
+      <Filter>source_sdk\public</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\commonmacros.h">
+      <Filter>source_sdk\public</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\coordsize.h">
+      <Filter>source_sdk\public</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\datamap.h">
+      <Filter>source_sdk\public</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\FileSystem_Helpers.h">
+      <Filter>source_sdk\public</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\ICVar.h">
+      <Filter>source_sdk\public</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\mathlib.h">
+      <Filter>source_sdk\public</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\OfflineMode.h">
+      <Filter>source_sdk\public</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\SDK_Color.h">
+      <Filter>source_sdk\public</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\Vector.h">
+      <Filter>source_sdk\public</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\Vector2D.h">
+      <Filter>source_sdk\public</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\winlite.h">
+      <Filter>source_sdk\public</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\worldsize.h">
+      <Filter>source_sdk\public</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\appframework\AppFramework.h">
+      <Filter>source_sdk\public\appframework</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\appframework\IAppSystem.h">
+      <Filter>source_sdk\public\appframework</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\appframework\IAppSystemGroup.h">
+      <Filter>source_sdk\public\appframework</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\appframework\VguiMatSysApp.h">
+      <Filter>source_sdk\public\appframework</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\bitmap\Bitmap.h">
+      <Filter>source_sdk\public\bitmap</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\bitmap\Float_BM.h">
+      <Filter>source_sdk\public\bitmap</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\bitmap\ImageFormat.h">
+      <Filter>source_sdk\public\bitmap</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\bitmap\PSD.h">
+      <Filter>source_sdk\public\bitmap</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\bitmap\TGALoader.h">
+      <Filter>source_sdk\public\bitmap</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\bitmap\TGAWriter.h">
+      <Filter>source_sdk\public\bitmap</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\html\htmlmessages.h">
+      <Filter>source_sdk\public\html</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\html\ichromehtmlwrapper.h">
+      <Filter>source_sdk\public\html</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\html\ihtmlchrome.h">
+      <Filter>source_sdk\public\html</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\html\ihtmlserializer.h">
+      <Filter>source_sdk\public\html</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\html\ipainthtml.h">
+      <Filter>source_sdk\public\html</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\mathlib\halton.h">
+      <Filter>source_sdk\public\mathlib</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\mathlib\lightdesc.h">
+      <Filter>source_sdk\public\mathlib</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\mathlib\math_base.h">
+      <Filter>source_sdk\public\mathlib</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\mathlib\ssemath.h">
+      <Filter>source_sdk\public\mathlib</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\basetypes.h">
+      <Filter>source_sdk\public\tier0</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\commonmacros.h">
+      <Filter>source_sdk\public\tier0</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\dbg.h">
+      <Filter>source_sdk\public\tier0</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\dbgflag.h">
+      <Filter>source_sdk\public\tier0</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\eventmasks.h">
+      <Filter>source_sdk\public\tier0</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\eventmodes.h">
+      <Filter>source_sdk\public\tier0</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\fasttimer.h">
+      <Filter>source_sdk\public\tier0</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\ia32detect.h">
+      <Filter>source_sdk\public\tier0</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\icommandline.h">
+      <Filter>source_sdk\public\tier0</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\ioctlcodes.h">
+      <Filter>source_sdk\public\tier0</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\k8performancecounters.h">
+      <Filter>source_sdk\public\tier0</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\l2cache.h">
+      <Filter>source_sdk\public\tier0</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\mem.h">
+      <Filter>source_sdk\public\tier0</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\memalloc.h">
+      <Filter>source_sdk\public\tier0</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\memdbgoff.h">
+      <Filter>source_sdk\public\tier0</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\memdbgon.h">
+      <Filter>source_sdk\public\tier0</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\minidump.h">
+      <Filter>source_sdk\public\tier0</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\p4performancecounters.h">
+      <Filter>source_sdk\public\tier0</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\p5p6performancecounters.h">
+      <Filter>source_sdk\public\tier0</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\platform.h">
+      <Filter>source_sdk\public\tier0</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\pmelib.h">
+      <Filter>source_sdk\public\tier0</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\protected_things.h">
+      <Filter>source_sdk\public\tier0</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\testthread.h">
+      <Filter>source_sdk\public\tier0</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\threadtools.h">
+      <Filter>source_sdk\public\tier0</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\tslist.h">
+      <Filter>source_sdk\public\tier0</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\validator.h">
+      <Filter>source_sdk\public\tier0</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\valobject.h">
+      <Filter>source_sdk\public\tier0</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\valve_off.h">
+      <Filter>source_sdk\public\tier0</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\valve_on.h">
+      <Filter>source_sdk\public\tier0</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\vcrmode.h">
+      <Filter>source_sdk\public\tier0</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\vcr_shared.h">
+      <Filter>source_sdk\public\tier0</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\vprof.h">
+      <Filter>source_sdk\public\tier0</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\wchartypes.h">
+      <Filter>source_sdk\public\tier0</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\xbox_codeline_defines.h">
+      <Filter>source_sdk\public\tier0</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\bitbuf.h">
+      <Filter>source_sdk\public\tier1</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\byteswap.h">
+      <Filter>source_sdk\public\tier1</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\CharacterSet.h">
+      <Filter>source_sdk\public\tier1</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\checksum_crc.h">
+      <Filter>source_sdk\public\tier1</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\checksum_md5.h">
+      <Filter>source_sdk\public\tier1</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\ConVar.h">
+      <Filter>source_sdk\public\tier1</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\DataManager.h">
+      <Filter>source_sdk\public\tier1</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\Diff.h">
+      <Filter>source_sdk\public\tier1</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\FmtStr.h">
+      <Filter>source_sdk\public\tier1</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\generichash.h">
+      <Filter>source_sdk\public\tier1</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\interface.h">
+      <Filter>source_sdk\public\tier1</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\JobThread.h">
+      <Filter>source_sdk\public\tier1</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\KeyValues.h">
+      <Filter>source_sdk\public\tier1</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\MemPool.h">
+      <Filter>source_sdk\public\tier1</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\MemStack.h">
+      <Filter>source_sdk\public\tier1</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\netadr.h">
+      <Filter>source_sdk\public\tier1</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\processor_detect.h">
+      <Filter>source_sdk\public\tier1</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\RangeCheckedVar.h">
+      <Filter>source_sdk\public\tier1</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\RefCount.h">
+      <Filter>source_sdk\public\tier1</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\SmartPtr.h">
+      <Filter>source_sdk\public\tier1</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\StringPool.h">
+      <Filter>source_sdk\public\tier1</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\strtools.h">
+      <Filter>source_sdk\public\tier1</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\tier1.h">
+      <Filter>source_sdk\public\tier1</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\TokenReader.h">
+      <Filter>source_sdk\public\tier1</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\UtlBidirectionalSet.h">
+      <Filter>source_sdk\public\tier1</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\UtlBuffer.h">
+      <Filter>source_sdk\public\tier1</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\UtlDict.h">
+      <Filter>source_sdk\public\tier1</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\UtlFixedLinkedList.h">
+      <Filter>source_sdk\public\tier1</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\UtlFixedMemory.h">
+      <Filter>source_sdk\public\tier1</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\UtlFlags.h">
+      <Filter>source_sdk\public\tier1</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\UtlHandleTable.h">
+      <Filter>source_sdk\public\tier1</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\UtlHash.h">
+      <Filter>source_sdk\public\tier1</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\UtlLinkedList.h">
+      <Filter>source_sdk\public\tier1</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\UtlMap.h">
+      <Filter>source_sdk\public\tier1</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\UtlMemory.h">
+      <Filter>source_sdk\public\tier1</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\UtlMultiList.h">
+      <Filter>source_sdk\public\tier1</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\UtlNTree.h">
+      <Filter>source_sdk\public\tier1</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\UtlPriorityQueue.h">
+      <Filter>source_sdk\public\tier1</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\UtlQueue.h">
+      <Filter>source_sdk\public\tier1</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\UtlRBTree.h">
+      <Filter>source_sdk\public\tier1</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\UtlSortVector.h">
+      <Filter>source_sdk\public\tier1</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\UtlStack.h">
+      <Filter>source_sdk\public\tier1</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\UtlString.h">
+      <Filter>source_sdk\public\tier1</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\UtlStringMap.h">
+      <Filter>source_sdk\public\tier1</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\UtlSymbol.h">
+      <Filter>source_sdk\public\tier1</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\UtlVector.h">
+      <Filter>source_sdk\public\tier1</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui\Cursor.h">
+      <Filter>source_sdk\public\vgui</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui\Dar.h">
+      <Filter>source_sdk\public\vgui</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui\IBorder.h">
+      <Filter>source_sdk\public\vgui</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui\IClientPanel.h">
+      <Filter>source_sdk\public\vgui</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui\IHTML.h">
+      <Filter>source_sdk\public\vgui</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui\IImage.h">
+      <Filter>source_sdk\public\vgui</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui\IInput.h">
+      <Filter>source_sdk\public\vgui</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui\IInputInternal.h">
+      <Filter>source_sdk\public\vgui</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui\ILocalize.h">
+      <Filter>source_sdk\public\vgui</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui\IPanel.h">
+      <Filter>source_sdk\public\vgui</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui\IScheme.h">
+      <Filter>source_sdk\public\vgui</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui\ISurface.h">
+      <Filter>source_sdk\public\vgui</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui\ISurfaceV28.h">
+      <Filter>source_sdk\public\vgui</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui\ISurfaceV29.h">
+      <Filter>source_sdk\public\vgui</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui\ISystem.h">
+      <Filter>source_sdk\public\vgui</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui\IVGui.h">
+      <Filter>source_sdk\public\vgui</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui\IVguiMatInfo.h">
+      <Filter>source_sdk\public\vgui</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui\IVguiMatInfoVar.h">
+      <Filter>source_sdk\public\vgui</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui\IVguiV06.h">
+      <Filter>source_sdk\public\vgui</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui\KeyCode.h">
+      <Filter>source_sdk\public\vgui</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui\MouseCode.h">
+      <Filter>source_sdk\public\vgui</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui\Point.h">
+      <Filter>source_sdk\public\vgui</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui\VGUI2.h">
+      <Filter>source_sdk\public\vgui</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\AnimatingImagePanel.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\AnimationController.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\BitmapImagePanel.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\BuildGroup.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\BuildModeDialog.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\Button.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\CheckButton.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\CheckButtonList.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\ComboBox.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\Controls.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\DialogManager.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\DirectorySelectDialog.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\Divider.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\EditablePanel.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\ExpandButton.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\FileOpenDialog.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\FocusNavGroup.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\Frame.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\GraphPanel.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\HTML.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\Image.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\ImageList.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\ImagePanel.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\InputDialog.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\KeyBindingHelpDialog.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\KeyBindingMap.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\KeyBoardEditorDialog.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\Label.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\ListPanel.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\ListViewPanel.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\MenuBar.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\MenuButton.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\Menu.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\MenuItem.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\MessageBox.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\MessageMap.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\PanelAnimationVar.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\Panel.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\PanelListPanel.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\pch_vgui_controls.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\PHandle.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\ProgressBar.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\ProgressBox.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\PropertyDialog.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\PropertyPage.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\PropertySheet.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\QueryBox.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\RadioButton.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\RichText.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\ScrollBar.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\ScrollBarSlider.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\SectionedListPanel.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\Slider.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\Splitter.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\TextEntry.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\TextImage.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\ToggleButton.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\Tooltip.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\ToolWindow.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\TreeView.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\TreeViewListControl.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\URLLabel.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\WizardPanel.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\WizardSubPanel.h">
+      <Filter>source_sdk\public\vgui_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vstdlib\cvar.h">
+      <Filter>source_sdk\public\vstdlib</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vstdlib\ICommandline.h">
+      <Filter>source_sdk\public\vstdlib</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vstdlib\IKeyValuesSystem.h">
+      <Filter>source_sdk\public\vstdlib</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vstdlib\pch_vstdlib.h">
+      <Filter>source_sdk\public\vstdlib</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vstdlib\random.h">
+      <Filter>source_sdk\public\vstdlib</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vstdlib\strtools.h">
+      <Filter>source_sdk\public\vstdlib</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vstdlib\vstdlib.h">
+      <Filter>source_sdk\public\vstdlib</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\tier1\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="source_sdk">
+      <UniqueIdentifier>{A291150F-8AB0-3699-BCE0-6426E5220424}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source_sdk\common">
+      <UniqueIdentifier>{3B8F4E0A-B99E-3D44-8B2B-0A81758F65B1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source_sdk\common\xbox">
+      <UniqueIdentifier>{AA6CFF58-5567-3648-81C4-6DA4F6F0DC54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source_sdk\public">
+      <UniqueIdentifier>{A399A180-9EDC-3E81-8DF1-31F9D6C2BCF6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source_sdk\public\appframework">
+      <UniqueIdentifier>{626D4CE2-C67B-3ACC-BCDA-FB17BB74018C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source_sdk\public\bitmap">
+      <UniqueIdentifier>{B0BE2448-81CC-35D1-8F81-B4992F814596}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source_sdk\public\html">
+      <UniqueIdentifier>{BE3551C7-CAA3-3532-9180-5DA8A8B8B565}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source_sdk\public\mathlib">
+      <UniqueIdentifier>{09394A09-C135-30FE-9A25-DDAAF361F7D0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source_sdk\public\tier0">
+      <UniqueIdentifier>{70C8A583-DEC8-33CC-A405-3AF16D4E42FD}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source_sdk\public\tier1">
+      <UniqueIdentifier>{38572D69-B2E9-35A6-B671-5F3F584C1584}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source_sdk\public\vgui">
+      <UniqueIdentifier>{F9404DE0-18C5-3258-8E73-0016ED063A8C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source_sdk\public\vgui_controls">
+      <UniqueIdentifier>{D89699A0-4AE3-39A9-8F48-926C3E55AD2A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source_sdk\public\vstdlib">
+      <UniqueIdentifier>{B5CFA110-DE3B-364D-9923-A812D1C4A6C0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source_sdk\tier1">
+      <UniqueIdentifier>{98175D53-045D-368E-9C33-226F00AC6752}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

@@ -38,11 +38,21 @@ END_DATADESC()
 
 LINK_ENTITY_TO_CLASS( monster_barnacle, CBarnacle );
 
+//=========================================================
+// Classify - indicates this monster's place in the 
+// relationship table.
+//=========================================================
 EntityClassification_t CBarnacle::GetClassification()
 {
 	return EntityClassifications().GetClassificationId( classify::ALIEN_MONSTER );
 }
 
+//=========================================================
+// HandleAnimEvent - catches the monster-specific messages
+// that occur when tagged animation frames are played.
+//
+// Returns number of events handled, 0 if none.
+//=========================================================
 void CBarnacle :: HandleAnimEvent( AnimEvent_t& event )
 {
 	switch( event.event )
@@ -56,6 +66,9 @@ void CBarnacle :: HandleAnimEvent( AnimEvent_t& event )
 	}
 }
 
+//=========================================================
+// Spawn
+//=========================================================
 void CBarnacle :: Spawn()
 {
 	Precache( );
@@ -63,12 +76,12 @@ void CBarnacle :: Spawn()
 	SetModel( "models/barnacle.mdl");
 	SetSize( Vector(-16, -16, -32), Vector(16, 16, 0) );
 
-	SetSolidType( SOLID_SLIDEBOX );
-	SetMoveType( MOVETYPE_NONE );
-	SetTakeDamageMode( DAMAGE_AIM );
+	pev->solid			= SOLID_SLIDEBOX;
+	pev->movetype		= MOVETYPE_NONE;
+	pev->takedamage		= DAMAGE_AIM;
 	m_bloodColor		= BLOOD_COLOR_RED;
-	GetEffects() = EF_INVLIGHT; // take light from the ceiling 
-	SetHealth( 25 );
+	pev->effects		= EF_INVLIGHT; // take light from the ceiling 
+	pev->health			= 25;
 	m_flFieldOfView		= 0.5;// indicates the width of this monster's forward view cone ( as a dotproduct result )
 	m_MonsterState		= MONSTERSTATE_NONE;
 	m_flKillVictimTime	= 0;
@@ -81,7 +94,7 @@ void CBarnacle :: Spawn()
 	SetActivity ( ACT_IDLE );
 
 	SetThink ( &CBarnacle::BarnacleThink );
-	SetNextThink( gpGlobals->time + 0.5 );
+	pev->nextthink = gpGlobals->time + 0.5;
 
 	SetAbsOrigin( GetAbsOrigin() );
 }
@@ -92,7 +105,7 @@ void CBarnacle::OnTakeDamage( const CTakeDamageInfo& info )
 
 	if ( newInfo.GetDamageTypes() & DMG_CLUB )
 	{
-		newInfo.GetMutableDamage() = GetHealth();
+		newInfo.GetMutableDamage() = pev->health;
 	}
 
 	CBaseMonster::OnTakeDamage( newInfo );
@@ -106,7 +119,7 @@ void CBarnacle :: BarnacleThink ( void )
 	CBaseMonster *pVictim;
 	float flLength;
 
-	SetNextThink( gpGlobals->time + 0.1 );
+	pev->nextthink = gpGlobals->time + 0.1;
 
 	if ( m_hEnemy != NULL )
 	{
@@ -122,7 +135,7 @@ void CBarnacle :: BarnacleThink ( void )
 
 		if ( m_fLiftingPrey )
 		{
-			if ( m_hEnemy != NULL && m_hEnemy->GetDeadFlag() != DEAD_NO )
+			if ( m_hEnemy != NULL && m_hEnemy->pev->deadflag != DEAD_NO )
 			{
 				// crap, someone killed the prey on the way up.
 				m_hEnemy = NULL;
@@ -136,13 +149,13 @@ void CBarnacle :: BarnacleThink ( void )
 			vecNewEnemyOrigin.y = GetAbsOrigin().y;
 
 			// guess as to where their neck is
-			vecNewEnemyOrigin.x -= 6 * cos(m_hEnemy->GetAbsAngles().y * M_PI/180.0);	
-			vecNewEnemyOrigin.y -= 6 * sin(m_hEnemy->GetAbsAngles().y * M_PI/180.0);
+			vecNewEnemyOrigin.x -= 6 * cos(m_hEnemy->pev->angles.y * M_PI/180.0);	
+			vecNewEnemyOrigin.y -= 6 * sin(m_hEnemy->pev->angles.y * M_PI/180.0);
 
 			m_flAltitude -= BARNACLE_PULL_SPEED;
 			vecNewEnemyOrigin.z += BARNACLE_PULL_SPEED;
 
-			if ( fabs( GetAbsOrigin().z - ( vecNewEnemyOrigin.z + m_hEnemy->GetViewOffset().z - 8 ) ) < BARNACLE_BODY_HEIGHT )
+			if ( fabs( GetAbsOrigin().z - ( vecNewEnemyOrigin.z + m_hEnemy->pev->view_ofs.z - 8 ) ) < BARNACLE_BODY_HEIGHT )
 			{
 		// prey has just been lifted into position ( if the victim origin + eye height + 8 is higher than the bottom of the barnacle, it is assumed that the head is within barnacle's body )
 				m_fLiftingPrey = false;
@@ -173,7 +186,7 @@ void CBarnacle :: BarnacleThink ( void )
 				// kill!
 				if ( pVictim )
 				{
-					pVictim->TakeDamage ( this, this, pVictim->GetHealth(), DMG_SLASH | DMG_ALWAYSGIB );
+					pVictim->TakeDamage ( this, this, pVictim->pev->health, DMG_SLASH | DMG_ALWAYSGIB );
 					m_cGibs = 3;
 				}
 
@@ -201,7 +214,7 @@ void CBarnacle :: BarnacleThink ( void )
 
 		// If idle and no nearby client, don't think so often
 		if ( !UTIL_FindClientInPVS( this ) )
-			SetNextThink( gpGlobals->time + RANDOM_FLOAT(1,1.5) );	// Stagger a bit to keep barnacles from thinking on the same frame
+			pev->nextthink = gpGlobals->time + RANDOM_FLOAT(1,1.5);	// Stagger a bit to keep barnacles from thinking on the same frame
 
 		if ( m_fSequenceFinished )
 		{// this is done so barnacle will fidget.
@@ -237,13 +250,11 @@ void CBarnacle :: BarnacleThink ( void )
 
 				m_hEnemy = pTouchEnt;
 
-				pTouchEnt->SetMoveType( MOVETYPE_FLY );
-				pTouchEnt->SetAbsVelocity( g_vecZero );
-				pTouchEnt->SetBaseVelocity( g_vecZero );
-				Vector vecOrigin = pTouchEnt->GetAbsOrigin();
-				vecOrigin.x = GetAbsOrigin().x;
-				vecOrigin.y = GetAbsOrigin().y;
-				pTouchEnt->SetAbsOrigin( vecOrigin );
+				pTouchEnt->pev->movetype = MOVETYPE_FLY;
+				pTouchEnt->pev->velocity = g_vecZero;
+				pTouchEnt->pev->basevelocity = g_vecZero;
+				pTouchEnt->pev->origin.x = GetAbsOrigin().x;
+				pTouchEnt->pev->origin.y = GetAbsOrigin().y;
 
 				m_fLiftingPrey = true;// indicate that we should be lifting prey.
 				m_flKillVictimTime = -1;// set this to a bogus time while the victim is lifted.
@@ -282,8 +293,8 @@ void CBarnacle::Killed( const CTakeDamageInfo& info, GibAction gibAction )
 {
 	CBaseMonster *pVictim;
 
-	SetSolidType( SOLID_NOT );
-	SetTakeDamageMode( DAMAGE_NO );
+	pev->solid = SOLID_NOT;
+	pev->takedamage = DAMAGE_NO;
 
 	if ( m_hEnemy != NULL )
 	{
@@ -308,7 +319,7 @@ void CBarnacle::Killed( const CTakeDamageInfo& info, GibAction gibAction )
 
 	StudioFrameAdvance( 0.1 );
 
-	SetNextThink( gpGlobals->time + 0.1 );
+	pev->nextthink = gpGlobals->time + 0.1;
 	SetThink ( &CBarnacle::WaitTillDead );
 }
 
@@ -316,7 +327,7 @@ void CBarnacle::Killed( const CTakeDamageInfo& info, GibAction gibAction )
 //=========================================================
 void CBarnacle :: WaitTillDead ( void )
 {
-	SetNextThink( gpGlobals->time + 0.1 );
+	pev->nextthink = gpGlobals->time + 0.1;
 
 	float flInterval = StudioFrameAdvance( 0.1 );
 	DispatchAnimEvents ( flInterval );
@@ -329,6 +340,9 @@ void CBarnacle :: WaitTillDead ( void )
 	}
 }
 
+//=========================================================
+// Precache - precaches all resources this monster needs
+//=========================================================
 void CBarnacle :: Precache()
 {
 	PRECACHE_MODEL("models/barnacle.mdl");
@@ -374,7 +388,7 @@ CBaseEntity *CBarnacle :: TongueTouchEnt ( float *pflLength )
 		for ( int i = 0; i < count; i++ )
 		{
 			// only clients and monsters
-			if ( pList[i] != this && IRelationship( pList[i] ) > R_NO && pList[ i ]->GetDeadFlag() == DEAD_NO )	// this ent is one of our enemies. Barnacle tries to eat it.
+			if ( pList[i] != this && IRelationship( pList[i] ) > R_NO && pList[ i ]->pev->deadflag == DEAD_NO )	// this ent is one of our enemies. Barnacle tries to eat it.
 			{
 				return pList[i];
 			}

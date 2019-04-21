@@ -19,7 +19,7 @@ void CEnvGlobal::Spawn( void )
 		UTIL_RemoveNow( this );
 		return;
 	}
-	if( GetSpawnFlags().Any( SF_GLOBAL_SET ) )
+	if( FBitSet( pev->spawnflags, SF_GLOBAL_SET ) )
 	{
 		if( !gGlobalState.EntityInTable( m_globalstate ) )
 			gGlobalState.EntityAdd( m_globalstate, gpGlobals->mapname, ( GLOBALESTATE ) m_initialstate );

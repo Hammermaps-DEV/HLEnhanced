@@ -101,8 +101,8 @@ public:
 
 	void SetObjectCollisionBox() override
 	{
-		SetAbsMin( GetAbsOrigin() + Vector( -400, -400, 0 ) );
-		SetAbsMax( GetAbsOrigin() + Vector( 400, 400, 850 ) );
+		pev->absmin = GetAbsOrigin() + Vector( -400, -400, 0 );
+		pev->absmax = GetAbsOrigin() + Vector( 400, 400, 850 );
 	}
 
 	void Cycle();
@@ -121,8 +121,7 @@ public:
 	void Killed( const CTakeDamageInfo& info, GibAction gibAction ) override;
 
 	MONSTERSTATE GetIdealState() override { return MONSTERSTATE_IDLE; };
-	//Unused overload of CBaseMonster method, uncomment if needed - Solokiller
-	//bool CanPlaySequence( const bool fDisregardState ) const { return true; }
+	bool CanPlaySequence( const bool fDisregardState ) const { return true; }
 
 	EntityClassification_t GetClassification() override;
 

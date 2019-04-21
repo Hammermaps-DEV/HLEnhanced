@@ -34,45 +34,45 @@ void CDeadHGrunt::Spawn( void )
 	PRECACHE_MODEL( "models/hgrunt.mdl" );
 	SetModel( "models/hgrunt.mdl" );
 
-	GetEffects().ClearAll();
-	SetYawSpeed( 8 );
-	SetSequence( 0 );
+	pev->effects = 0;
+	pev->yaw_speed = 8;
+	pev->sequence = 0;
 	m_bloodColor = BLOOD_COLOR_RED;
 
-	SetSequence( LookupSequence( m_szPoses[ m_iPose ] ) );
+	pev->sequence = LookupSequence( m_szPoses[ m_iPose ] );
 
-	if( GetSequence() == -1 )
+	if( pev->sequence == -1 )
 	{
 		ALERT( at_console, "Dead hgrunt with bad pose\n" );
 	}
 
 	// Corpses have less health
-	SetHealth( 8 );
+	pev->health = 8;
 
 	// map old bodies onto new bodies
-	switch( GetBody() )
+	switch( pev->body )
 	{
 	case 0: // Grunt with Gun
-		SetBody( 0 );
-		SetSkin( 0 );
+		pev->body = 0;
+		pev->skin = 0;
 		SetBodygroup( HEAD_GROUP, HEAD_GRUNT );
 		SetBodygroup( GUN_GROUP, GUN_MP5 );
 		break;
 	case 1: // Commander with Gun
-		SetBody( 0 );
-		SetSkin( 0 );
+		pev->body = 0;
+		pev->skin = 0;
 		SetBodygroup( HEAD_GROUP, HEAD_COMMANDER );
 		SetBodygroup( GUN_GROUP, GUN_MP5 );
 		break;
 	case 2: // Grunt no Gun
-		SetBody( 0 );
-		SetSkin( 0 );
+		pev->body = 0;
+		pev->skin = 0;
 		SetBodygroup( HEAD_GROUP, HEAD_GRUNT );
 		SetBodygroup( GUN_GROUP, GUN_NONE );
 		break;
 	case 3: // Commander no Gun
-		SetBody( 0 );
-		SetSkin( 0 );
+		pev->body = 0;
+		pev->skin = 0;
 		SetBodygroup( HEAD_GROUP, HEAD_COMMANDER );
 		SetBodygroup( GUN_GROUP, GUN_NONE );
 		break;

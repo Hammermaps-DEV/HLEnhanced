@@ -30,18 +30,18 @@ void CDeadBarney::Spawn()
 	PRECACHE_MODEL( "models/barney.mdl" );
 	SetModel( "models/barney.mdl" );
 
-	GetEffects().ClearAll();
-	SetYawSpeed( 8 );
-	SetSequence( 0 );
+	pev->effects = 0;
+	pev->yaw_speed = 8;
+	pev->sequence = 0;
 	m_bloodColor = BLOOD_COLOR_RED;
 
-	SetSequence( LookupSequence( m_szPoses[ m_iPose ] ) );
-	if( GetSequence() == -1 )
+	pev->sequence = LookupSequence( m_szPoses[ m_iPose ] );
+	if( pev->sequence == -1 )
 	{
 		ALERT( at_console, "Dead barney with bad pose\n" );
 	}
 	// Corpses have less health
-	SetHealth( 8 );//gSkillData.GetBarneyHealth();
+	pev->health = 8;//gSkillData.GetBarneyHealth();
 
 	MonsterInitDead();
 }

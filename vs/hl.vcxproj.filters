@@ -1,0 +1,2481 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common\BSPIO.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common\CCommand.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common\CHashStringPool.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common\CPlane.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common\parsemsg.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common\Platform.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common\StringUtils.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common\UTFUtils.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\CBaseGameInterface.cpp">
+      <Filter>game\shared</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\CReplacementCache.cpp">
+      <Filter>game\shared</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\CReplacementMap.cpp">
+      <Filter>game\shared</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\CWeaponInfo.cpp">
+      <Filter>game\shared</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\CWeaponInfoCache.cpp">
+      <Filter>game\shared</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\DefaultClassifications.cpp">
+      <Filter>game\shared</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\EntityClasses.cpp">
+      <Filter>game\shared</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\Relationship.cpp">
+      <Filter>game\shared</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\shared_game_utils.cpp">
+      <Filter>game\shared</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\Weapons_Shared.cpp">
+      <Filter>game\shared</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\WeaponsConst.cpp">
+      <Filter>game\shared</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\CBaseCombatCharacter.shared.cpp">
+      <Filter>game\shared\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\CBaseEntity.shared.cpp">
+      <Filter>game\shared\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\CEntityDictionary.cpp">
+      <Filter>game\shared\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\CEntityRegistry.cpp">
+      <Filter>game\shared\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\DataMapping.cpp">
+      <Filter>game\shared\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\EHandle.cpp">
+      <Filter>game\shared\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\player\CBasePlayer.shared.cpp">
+      <Filter>game\shared\entities\player</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\weapons\CAmmoTypes.cpp">
+      <Filter>game\shared\entities\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\weapons\CBarnacleGrapple.cpp">
+      <Filter>game\shared\entities\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\weapons\CBarnacleGrappleTip.cpp">
+      <Filter>game\shared\entities\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\weapons\CBasePlayerWeapon.shared.cpp">
+      <Filter>game\shared\entities\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\weapons\CCrossbow.cpp">
+      <Filter>game\shared\entities\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\weapons\CCrowbar.cpp">
+      <Filter>game\shared\entities\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\weapons\CDesertEagle.cpp">
+      <Filter>game\shared\entities\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\weapons\CDisplacer.cpp">
+      <Filter>game\shared\entities\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\weapons\CEgon.cpp">
+      <Filter>game\shared\entities\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\weapons\CGauss.cpp">
+      <Filter>game\shared\entities\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\weapons\CGlock.cpp">
+      <Filter>game\shared\entities\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\weapons\CHandGrenade.cpp">
+      <Filter>game\shared\entities\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\weapons\CHornetGun.cpp">
+      <Filter>game\shared\entities\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\weapons\CKnife.cpp">
+      <Filter>game\shared\entities\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\weapons\CM249.cpp">
+      <Filter>game\shared\entities\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\weapons\CMP5.cpp">
+      <Filter>game\shared\entities\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\weapons\CPenguin.cpp">
+      <Filter>game\shared\entities\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\weapons\CPipewrench.cpp">
+      <Filter>game\shared\entities\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\weapons\CPython.cpp">
+      <Filter>game\shared\entities\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\weapons\CRpg.cpp">
+      <Filter>game\shared\entities\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\weapons\CSatchel.cpp">
+      <Filter>game\shared\entities\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\weapons\CSporeLauncher.cpp">
+      <Filter>game\shared\entities\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\weapons\CShockRifle.cpp">
+      <Filter>game\shared\entities\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\weapons\CShotgun.cpp">
+      <Filter>game\shared\entities\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\weapons\CSniperRifle.cpp">
+      <Filter>game\shared\entities\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\weapons\CSqueak.cpp">
+      <Filter>game\shared\entities\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\weapons\CTripmine.cpp">
+      <Filter>game\shared\entities\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\materials\CMaterialsList.cpp">
+      <Filter>game\shared\materials</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\materials\Materials.cpp">
+      <Filter>game\shared\materials</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\studio\StudioUtils.cpp">
+      <Filter>game\shared\studio</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\keyvalues\CKeyvalue.cpp">
+      <Filter>keyvalues</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\keyvalues\CKeyvalueBlock.cpp">
+      <Filter>keyvalues</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\keyvalues\CKeyvalueNode.cpp">
+      <Filter>keyvalues</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\keyvalues\CKeyvaluesLexer.cpp">
+      <Filter>keyvalues</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\keyvalues\CKeyvaluesParser.cpp">
+      <Filter>keyvalues</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\keyvalues\CKeyvaluesWriter.cpp">
+      <Filter>keyvalues</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\pm_shared\pm_debug.cpp">
+      <Filter>pm_shared</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\pm_shared\pm_shared.cpp">
+      <Filter>pm_shared</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\public\interface.cpp">
+      <Filter>public</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\public\math\interpolation.cpp">
+      <Filter>public\math</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\public\math\mathlib.cpp">
+      <Filter>public\math</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\utility\CEscapeSequences.cpp">
+      <Filter>utility</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\utility\CString.cpp">
+      <Filter>utility</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\animation.cpp">
+      <Filter>game\server</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\ButtonSounds.cpp">
+      <Filter>game\server</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\CGlobalState.cpp">
+      <Filter>game\server</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\client.cpp">
+      <Filter>game\server</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\CMap.cpp">
+      <Filter>game\server</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\CMultiDamage.cpp">
+      <Filter>game\server</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\CServerGameInterface.cpp">
+      <Filter>game\server</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\CStudioBlending.cpp">
+      <Filter>game\server</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\Decals.cpp">
+      <Filter>game\server</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\globals.cpp">
+      <Filter>game\server</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\KeyValuesCompat.cpp">
+      <Filter>game\server</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\MapCycle.cpp">
+      <Filter>game\server</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\Server.cpp">
+      <Filter>game\server</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\ServerEngineOverride.cpp">
+      <Filter>game\server</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\ServerInterface.cpp">
+      <Filter>game\server</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\Skill.cpp">
+      <Filter>game\server</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\TempEntity.cpp">
+      <Filter>game\server</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\UserMessages.cpp">
+      <Filter>game\server</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\util.cpp">
+      <Filter>game\server</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\voice_gamemgr.cpp">
+      <Filter>game\server</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\Weapons.cpp">
+      <Filter>game\server</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\config\CServerConfig.cpp">
+      <Filter>game\server\config</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\engine\saverestore\CRestore.cpp">
+      <Filter>game\server\engine\saverestore</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\engine\saverestore\CSave.cpp">
+      <Filter>game\server\engine\saverestore</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\engine\saverestore\CSaveRestoreBuffer.cpp">
+      <Filter>game\server\engine\saverestore</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CActAnimating.cpp">
+      <Filter>game\server\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CBaseAnimating.cpp">
+      <Filter>game\server\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CBaseButton.cpp">
+      <Filter>game\server\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CBaseCombatCharacter.server.cpp">
+      <Filter>game\server\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CBaseDelay.cpp">
+      <Filter>game\server\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CBaseDoor.cpp">
+      <Filter>game\server\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CBaseEntity.combat.cpp">
+      <Filter>game\server\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CBaseEntity.server.cpp">
+      <Filter>game\server\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CBaseEntity.subs.cpp">
+      <Filter>game\server\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CBaseSpectator.cpp">
+      <Filter>game\server\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CBaseToggle.cpp">
+      <Filter>game\server\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CBloodSplat.cpp">
+      <Filter>game\server\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CBreakable.cpp">
+      <Filter>game\server\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CButtonTarget.cpp">
+      <Filter>game\server\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CCorpse.cpp">
+      <Filter>game\server\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CDeadHEV.cpp">
+      <Filter>game\server\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CDecal.cpp">
+      <Filter>game\server\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CEnvGlobal.cpp">
+      <Filter>game\server\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CFuncMortarField.cpp">
+      <Filter>game\server\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CGrenade.cpp">
+      <Filter>game\server\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CInfoIntermission.cpp">
+      <Filter>game\server\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CLaserSpot.cpp">
+      <Filter>game\server\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CMomentaryDoor.cpp">
+      <Filter>game\server\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CMomentaryRotButton.cpp">
+      <Filter>game\server\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CMortar.cpp">
+      <Filter>game\server\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CMultiManager.cpp">
+      <Filter>game\server\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CMultiSource.cpp">
+      <Filter>game\server\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CNullEntity.cpp">
+      <Filter>game\server\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CPlayerHudColors.cpp">
+      <Filter>game\server\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CPointEntity.cpp">
+      <Filter>game\server\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CPushable.cpp">
+      <Filter>game\server\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CRevertSaved.cpp">
+      <Filter>game\server\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CRotButton.cpp">
+      <Filter>game\server\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CRotDoor.cpp">
+      <Filter>game\server\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CRpgRocket.cpp">
+      <Filter>game\server\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CSoundEnt.cpp">
+      <Filter>game\server\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CSprayCan.cpp">
+      <Filter>game\server\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CStripWeapons.cpp">
+      <Filter>game\server\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CWorld.cpp">
+      <Filter>game\server\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\ammo\CAmmo556.cpp">
+      <Filter>game\server\entities\ammo</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\ammo\CBasePlayerAmmo.cpp">
+      <Filter>game\server\entities\ammo</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\ammo\CSporeAmmo.cpp">
+      <Filter>game\server\entities\ammo</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\bmodels\CFuncConveyor.cpp">
+      <Filter>game\server\entities\bmodels</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\bmodels\CFuncIllusionary.cpp">
+      <Filter>game\server\entities\bmodels</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\bmodels\CFuncMonsterClip.cpp">
+      <Filter>game\server\entities\bmodels</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\bmodels\CFuncRotating.cpp">
+      <Filter>game\server\entities\bmodels</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\bmodels\CFuncWall.cpp">
+      <Filter>game\server\entities\bmodels</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\bmodels\CFuncWallToggle.cpp">
+      <Filter>game\server\entities\bmodels</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\bmodels\CPendulum.cpp">
+      <Filter>game\server\entities\bmodels</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\cycler\CCycler.cpp">
+      <Filter>game\server\entities\cycler</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\cycler\CCyclerSprite.cpp">
+      <Filter>game\server\entities\cycler</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\cycler\CGenericCycler.cpp">
+      <Filter>game\server\entities\cycler</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\cycler\CGunmanCycler.cpp">
+      <Filter>game\server\entities\cycler</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\cycler\CWeaponCycler.cpp">
+      <Filter>game\server\entities\cycler</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\effects\CBeam.cpp">
+      <Filter>game\server\entities\effects</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\effects\CBlood.cpp">
+      <Filter>game\server\entities\effects</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\effects\CBubbling.cpp">
+      <Filter>game\server\entities\effects</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\effects\CEnvBeverage.cpp">
+      <Filter>game\server\entities\effects</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\effects\CEnvExplosion.cpp">
+      <Filter>game\server\entities\effects</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\effects\CEnvFunnel.cpp">
+      <Filter>game\server\entities\effects</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\effects\CEnvShooter.cpp">
+      <Filter>game\server\entities\effects</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\effects\CEnvSpark.cpp">
+      <Filter>game\server\entities\effects</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\effects\CFade.cpp">
+      <Filter>game\server\entities\effects</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\effects\CGib.cpp">
+      <Filter>game\server\entities\effects</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\effects\CGibShooter.cpp">
+      <Filter>game\server\entities\effects</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\effects\CGlow.cpp">
+      <Filter>game\server\entities\effects</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\effects\CItemSoda.cpp">
+      <Filter>game\server\entities\effects</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\effects\CLaser.cpp">
+      <Filter>game\server\entities\effects</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\effects\CLightning.cpp">
+      <Filter>game\server\entities\effects</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\effects\CMessage.cpp">
+      <Filter>game\server\entities\effects</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\effects\CShake.cpp">
+      <Filter>game\server\entities\effects</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\effects\CShower.cpp">
+      <Filter>game\server\entities\effects</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\effects\CSmoker.cpp">
+      <Filter>game\server\entities\effects</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\effects\CSpiral.cpp">
+      <Filter>game\server\entities\effects</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\effects\CSprite.cpp">
+      <Filter>game\server\entities\effects</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\effects\CWreckage.cpp">
+      <Filter>game\server\entities\effects</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\items\CAirtank.cpp">
+      <Filter>game\server\entities\items</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\items\CHealthKit.cpp">
+      <Filter>game\server\entities\items</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\items\CItem.cpp">
+      <Filter>game\server\entities\items</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\items\CItemAntidote.cpp">
+      <Filter>game\server\entities\items</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\items\CItemBattery.cpp">
+      <Filter>game\server\entities\items</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\items\CItemLongJump.cpp">
+      <Filter>game\server\entities\items</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\items\CItemSecurity.cpp">
+      <Filter>game\server\entities\items</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\items\CItemSuit.cpp">
+      <Filter>game\server\entities\items</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\items\CRecharge.cpp">
+      <Filter>game\server\entities\items</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\items\CWallHealth.cpp">
+      <Filter>game\server\entities\items</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\items\CWorldItem.cpp">
+      <Filter>game\server\entities\items</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\lights\CEnvLight.cpp">
+      <Filter>game\server\entities\lights</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\lights\CLight.cpp">
+      <Filter>game\server\entities\lights</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\maprules\CGameCounter.cpp">
+      <Filter>game\server\entities\maprules</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\maprules\CGameCounterSet.cpp">
+      <Filter>game\server\entities\maprules</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\maprules\CGameEnd.cpp">
+      <Filter>game\server\entities\maprules</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\maprules\CGamePlayerEquip.cpp">
+      <Filter>game\server\entities\maprules</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\maprules\CGamePlayerHurt.cpp">
+      <Filter>game\server\entities\maprules</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\maprules\CGamePlayerTeam.cpp">
+      <Filter>game\server\entities\maprules</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\maprules\CGamePlayerZone.cpp">
+      <Filter>game\server\entities\maprules</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\maprules\CGameScore.cpp">
+      <Filter>game\server\entities\maprules</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\maprules\CGameTeamMaster.cpp">
+      <Filter>game\server\entities\maprules</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\maprules\CGameTeamSet.cpp">
+      <Filter>game\server\entities\maprules</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\maprules\CGameText.cpp">
+      <Filter>game\server\entities\maprules</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\maprules\CRuleBrushEntity.cpp">
+      <Filter>game\server\entities\maprules</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\maprules\CRuleEntity.cpp">
+      <Filter>game\server\entities\maprules</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\maprules\CRulePointEntity.cpp">
+      <Filter>game\server\entities\maprules</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\Activity.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CAGrunt.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CApache.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CApacheHVR.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CBabyCrab.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CBarnacle.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CBarney.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CBaseMonster.ai.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CBaseMonster.combat.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CBaseMonster.schedule.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CBaseMonster.scripted.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CBaseMonster.state.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CBaseTurret.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CBigMomma.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CBloater.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CBMortar.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CBullsquid.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CController.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CControllerHeadBall.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CControllerZapBall.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CDeadBarney.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CDeadHGrunt.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CDeadScientist.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CFlockingFlyer.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CFlockingFlyerFlock.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CFlyingMonster.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CFurniture.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CGargantua.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CGenericMonster.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CGMan.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CHAssassin.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CHeadCrab.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CHGrunt.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CHGruntRepel.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CHornet.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CHoundeye.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CIchthyosaur.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CInfoBM.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CISlave.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CLeech.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CMiniTurret.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CMonsterMaker.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CNihilanth.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CNihilanthHVR.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\COsprey.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CPenguinGrenade.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CRat.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CRoach.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CScientist.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CSentry.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CSittingScientist.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CSquadMonster.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CSquidSpit.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CStomp.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CTalkMonster.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CTentacle.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CTentacleMaw.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CTurret.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CZombie.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\DefaultAI.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\Monsters.cpp">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\scripted\CCineAI.cpp">
+      <Filter>game\server\entities\NPCs\scripted</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\scripted\CCineMonster.cpp">
+      <Filter>game\server\entities\NPCs\scripted</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\scripted\CScriptedSentence.cpp">
+      <Filter>game\server\entities\NPCs\scripted</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\plats\CBasePlatTrain.cpp">
+      <Filter>game\server\entities\plats</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\plats\CFuncPlat.cpp">
+      <Filter>game\server\entities\plats</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\plats\CFuncPlatRot.cpp">
+      <Filter>game\server\entities\plats</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\plats\CFuncTrackAuto.cpp">
+      <Filter>game\server\entities\plats</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\plats\CFuncTrackChange.cpp">
+      <Filter>game\server\entities\plats</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\plats\CFuncTrackTrain.cpp">
+      <Filter>game\server\entities\plats</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\plats\CFuncTrain.cpp">
+      <Filter>game\server\entities\plats</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\plats\CFuncTrainControls.cpp">
+      <Filter>game\server\entities\plats</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\plats\CGunTarget.cpp">
+      <Filter>game\server\entities\plats</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\plats\CPathCorner.cpp">
+      <Filter>game\server\entities\plats</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\plats\CPathTrack.cpp">
+      <Filter>game\server\entities\plats</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\plats\CPlatTrigger.cpp">
+      <Filter>game\server\entities\plats</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\player\CBasePlayer.frame.cpp">
+      <Filter>game\server\entities\player</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\player\CBasePlayer.networking.cpp">
+      <Filter>game\server\entities\player</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\player\CBasePlayer.observer.cpp">
+      <Filter>game\server\entities\player</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\player\CBasePlayer.server.cpp">
+      <Filter>game\server\entities\player</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\player\CBasePlayer.server.game.cpp">
+      <Filter>game\server\entities\player</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\player\CBasePlayer.weapons.cpp">
+      <Filter>game\server\entities\player</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\rope\CElectrifiedWire.cpp">
+      <Filter>game\server\entities\rope</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\rope\CRope.cpp">
+      <Filter>game\server\entities\rope</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\rope\CRopeSample.cpp">
+      <Filter>game\server\entities\rope</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\rope\CRopeSegment.cpp">
+      <Filter>game\server\entities\rope</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\sound\CAmbientGeneric.cpp">
+      <Filter>game\server\entities\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\sound\CEnvSound.cpp">
+      <Filter>game\server\entities\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\sound\CSpeaker.cpp">
+      <Filter>game\server\entities\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\spawnpoints\CBaseDMStart.cpp">
+      <Filter>game\server\entities\spawnpoints</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\spawnpoints\CBaseSpawnPoint.cpp">
+      <Filter>game\server\entities\spawnpoints</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\spawnpoints\CInfoPlayerStart.cpp">
+      <Filter>game\server\entities\spawnpoints</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\tanks\CFuncTank.cpp">
+      <Filter>game\server\entities\tanks</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\tanks\CFuncTankControls.cpp">
+      <Filter>game\server\entities\tanks</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\tanks\CFuncTankGun.cpp">
+      <Filter>game\server\entities\tanks</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\tanks\CFuncTankLaser.cpp">
+      <Filter>game\server\entities\tanks</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\tanks\CFuncTankMortar.cpp">
+      <Filter>game\server\entities\tanks</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\tanks\CFuncTankRocket.cpp">
+      <Filter>game\server\entities\tanks</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\triggers\CAutoTrigger.cpp">
+      <Filter>game\server\entities\triggers</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\triggers\CBaseTrigger.cpp">
+      <Filter>game\server\entities\triggers</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\triggers\CChangeLevel.cpp">
+      <Filter>game\server\entities\triggers</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\triggers\CFireAndDie.cpp">
+      <Filter>game\server\entities\triggers</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\triggers\CFrictionModifier.cpp">
+      <Filter>game\server\entities\triggers</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\triggers\CLadder.cpp">
+      <Filter>game\server\entities\triggers</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\triggers\CRenderFxManager.cpp">
+      <Filter>game\server\entities\triggers</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\triggers\CTargetCDAudio.cpp">
+      <Filter>game\server\entities\triggers</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\triggers\CTriggerCamera.cpp">
+      <Filter>game\server\entities\triggers</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\triggers\CTriggerCDAudio.cpp">
+      <Filter>game\server\entities\triggers</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\triggers\CTriggerChangeTarget.cpp">
+      <Filter>game\server\entities\triggers</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\triggers\CTriggerCounter.cpp">
+      <Filter>game\server\entities\triggers</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\triggers\CTriggerEndSection.cpp">
+      <Filter>game\server\entities\triggers</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\triggers\CTriggerGravity.cpp">
+      <Filter>game\server\entities\triggers</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\triggers\CTriggerHurt.cpp">
+      <Filter>game\server\entities\triggers</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\triggers\CTriggerMonsterJump.cpp">
+      <Filter>game\server\entities\triggers</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\triggers\CTriggerMultiple.cpp">
+      <Filter>game\server\entities\triggers</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\triggers\CTriggerOnce.cpp">
+      <Filter>game\server\entities\triggers</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\triggers\CTriggerPush.cpp">
+      <Filter>game\server\entities\triggers</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\triggers\CTriggerRandom.cpp">
+      <Filter>game\server\entities\triggers</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\triggers\CTriggerRelay.cpp">
+      <Filter>game\server\entities\triggers</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\triggers\CTriggerSave.cpp">
+      <Filter>game\server\entities\triggers</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\triggers\CTriggerTeleport.cpp">
+      <Filter>game\server\entities\triggers</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\triggers\CTriggerVolume.cpp">
+      <Filter>game\server\entities\triggers</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\triggers\CTriggerXenReturn.cpp">
+      <Filter>game\server\entities\triggers</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\weapons\CBasePlayerWeapon.server.cpp">
+      <Filter>game\server\entities\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\weapons\CCrossbowBolt.cpp">
+      <Filter>game\server\entities\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\weapons\CDesertEagleLaser.cpp">
+      <Filter>game\server\entities\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\weapons\CDisplacerBall.cpp">
+      <Filter>game\server\entities\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\weapons\CShockBeam.cpp">
+      <Filter>game\server\entities\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\weapons\CSpore.cpp">
+      <Filter>game\server\entities\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\weapons\CSqueakGrenade.cpp">
+      <Filter>game\server\entities\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\weapons\CTripmineGrenade.cpp">
+      <Filter>game\server\entities\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\weapons\CWeaponBox.cpp">
+      <Filter>game\server\entities\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\weather\CWeather.cpp">
+      <Filter>game\server\entities\weather</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\xen\CXenHair.cpp">
+      <Filter>game\server\entities\xen</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\xen\CXenPLight.cpp">
+      <Filter>game\server\entities\xen</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\xen\CXenSpore.cpp">
+      <Filter>game\server\entities\xen</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\xen\CXenTree.cpp">
+      <Filter>game\server\entities\xen</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\xen\CXenTreeTrigger.cpp">
+      <Filter>game\server\entities\xen</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\gamerules\CGameRules.cpp">
+      <Filter>game\server\gamerules</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\gamerules\CHalfLifeMultiplay.cpp">
+      <Filter>game\server\gamerules</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\gamerules\CHalfLifeRules.cpp">
+      <Filter>game\server\gamerules</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\gamerules\CHalfLifeTeamplay.cpp">
+      <Filter>game\server\gamerules</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\gamerules\GameRules.cpp">
+      <Filter>game\server\gamerules</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\nodes\CGraph.cpp">
+      <Filter>game\server\nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\nodes\CNodeEnt.cpp">
+      <Filter>game\server\nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\nodes\CNodeViewer.cpp">
+      <Filter>game\server\nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\nodes\CQueue.cpp">
+      <Filter>game\server\nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\nodes\CQueuePriority.cpp">
+      <Filter>game\server\nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\nodes\CStack.cpp">
+      <Filter>game\server\nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\nodes\CTestHull.cpp">
+      <Filter>game\server\nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\saverestore\CRestore.cpp">
+      <Filter>game\server\saverestore</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\saverestore\CSave.cpp">
+      <Filter>game\server\saverestore</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\saverestore\CSaveRestoreBuffer.cpp">
+      <Filter>game\server\saverestore</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\sound\CSentenceGroups.cpp">
+      <Filter>game\server\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\sound\Sound.cpp">
+      <Filter>game\server\sound</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common\beamdef.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common\BSPIO.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common\CAutoString.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common\CBitSet.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common\CCommand.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common\CFile.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common\CHashStringPool.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common\Color.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common\com_model.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common\con_nprint.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common\const.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common\CPlane.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common\crc.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common\cvardef.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common\director_cmds.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common\dlight.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common\dll_state.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common\entity_state.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common\entity_types.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common\enums.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common\event_args.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common\event_flags.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common\Game.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common\hltv.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common\in_buttons.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common\MiniBSPFile.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common\MinMax.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common\netadr.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common\parsemsg.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common\particledef.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common\Platform.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common\pmtrace.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common\qfont.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common\screenfade.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common\Sequence.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common\simple_checksum.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common\steam_util.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common\StringUtils.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common\studio_event.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common\usercmd.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common\UTFUtils.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common\weaponinfo.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common\winsani_in.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common\winsani_out.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\engine\anorms.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\engine\APIProxy.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\engine\cdll_int.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\engine\cmd_function_t.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\engine\custom.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\engine\customentity.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\engine\edict.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\engine\eiface.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\engine\IBaseUI.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\engine\IClientVGUI.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\engine\IGameUIFuncs.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\engine\kbutton.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\engine\progdefs.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\engine\progs.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\engine\shake.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\engine\studio.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\cbase.h">
+      <Filter>game\shared</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\CBaseGameInterface.h">
+      <Filter>game\shared</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\cdll_dll.h">
+      <Filter>game\shared</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\CReplacementCache.h">
+      <Filter>game\shared</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\CReplacementMap.h">
+      <Filter>game\shared</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\CTakeDamageInfo.h">
+      <Filter>game\shared</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\CWeaponInfo.h">
+      <Filter>game\shared</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\CWeaponInfoCache.h">
+      <Filter>game\shared</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\Damage.h">
+      <Filter>game\shared</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\DefaultClassifications.h">
+      <Filter>game\shared</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\enginecallback.h">
+      <Filter>game\shared</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\EntityClasses.h">
+      <Filter>game\shared</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\extdll.h">
+      <Filter>game\shared</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\GameConstants.h">
+      <Filter>game\shared</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\HudColors.h">
+      <Filter>game\shared</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\Relationship.h">
+      <Filter>game\shared</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\ScriptEvent.h">
+      <Filter>game\shared</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\shared_game_utils.h">
+      <Filter>game\shared</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\util.h">
+      <Filter>game\shared</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\voice_common.h">
+      <Filter>game\shared</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\Weapons.h">
+      <Filter>game\shared</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\WeaponsConst.h">
+      <Filter>game\shared</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\Weather.h">
+      <Filter>game\shared</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\CBaseCombatCharacter.h">
+      <Filter>game\shared\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\CBaseEntity.shared.h">
+      <Filter>game\shared\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\CBaseForward.h">
+      <Filter>game\shared\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\CEntityDictionary.h">
+      <Filter>game\shared\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\CEntityRegistry.h">
+      <Filter>game\shared\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\DataMapping.h">
+      <Filter>game\shared\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\EHandle.h">
+      <Filter>game\shared\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\player\CBasePlayer.h">
+      <Filter>game\shared\entities\player</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\player\CBasePlayerUtils.h">
+      <Filter>game\shared\entities\player</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\weapons\CAmmoTypes.h">
+      <Filter>game\shared\entities\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\weapons\CBarnacleGrapple.h">
+      <Filter>game\shared\entities\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\weapons\CBarnacleGrappleTip.h">
+      <Filter>game\shared\entities\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\weapons\CBasePlayerWeapon.h">
+      <Filter>game\shared\entities\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\weapons\CCrossbow.h">
+      <Filter>game\shared\entities\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\weapons\CCrowbar.h">
+      <Filter>game\shared\entities\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\weapons\CDesertEagle.h">
+      <Filter>game\shared\entities\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\weapons\CDisplacer.h">
+      <Filter>game\shared\entities\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\weapons\CEgon.h">
+      <Filter>game\shared\entities\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\weapons\CGauss.h">
+      <Filter>game\shared\entities\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\weapons\CGlock.h">
+      <Filter>game\shared\entities\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\weapons\CHandGrenade.h">
+      <Filter>game\shared\entities\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\weapons\CHornetGun.h">
+      <Filter>game\shared\entities\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\weapons\CKnife.h">
+      <Filter>game\shared\entities\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\weapons\CM249.h">
+      <Filter>game\shared\entities\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\weapons\CMP5.h">
+      <Filter>game\shared\entities\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\weapons\CPenguin.h">
+      <Filter>game\shared\entities\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\weapons\CPipewrench.h">
+      <Filter>game\shared\entities\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\weapons\CPython.h">
+      <Filter>game\shared\entities\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\weapons\CRpg.h">
+      <Filter>game\shared\entities\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\weapons\CSatchel.h">
+      <Filter>game\shared\entities\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\weapons\CSporeLauncher.h">
+      <Filter>game\shared\entities\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\weapons\CShockRifle.h">
+      <Filter>game\shared\entities\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\weapons\CShotgun.h">
+      <Filter>game\shared\entities\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\weapons\CSniperRifle.h">
+      <Filter>game\shared\entities\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\weapons\CSqueak.h">
+      <Filter>game\shared\entities\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\entities\weapons\CTripmine.h">
+      <Filter>game\shared\entities\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\materials\CMaterialsList.h">
+      <Filter>game\shared\materials</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\materials\Materials.h">
+      <Filter>game\shared\materials</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\materials\MaterialsConst.h">
+      <Filter>game\shared\materials</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\shared\studio\StudioUtils.h">
+      <Filter>game\shared\studio</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\keyvalues\CKeyvalue.h">
+      <Filter>keyvalues</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\keyvalues\CKeyvalueBlock.h">
+      <Filter>keyvalues</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\keyvalues\CKeyvalueNode.h">
+      <Filter>keyvalues</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\keyvalues\CKeyvaluesLexer.h">
+      <Filter>keyvalues</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\keyvalues\CKeyvaluesParser.h">
+      <Filter>keyvalues</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\keyvalues\CKeyvaluesWriter.h">
+      <Filter>keyvalues</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\keyvalues\Keyvalues.h">
+      <Filter>keyvalues</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\keyvalues\KeyvaluesConstants.h">
+      <Filter>keyvalues</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\keyvalues\KVForward.h">
+      <Filter>keyvalues</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\pm_shared\pm_debug.h">
+      <Filter>pm_shared</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\pm_shared\pm_defs.h">
+      <Filter>pm_shared</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\pm_shared\pm_info.h">
+      <Filter>pm_shared</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\pm_shared\pm_movevars.h">
+      <Filter>pm_shared</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\pm_shared\pm_shared.h">
+      <Filter>pm_shared</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\public\archtypes.h">
+      <Filter>public</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\public\FileSystem.h">
+      <Filter>public</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\public\interface.h">
+      <Filter>public</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\public\keydefs.h">
+      <Filter>public</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\public\math\interpolation.h">
+      <Filter>public\math</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\public\math\mathlib.h">
+      <Filter>public\math</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\public\math\Matrix3x4.h">
+      <Filter>public\math</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\public\math\vector.h">
+      <Filter>public\math</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\shared\engine\r_studioint.h">
+      <Filter>shared\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\utility\CEscapeSequences.h">
+      <Filter>utility</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\utility\CMemory.h">
+      <Filter>utility</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\utility\CString.h">
+      <Filter>utility</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\animation.h">
+      <Filter>game\server</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\ButtonSounds.h">
+      <Filter>game\server</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\CGlobalState.h">
+      <Filter>game\server</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\client.h">
+      <Filter>game\server</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\CMap.h">
+      <Filter>game\server</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\CMultiDamage.h">
+      <Filter>game\server</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\CServerGameInterface.h">
+      <Filter>game\server</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\CStudioBlending.h">
+      <Filter>game\server</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\Decals.h">
+      <Filter>game\server</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\Effects.h">
+      <Filter>game\server</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\MapCycle.h">
+      <Filter>game\server</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\SaveRestore.h">
+      <Filter>game\server</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\Server.h">
+      <Filter>game\server</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\ServerEngineOverride.h">
+      <Filter>game\server</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\ServerInterface.h">
+      <Filter>game\server</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\Skill.h">
+      <Filter>game\server</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\SVC.h">
+      <Filter>game\server</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\TempEntity.h">
+      <Filter>game\server</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\UserMessages.h">
+      <Filter>game\server</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\voice_gamemgr.h">
+      <Filter>game\server</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\config\CServerConfig.h">
+      <Filter>game\server\config</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\engine\saverestore\CRestore.h">
+      <Filter>game\server\engine\saverestore</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\engine\saverestore\CSave.h">
+      <Filter>game\server\engine\saverestore</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\engine\saverestore\CSaveRestoreBuffer.h">
+      <Filter>game\server\engine\saverestore</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\engine\saverestore\SaveRestoreDefs.h">
+      <Filter>game\server\engine\saverestore</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\AnimationEvent.h">
+      <Filter>game\server\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CActAnimating.h">
+      <Filter>game\server\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CBaseAnimating.h">
+      <Filter>game\server\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CBaseButton.h">
+      <Filter>game\server\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CBaseDelay.h">
+      <Filter>game\server\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CBaseDoor.h">
+      <Filter>game\server\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CBaseSpectator.h">
+      <Filter>game\server\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CBaseToggle.h">
+      <Filter>game\server\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CBloodSplat.h">
+      <Filter>game\server\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CBreakable.h">
+      <Filter>game\server\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CButtonTarget.h">
+      <Filter>game\server\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CCorpse.h">
+      <Filter>game\server\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CDeadHEV.h">
+      <Filter>game\server\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CDecal.h">
+      <Filter>game\server\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CEnvGlobal.h">
+      <Filter>game\server\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CFuncMortarField.h">
+      <Filter>game\server\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CGrenade.h">
+      <Filter>game\server\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CInfoIntermission.h">
+      <Filter>game\server\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CLaserSpot.h">
+      <Filter>game\server\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CMomentaryDoor.h">
+      <Filter>game\server\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CMomentaryRotButton.h">
+      <Filter>game\server\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CMortar.h">
+      <Filter>game\server\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CMultiManager.h">
+      <Filter>game\server\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CMultiSource.h">
+      <Filter>game\server\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CNullEntity.h">
+      <Filter>game\server\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CPlayerHudColors.h">
+      <Filter>game\server\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CPointEntity.h">
+      <Filter>game\server\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CPushable.h">
+      <Filter>game\server\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CRevertSaved.h">
+      <Filter>game\server\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CRotButton.h">
+      <Filter>game\server\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CRotDoor.h">
+      <Filter>game\server\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CRpgRocket.h">
+      <Filter>game\server\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CSoundEnt.h">
+      <Filter>game\server\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CSprayCan.h">
+      <Filter>game\server\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CStripWeapons.h">
+      <Filter>game\server\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\CWorld.h">
+      <Filter>game\server\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\DoorConstants.h">
+      <Filter>game\server\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\ammo\CAmmo556.h">
+      <Filter>game\server\entities\ammo</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\ammo\CBasePlayerAmmo.h">
+      <Filter>game\server\entities\ammo</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\ammo\CSporeAmmo.h">
+      <Filter>game\server\entities\ammo</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\bmodels\CFuncConveyor.h">
+      <Filter>game\server\entities\bmodels</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\bmodels\CFuncIllusionary.h">
+      <Filter>game\server\entities\bmodels</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\bmodels\CFuncMonsterClip.h">
+      <Filter>game\server\entities\bmodels</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\bmodels\CFuncRotating.h">
+      <Filter>game\server\entities\bmodels</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\bmodels\CFuncWall.h">
+      <Filter>game\server\entities\bmodels</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\bmodels\CFuncWallToggle.h">
+      <Filter>game\server\entities\bmodels</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\bmodels\CPendulum.h">
+      <Filter>game\server\entities\bmodels</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\cycler\CCycler.h">
+      <Filter>game\server\entities\cycler</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\cycler\CCyclerSprite.h">
+      <Filter>game\server\entities\cycler</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\cycler\CGenericCycler.h">
+      <Filter>game\server\entities\cycler</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\cycler\CGunmanCycler.h">
+      <Filter>game\server\entities\cycler</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\cycler\CWeaponCycler.h">
+      <Filter>game\server\entities\cycler</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\effects\CBeam.h">
+      <Filter>game\server\entities\effects</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\effects\CBlood.h">
+      <Filter>game\server\entities\effects</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\effects\CBubbling.h">
+      <Filter>game\server\entities\effects</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\effects\CEnvBeverage.h">
+      <Filter>game\server\entities\effects</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\effects\CEnvExplosion.h">
+      <Filter>game\server\entities\effects</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\effects\CEnvFunnel.h">
+      <Filter>game\server\entities\effects</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\effects\CEnvShooter.h">
+      <Filter>game\server\entities\effects</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\effects\CEnvSpark.h">
+      <Filter>game\server\entities\effects</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\effects\CFade.h">
+      <Filter>game\server\entities\effects</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\effects\CGib.h">
+      <Filter>game\server\entities\effects</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\effects\CGibShooter.h">
+      <Filter>game\server\entities\effects</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\effects\CGlow.h">
+      <Filter>game\server\entities\effects</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\effects\CItemSoda.h">
+      <Filter>game\server\entities\effects</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\effects\CLaser.h">
+      <Filter>game\server\entities\effects</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\effects\CLightning.h">
+      <Filter>game\server\entities\effects</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\effects\CMessage.h">
+      <Filter>game\server\entities\effects</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\effects\CShake.h">
+      <Filter>game\server\entities\effects</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\effects\CShower.h">
+      <Filter>game\server\entities\effects</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\effects\CSmoker.h">
+      <Filter>game\server\entities\effects</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\effects\CSpiral.h">
+      <Filter>game\server\entities\effects</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\effects\CSprite.h">
+      <Filter>game\server\entities\effects</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\effects\CWreckage.h">
+      <Filter>game\server\entities\effects</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\items\CAirtank.h">
+      <Filter>game\server\entities\items</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\items\CHealthKit.h">
+      <Filter>game\server\entities\items</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\items\CItem.h">
+      <Filter>game\server\entities\items</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\items\CItemAntidote.h">
+      <Filter>game\server\entities\items</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\items\CItemBattery.h">
+      <Filter>game\server\entities\items</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\items\CItemLongJump.h">
+      <Filter>game\server\entities\items</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\items\CItemSecurity.h">
+      <Filter>game\server\entities\items</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\items\CItemSuit.h">
+      <Filter>game\server\entities\items</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\items\CRecharge.h">
+      <Filter>game\server\entities\items</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\items\CWallHealth.h">
+      <Filter>game\server\entities\items</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\items\CWorldItem.h">
+      <Filter>game\server\entities\items</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\lights\CEnvLight.h">
+      <Filter>game\server\entities\lights</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\lights\CLight.h">
+      <Filter>game\server\entities\lights</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\maprules\CGameCounter.h">
+      <Filter>game\server\entities\maprules</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\maprules\CGameCounterSet.h">
+      <Filter>game\server\entities\maprules</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\maprules\CGameEnd.h">
+      <Filter>game\server\entities\maprules</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\maprules\CGamePlayerEquip.h">
+      <Filter>game\server\entities\maprules</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\maprules\CGamePlayerHurt.h">
+      <Filter>game\server\entities\maprules</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\maprules\CGamePlayerTeam.h">
+      <Filter>game\server\entities\maprules</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\maprules\CGamePlayerZone.h">
+      <Filter>game\server\entities\maprules</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\maprules\CGameScore.h">
+      <Filter>game\server\entities\maprules</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\maprules\CGameTeamMaster.h">
+      <Filter>game\server\entities\maprules</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\maprules\CGameTeamSet.h">
+      <Filter>game\server\entities\maprules</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\maprules\CGameText.h">
+      <Filter>game\server\entities\maprules</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\maprules\CRuleBrushEntity.h">
+      <Filter>game\server\entities\maprules</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\maprules\CRuleEntity.h">
+      <Filter>game\server\entities\maprules</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\maprules\CRulePointEntity.h">
+      <Filter>game\server\entities\maprules</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\Activity.h">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CAGrunt.h">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CApache.h">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CApacheHVR.h">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CBabyCrab.h">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CBarnacle.h">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CBarney.h">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CBaseMonster.h">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CBaseTurret.h">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CBigMomma.h">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CBloater.h">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CBMortar.h">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CBullsquid.h">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CController.h">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CControllerHeadBall.h">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CControllerZapBall.h">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CDeadBarney.h">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CDeadHGrunt.h">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CDeadScientist.h">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CFlockingFlyer.h">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CFlockingFlyerFlock.h">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CFlyingMonster.h">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CFurniture.h">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CGargantua.h">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CGenericMonster.h">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CGMan.h">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CHAssassin.h">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CHeadCrab.h">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CHGrunt.h">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CHGruntRepel.h">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CHornet.h">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CHoundeye.h">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CIchthyosaur.h">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CInfoBM.h">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CISlave.h">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CLeech.h">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CMiniTurret.h">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CMonsterMaker.h">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CNihilanth.h">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CNihilanthHVR.h">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\COsprey.h">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CPenguinGrenade.h">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CRat.h">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CRoach.h">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CScientist.h">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CSentry.h">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CSittingScientist.h">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CSquadMonster.h">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CSquidSpit.h">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CStomp.h">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CTalkMonster.h">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CTentacle.h">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CTentacleMaw.h">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CTurret.h">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\CZombie.h">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\DefaultAI.h">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\Monsters.h">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\Schedule.h">
+      <Filter>game\server\entities\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\scripted\CCineAI.h">
+      <Filter>game\server\entities\NPCs\scripted</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\scripted\CCineMonster.h">
+      <Filter>game\server\entities\NPCs\scripted</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\scripted\CScriptedSentence.h">
+      <Filter>game\server\entities\NPCs\scripted</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\NPCs\scripted\Scripted.h">
+      <Filter>game\server\entities\NPCs\scripted</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\plats\CBasePlatTrain.h">
+      <Filter>game\server\entities\plats</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\plats\CFuncPlat.h">
+      <Filter>game\server\entities\plats</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\plats\CFuncPlatRot.h">
+      <Filter>game\server\entities\plats</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\plats\CFuncTrackAuto.h">
+      <Filter>game\server\entities\plats</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\plats\CFuncTrackChange.h">
+      <Filter>game\server\entities\plats</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\plats\CFuncTrackTrain.h">
+      <Filter>game\server\entities\plats</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\plats\CFuncTrain.h">
+      <Filter>game\server\entities\plats</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\plats\CFuncTrainControls.h">
+      <Filter>game\server\entities\plats</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\plats\CGunTarget.h">
+      <Filter>game\server\entities\plats</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\plats\CPathCorner.h">
+      <Filter>game\server\entities\plats</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\plats\CPathTrack.h">
+      <Filter>game\server\entities\plats</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\plats\CPlatTrigger.h">
+      <Filter>game\server\entities\plats</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\rope\CElectrifiedWire.h">
+      <Filter>game\server\entities\rope</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\rope\CRope.h">
+      <Filter>game\server\entities\rope</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\rope\CRopeSample.h">
+      <Filter>game\server\entities\rope</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\rope\CRopeSegment.h">
+      <Filter>game\server\entities\rope</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\sound\CAmbientGeneric.h">
+      <Filter>game\server\entities\sound</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\sound\CEnvSound.h">
+      <Filter>game\server\entities\sound</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\sound\CSpeaker.h">
+      <Filter>game\server\entities\sound</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\spawnpoints\CBaseDMStart.h">
+      <Filter>game\server\entities\spawnpoints</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\spawnpoints\CBaseSpawnPoint.h">
+      <Filter>game\server\entities\spawnpoints</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\spawnpoints\CInfoPlayerStart.h">
+      <Filter>game\server\entities\spawnpoints</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\tanks\CFuncTank.h">
+      <Filter>game\server\entities\tanks</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\tanks\CFuncTankControls.h">
+      <Filter>game\server\entities\tanks</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\tanks\CFuncTankGun.h">
+      <Filter>game\server\entities\tanks</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\tanks\CFuncTankLaser.h">
+      <Filter>game\server\entities\tanks</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\tanks\CFuncTankMortar.h">
+      <Filter>game\server\entities\tanks</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\tanks\CFuncTankRocket.h">
+      <Filter>game\server\entities\tanks</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\triggers\CAutoTrigger.h">
+      <Filter>game\server\entities\triggers</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\triggers\CBaseTrigger.h">
+      <Filter>game\server\entities\triggers</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\triggers\CChangeLevel.h">
+      <Filter>game\server\entities\triggers</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\triggers\CFireAndDie.h">
+      <Filter>game\server\entities\triggers</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\triggers\CFrictionModifier.h">
+      <Filter>game\server\entities\triggers</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\triggers\CLadder.h">
+      <Filter>game\server\entities\triggers</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\triggers\CRenderFxManager.h">
+      <Filter>game\server\entities\triggers</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\triggers\CTargetCDAudio.h">
+      <Filter>game\server\entities\triggers</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\triggers\CTriggerCamera.h">
+      <Filter>game\server\entities\triggers</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\triggers\CTriggerCDAudio.h">
+      <Filter>game\server\entities\triggers</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\triggers\CTriggerChangeTarget.h">
+      <Filter>game\server\entities\triggers</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\triggers\CTriggerCounter.h">
+      <Filter>game\server\entities\triggers</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\triggers\CTriggerEndSection.h">
+      <Filter>game\server\entities\triggers</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\triggers\CTriggerGravity.h">
+      <Filter>game\server\entities\triggers</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\triggers\CTriggerHurt.h">
+      <Filter>game\server\entities\triggers</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\triggers\CTriggerMonsterJump.h">
+      <Filter>game\server\entities\triggers</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\triggers\CTriggerMultiple.h">
+      <Filter>game\server\entities\triggers</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\triggers\CTriggerOnce.h">
+      <Filter>game\server\entities\triggers</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\triggers\CTriggerPush.h">
+      <Filter>game\server\entities\triggers</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\triggers\CTriggerRandom.h">
+      <Filter>game\server\entities\triggers</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\triggers\CTriggerRelay.h">
+      <Filter>game\server\entities\triggers</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\triggers\CTriggerSave.h">
+      <Filter>game\server\entities\triggers</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\triggers\CTriggerTeleport.h">
+      <Filter>game\server\entities\triggers</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\triggers\CTriggerVolume.h">
+      <Filter>game\server\entities\triggers</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\triggers\CTriggerXenReturn.h">
+      <Filter>game\server\entities\triggers</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\weapons\CCrossbowBolt.h">
+      <Filter>game\server\entities\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\weapons\CDesertEagleLaser.h">
+      <Filter>game\server\entities\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\weapons\CDisplacerBall.h">
+      <Filter>game\server\entities\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\weapons\CShockBeam.h">
+      <Filter>game\server\entities\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\weapons\CSpore.h">
+      <Filter>game\server\entities\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\weapons\CSqueakGrenade.h">
+      <Filter>game\server\entities\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\weapons\CTripmineGrenade.h">
+      <Filter>game\server\entities\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\weapons\CWeaponBox.h">
+      <Filter>game\server\entities\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\weather\CWeather.h">
+      <Filter>game\server\entities\weather</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\xen\CXenHair.h">
+      <Filter>game\server\entities\xen</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\xen\CXenPLight.h">
+      <Filter>game\server\entities\xen</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\xen\CXenSpore.h">
+      <Filter>game\server\entities\xen</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\xen\CXenTree.h">
+      <Filter>game\server\entities\xen</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\entities\xen\CXenTreeTrigger.h">
+      <Filter>game\server\entities\xen</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\gamerules\CGameRules.h">
+      <Filter>game\server\gamerules</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\gamerules\CHalfLifeCoop.h">
+      <Filter>game\server\gamerules</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\gamerules\CHalfLifeMultiplay.h">
+      <Filter>game\server\gamerules</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\gamerules\CHalfLifeRules.h">
+      <Filter>game\server\gamerules</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\gamerules\CHalfLifeTeamplay.h">
+      <Filter>game\server\gamerules</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\gamerules\GameRules.h">
+      <Filter>game\server\gamerules</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\nodes\CGraph.h">
+      <Filter>game\server\nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\nodes\CLink.h">
+      <Filter>game\server\nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\nodes\CNode.h">
+      <Filter>game\server\nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\nodes\CNodeEnt.h">
+      <Filter>game\server\nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\nodes\CNodeViewer.h">
+      <Filter>game\server\nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\nodes\CQueue.h">
+      <Filter>game\server\nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\nodes\CQueuePriority.h">
+      <Filter>game\server\nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\nodes\CStack.h">
+      <Filter>game\server\nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\nodes\CTestHull.h">
+      <Filter>game\server\nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\nodes\NodeConstants.h">
+      <Filter>game\server\nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\nodes\Nodes.h">
+      <Filter>game\server\nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\saverestore\CRestore.h">
+      <Filter>game\server\saverestore</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\saverestore\CSave.h">
+      <Filter>game\server\saverestore</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\saverestore\CSaveRestoreBuffer.h">
+      <Filter>game\server\saverestore</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\saverestore\SaveRestoreDefs.h">
+      <Filter>game\server\saverestore</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\sound\CSentenceGroups.h">
+      <Filter>game\server\sound</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\game\server\sound\Sound.h">
+      <Filter>game\server\sound</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="common">
+      <UniqueIdentifier>{510C571A-249F-3650-AF75-E1F235AD102C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine">
+      <UniqueIdentifier>{32BBDB9F-6923-397E-B92E-9F25D3FBE48F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game">
+      <UniqueIdentifier>{952DD3D7-069F-3212-BEFF-D8D4166C34ED}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\server">
+      <UniqueIdentifier>{D6082D3B-4B25-3804-8301-0AADC79440B3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\server\config">
+      <UniqueIdentifier>{62C24B51-E215-392A-A7E0-7E07E7D5E274}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\server\engine">
+      <UniqueIdentifier>{0238C868-F005-33F5-ADFA-31CAAABC9642}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\server\engine\saverestore">
+      <UniqueIdentifier>{35740B52-F62A-30FC-9EAA-9EC61AC538C1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\server\entities">
+      <UniqueIdentifier>{780AA29C-7729-3CD2-B5EA-B5C4F1ED1FCA}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\server\entities\NPCs">
+      <UniqueIdentifier>{A9AF0872-1001-358F-8C9D-F04A95A3B5CB}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\server\entities\NPCs\scripted">
+      <UniqueIdentifier>{7ACB5148-6D1A-3EEE-8E79-EA85555F63DC}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\server\entities\ammo">
+      <UniqueIdentifier>{D563A74F-6907-3B8D-8542-20E08D8A23D5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\server\entities\bmodels">
+      <UniqueIdentifier>{6E6CBC28-5F34-32A2-94EA-4A004F313101}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\server\entities\cycler">
+      <UniqueIdentifier>{CE382CDB-2D91-3BB8-BE50-CB84CD17DD51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\server\entities\effects">
+      <UniqueIdentifier>{79E77A0E-7F92-32F5-BB0D-132AD6AA3A7F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\server\entities\items">
+      <UniqueIdentifier>{0673E6F2-525F-3034-A07B-6AB23ABB77CF}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\server\entities\lights">
+      <UniqueIdentifier>{2EB3D9A2-BFAB-3842-8C89-8AAB4F968F35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\server\entities\maprules">
+      <UniqueIdentifier>{E36C1785-7B7A-351E-BC34-377EE1318585}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\server\entities\plats">
+      <UniqueIdentifier>{E181F5CB-E6E8-3E05-9D41-FACF5A538A40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\server\entities\player">
+      <UniqueIdentifier>{C3ADE2EA-2BCC-3485-81D2-36A31EE6E9D5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\server\entities\rope">
+      <UniqueIdentifier>{FEA5B5BF-255C-3385-9F84-50B4733F97D8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\server\entities\sound">
+      <UniqueIdentifier>{6E242E03-1360-3A08-B22E-6DF7581D77AE}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\server\entities\spawnpoints">
+      <UniqueIdentifier>{962708FA-D35C-3EA3-9387-FF826D273A30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\server\entities\tanks">
+      <UniqueIdentifier>{AF6F2857-BA16-39A8-BA8B-89E225761093}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\server\entities\triggers">
+      <UniqueIdentifier>{28DD6BFE-BCFF-38E4-B706-96AD0032CA14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\server\entities\weapons">
+      <UniqueIdentifier>{3F317348-11A4-3D01-8B2E-C9A6128AA87C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\server\entities\weather">
+      <UniqueIdentifier>{637FB188-9054-30DE-87FA-8DFDD521ED29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\server\entities\xen">
+      <UniqueIdentifier>{7B80F11A-07C1-3739-A081-997AFE0171C5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\server\gamerules">
+      <UniqueIdentifier>{B47871A7-09B9-33BA-A8C2-56A0CE7AC54B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\server\nodes">
+      <UniqueIdentifier>{1B697432-FFF1-3D7B-921A-42C7569CACC6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\server\saverestore">
+      <UniqueIdentifier>{138BED55-804C-384B-B712-9927FBF6DDEE}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\server\sound">
+      <UniqueIdentifier>{7C2708AE-FEE6-3AD3-91F1-1C6BC1BAA8C2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\shared">
+      <UniqueIdentifier>{BCC5737C-FC08-3436-B8CF-BAB86FD638B5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\shared\entities">
+      <UniqueIdentifier>{374A99A0-D111-38E4-9CF9-B7F528742AAF}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\shared\entities\player">
+      <UniqueIdentifier>{B4036B69-B2C2-3032-AB13-4B4B73591A64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\shared\entities\weapons">
+      <UniqueIdentifier>{DBC6D63A-FC29-3238-AAF8-A35B33F38059}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\shared\materials">
+      <UniqueIdentifier>{FA8FE9E2-7821-399C-90F0-8F10D91E5223}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\shared\studio">
+      <UniqueIdentifier>{9DFB9910-AC13-36D3-BE0E-9B4276BF31AA}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="keyvalues">
+      <UniqueIdentifier>{3031163C-E2D9-389A-A584-EA58B0CD5507}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="pm_shared">
+      <UniqueIdentifier>{A9D024CB-7112-3539-A11E-8384057A39A0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="public">
+      <UniqueIdentifier>{73BAACBE-9473-3FA3-8ADC-D5AEACBE74D5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="public\math">
+      <UniqueIdentifier>{621F05DA-AE78-37F9-BEA5-30CB71A78DB5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shared">
+      <UniqueIdentifier>{69F3A2B0-D631-3BC4-B6E0-F1E51CDE6F79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shared\engine">
+      <UniqueIdentifier>{FFFF1F81-8FA2-35B2-B69C-C8BD9C4AA15F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="utility">
+      <UniqueIdentifier>{83849BB8-D12D-35EB-9E66-AC6568DDF48D}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

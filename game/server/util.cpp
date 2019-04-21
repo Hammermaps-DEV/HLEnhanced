@@ -31,24 +31,24 @@
 #include "Weapons.h"
 #include "gamerules/GameRules.h"
 
-void UTIL_ParametricRocket( CBaseEntity* pEntity, Vector vecOrigin, Vector vecAngles, CBaseEntity* pOwner )
+void UTIL_ParametricRocket( entvars_t *pev, Vector vecOrigin, Vector vecAngles, edict_t *owner )
 {	
-	pEntity->pev->startpos = vecOrigin;
+	pev->startpos = vecOrigin;
 	// Trace out line to end pos
 	TraceResult tr;
 	UTIL_MakeVectors( vecAngles );
-	UTIL_TraceLine( pEntity->pev->startpos, pEntity->pev->startpos + gpGlobals->v_forward * 8192, ignore_monsters, pOwner ? pOwner->edict() : nullptr, &tr);
-	pEntity->pev->endpos = tr.vecEndPos;
+	UTIL_TraceLine( pev->startpos, pev->startpos + gpGlobals->v_forward * 8192, ignore_monsters, owner, &tr);
+	pev->endpos = tr.vecEndPos;
 
 	// Now compute how long it will take based on current velocity
-	Vector vecTravel = pEntity->pev->endpos - pEntity->pev->startpos;
+	Vector vecTravel = pev->endpos - pev->startpos;
 	float travelTime = 0.0;
-	if ( pEntity->GetAbsVelocity().Length() > 0 )
+	if ( pev->velocity.Length() > 0 )
 	{
-		travelTime = vecTravel.Length() / pEntity->GetAbsVelocity().Length();
+		travelTime = vecTravel.Length() / pev->velocity.Length();
 	}
-	pEntity->pev->starttime = gpGlobals->time;
-	pEntity->pev->impacttime = gpGlobals->time + travelTime;
+	pev->starttime = gpGlobals->time;
+	pev->impacttime = gpGlobals->time + travelTime;
 }
 
 int g_groupmask = 0;
@@ -298,13 +298,6 @@ CBaseEntity* UTIL_FindEntityByTarget( CBaseEntity* pStartEntity, const char* con
 	return UTIL_FindEntityByString( pStartEntity, "target", pszTarget );
 }
 
-CBaseEntity* UTIL_EntityByIndex( const int iIndex )
-{
-	if( auto pEntity = g_engfuncs.pfnPEntityOfEntIndex( iIndex ) )
-		return GET_PRIVATE( pEntity );
-
-	return nullptr;
-}
 
 // returns a CBasePlayer pointer to a player by index.  Only returns if the player is spawned and connected
 // otherwise returns nullptr
@@ -1325,7 +1318,7 @@ bool UTIL_IsPointEntity( const CBaseEntity* const pEnt )
 	if( !pEnt )
 		return false;
 
-	if( !pEnt->GetModelIndex() )
+	if( !pEnt->pev->modelindex )
 		return true;
 
 	//Keep the special cases for these just in case of weird edge cases. - Solokiller

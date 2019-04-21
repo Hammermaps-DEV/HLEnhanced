@@ -84,9 +84,7 @@ bool bIsMultiplayer()
 //Just loads a v_ model.
 void LoadVModel( const char* const pszViewModel, CBasePlayer* pPlayer )
 {
-	int iIndex;
-	gEngfuncs.CL_LoadModel( pszViewModel, &iIndex );
-	pPlayer->SetViewModelIndex( iIndex );
+	gEngfuncs.CL_LoadModel( pszViewModel, &pPlayer->pev->viewmodel );
 }
 
 void HUD_GetLastOrg( Vector& vecOrigin )

@@ -35,8 +35,8 @@ void CWeaponBox::Spawn()
 {
 	Precache();
 
-	SetMoveType( MOVETYPE_TOSS );
-	SetSolidType( SOLID_TRIGGER );
+	pev->movetype = MOVETYPE_TOSS;
+	pev->solid = SOLID_TRIGGER;
 
 	SetSize( g_vecZero, g_vecZero );
 
@@ -49,7 +49,7 @@ void CWeaponBox::Spawn()
 //=========================================================
 void CWeaponBox::Touch( CBaseEntity *pOther )
 {
-	if( !GetFlags().Any( FL_ONGROUND ) )
+	if( !( pev->flags & FL_ONGROUND ) )
 	{
 		return;
 	}
@@ -201,8 +201,8 @@ int CWeaponBox::GiveAmmo( int iCount, char *szName, int iMax, int *pIndex/* = NU
 //=========================================================
 void CWeaponBox::SetObjectCollisionBox()
 {
-	SetAbsMin( GetAbsOrigin() + Vector( -16, -16, 0 ) );
-	SetAbsMax( GetAbsOrigin() + Vector( 16, 16, 16 ) );
+	pev->absmin = GetAbsOrigin() + Vector( -16, -16, 0 );
+	pev->absmax = GetAbsOrigin() + Vector( 16, 16, 16 );
 }
 
 //=========================================================
@@ -222,7 +222,7 @@ void CWeaponBox::Kill()
 		while( pWeapon )
 		{
 			pWeapon->SetThink( &CBasePlayerWeapon::SUB_Remove );
-			pWeapon->SetNextThink( gpGlobals->time + 0.1 );
+			pWeapon->pev->nextthink = gpGlobals->time + 0.1;
 			pWeapon = pWeapon->m_pNext;
 		}
 	}
@@ -286,13 +286,13 @@ bool CWeaponBox::PackWeapon( CBasePlayerWeapon *pWeapon )
 		pWeapon->m_pNext = NULL;
 	}
 
-	pWeapon->GetSpawnFlags() |= SF_NORESPAWN;// never respawn
-	pWeapon->SetMoveType( MOVETYPE_NONE );
-	pWeapon->SetSolidType( SOLID_NOT );
-	pWeapon->GetEffects() = EF_NODRAW;
-	pWeapon->SetModelIndex( 0 );
-	pWeapon->SetModelName( iStringNull );
-	pWeapon->SetOwner( this );
+	pWeapon->pev->spawnflags |= SF_NORESPAWN;// never respawn
+	pWeapon->pev->movetype = MOVETYPE_NONE;
+	pWeapon->pev->solid = SOLID_NOT;
+	pWeapon->pev->effects = EF_NODRAW;
+	pWeapon->pev->modelindex = 0;
+	pWeapon->pev->model = iStringNull;
+	pWeapon->pev->owner = edict();
 	pWeapon->SetThink( NULL );// crowbar may be trying to swing again, etc.
 	pWeapon->SetTouch( NULL );
 	pWeapon->m_pPlayer = NULL;

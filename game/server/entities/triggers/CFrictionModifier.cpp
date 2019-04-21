@@ -15,9 +15,9 @@ LINK_ENTITY_TO_CLASS( func_friction, CFrictionModifier );
 // Modify an entity's friction
 void CFrictionModifier::Spawn( void )
 {
-	SetSolidType( SOLID_TRIGGER );
-	SetModel( GetModelName() );    // set size and link into world
-	SetMoveType( MOVETYPE_NONE );
+	pev->solid = SOLID_TRIGGER;
+	SetModel( STRING( pev->model ) );    // set size and link into world
+	pev->movetype = MOVETYPE_NONE;
 	SetTouch( &CFrictionModifier::ChangeFriction );
 }
 
@@ -36,6 +36,6 @@ void CFrictionModifier::KeyValue( KeyValueData *pkvd )
 // Sets toucher's friction to m_frictionFraction (1.0 = normal friction)
 void CFrictionModifier::ChangeFriction( CBaseEntity *pOther )
 {
-	if( pOther->GetMoveType() != MOVETYPE_BOUNCEMISSILE && pOther->GetMoveType() != MOVETYPE_BOUNCE )
-		pOther->SetFriction( m_frictionFraction );
+	if( pOther->pev->movetype != MOVETYPE_BOUNCEMISSILE && pOther->pev->movetype != MOVETYPE_BOUNCE )
+		pOther->pev->friction = m_frictionFraction;
 }

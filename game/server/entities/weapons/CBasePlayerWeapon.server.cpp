@@ -13,7 +13,7 @@ bool CBasePlayerWeapon::AddToPlayer( CBasePlayer *pPlayer )
 {
 	m_pPlayer = pPlayer;
 
-	pPlayer->GetWeapons().AddFlags( 1 << m_iId );
+	pPlayer->pev->weapons |= ( 1 << m_iId );
 
 	return AddWeapon();
 }
@@ -79,23 +79,21 @@ void CBasePlayerWeapon::DefaultTouch( CBaseEntity *pOther )
 //=========================================================
 void CBasePlayerWeapon::FallThink( void )
 {
-	SetNextThink( gpGlobals->time + 0.1 );
+	pev->nextthink = gpGlobals->time + 0.1;
 
-	if( GetFlags().Any( FL_ONGROUND ) )
+	if( pev->flags & FL_ONGROUND )
 	{
 		// clatter if we have an owner (i.e., dropped by someone)
 		// don't clatter if the gun is waiting to respawn (if it's waiting, it is invisible!)
-		if( !FNullEnt( GetOwner() ) )
+		if( !FNullEnt( pev->owner ) )
 		{
 			int pitch = 95 + RANDOM_LONG( 0, 29 );
 			EMIT_SOUND_DYN( this, CHAN_VOICE, "items/weapondrop1.wav", 1, ATTN_NORM, 0, pitch );
 		}
 
 		// lie flat
-		Vector vecAngles = GetAbsAngles();
-		vecAngles.x = 0;
-		vecAngles.z = 0;
-		SetAbsAngles( vecAngles );
+		pev->angles.x = 0;
+		pev->angles.z = 0;
 
 		Materialize();
 	}
@@ -106,15 +104,15 @@ void CBasePlayerWeapon::FallThink( void )
 //=========================================================
 void CBasePlayerWeapon::Materialize( void )
 {
-	if( GetEffects().Any( EF_NODRAW ) )
+	if( pev->effects & EF_NODRAW )
 	{
 		// changing from invisible state to visible.
 		EMIT_SOUND_DYN( this, CHAN_WEAPON, "items/suitchargeok1.wav", 1, ATTN_NORM, 0, 150 );
-		GetEffects().ClearFlags( EF_NODRAW );
-		GetEffects() |= EF_MUZZLEFLASH;
+		pev->effects &= ~EF_NODRAW;
+		pev->effects |= EF_MUZZLEFLASH;
 	}
 
-	SetSolidType( SOLID_TRIGGER );
+	pev->solid = SOLID_TRIGGER;
 
 	SetAbsOrigin( GetAbsOrigin() );// link into world.
 	SetTouch( &CBasePlayerWeapon::DefaultTouch );
@@ -136,7 +134,7 @@ void CBasePlayerWeapon::AttemptToMaterialize( void )
 		return;
 	}
 
-	SetNextThink( gpGlobals->time + time );
+	pev->nextthink = gpGlobals->time + time;
 }
 
 //=========================================================
@@ -147,11 +145,11 @@ CBaseEntity* CBasePlayerWeapon::Respawn( void )
 {
 	// make a copy of this weapon that is invisible and inaccessible to players (no touch function). The weapon spawn/respawn code
 	// will decide when to make the weapon visible and touchable.
-	CBaseEntity *pNewWeapon = CBaseEntity::Create( ( char * ) GetClassname(), g_pGameRules->VecWeaponRespawnSpot( this ), GetAbsAngles(), pev->owner );
+	CBaseEntity *pNewWeapon = CBaseEntity::Create( ( char * ) GetClassname(), g_pGameRules->VecWeaponRespawnSpot( this ), pev->angles, pev->owner );
 
 	if( pNewWeapon )
 	{
-		pNewWeapon->GetEffects() |= EF_NODRAW;// invisible for now
+		pNewWeapon->pev->effects |= EF_NODRAW;// invisible for now
 		pNewWeapon->SetTouch( NULL );// no touch
 		pNewWeapon->SetThink( &CBasePlayerWeapon::AttemptToMaterialize );
 
@@ -159,7 +157,7 @@ CBaseEntity* CBasePlayerWeapon::Respawn( void )
 
 		// not a typo! We want to know when the weapon the player just picked up should respawn! This new entity we created is the replacement,
 		// but when it should respawn is based on conditions belonging to the weapon that was taken.
-		pNewWeapon->SetNextThink( g_pGameRules->FlWeaponRespawnTime( this ) );
+		pNewWeapon->pev->nextthink = g_pGameRules->FlWeaponRespawnTime( this );
 	}
 	else
 	{
@@ -174,8 +172,8 @@ CBaseEntity* CBasePlayerWeapon::Respawn( void )
 //=========================================================
 void CBasePlayerWeapon::FallInit( void )
 {
-	SetMoveType( MOVETYPE_TOSS );
-	SetSolidType( SOLID_BBOX );
+	pev->movetype = MOVETYPE_TOSS;
+	pev->solid = SOLID_BBOX;
 
 	SetAbsOrigin( GetAbsOrigin() );
 	SetSize( Vector( 0, 0, 0 ), Vector( 0, 0, 0 ) );//pointsize until it lands on the ground.
@@ -183,7 +181,7 @@ void CBasePlayerWeapon::FallInit( void )
 	SetTouch( &CBasePlayerWeapon::DefaultTouch );
 	SetThink( &CBasePlayerWeapon::FallThink );
 
-	SetNextThink( gpGlobals->time + 0.1 );
+	pev->nextthink = gpGlobals->time + 0.1;
 }
 
 //=========================================================
@@ -307,7 +305,7 @@ void CBasePlayerWeapon::SendWeaponAnim( int iAnim, int body )
 {
 	const bool bSkipLocal = IsPredicted();
 
-	m_pPlayer->SetWeaponAnim( iAnim );
+	m_pPlayer->pev->weaponanim = iAnim;
 
 #if defined( CLIENT_WEAPONS )
 	if( bSkipLocal && ENGINE_CANSKIP( m_pPlayer->edict() ) )
@@ -316,7 +314,7 @@ void CBasePlayerWeapon::SendWeaponAnim( int iAnim, int body )
 
 	MESSAGE_BEGIN( MSG_ONE, SVC_WEAPONANIM, NULL, m_pPlayer );
 	WRITE_BYTE( iAnim );						// sequence number
-	WRITE_BYTE( GetBody() );					// weaponmodel bodygroup.
+	WRITE_BYTE( pev->body );					// weaponmodel bodygroup.
 	MESSAGE_END();
 }
 
@@ -324,26 +322,26 @@ void CBasePlayerWeapon::Drop( void )
 {
 	SetTouch( NULL );
 	SetThink( &CBasePlayerWeapon::SUB_Remove );
-	SetNextThink( gpGlobals->time + .1 );
+	pev->nextthink = gpGlobals->time + .1;
 }
 
 void CBasePlayerWeapon::Kill( void )
 {
 	SetTouch( NULL );
 	SetThink( &CBasePlayerWeapon::SUB_Remove );
-	SetNextThink( gpGlobals->time + .1 );
+	pev->nextthink = gpGlobals->time + .1;
 }
 
 void CBasePlayerWeapon::AttachToPlayer( CBasePlayer *pPlayer )
 {
-	SetMoveType( MOVETYPE_FOLLOW );
-	SetSolidType( SOLID_NOT );
-	SetAimEntity( pPlayer );
-	GetEffects() = EF_NODRAW; // ??
-	SetModelIndex( 0 );// server won't send down to clients if modelindex == 0
-	SetModelName( iStringNull );
-	SetOwner( pPlayer );
-	SetNextThink( gpGlobals->time + .1 );
+	pev->movetype = MOVETYPE_FOLLOW;
+	pev->solid = SOLID_NOT;
+	pev->aiment = pPlayer->edict();
+	pev->effects = EF_NODRAW; // ??
+	pev->modelindex = 0;// server won't send down to clients if modelindex == 0
+	pev->model = iStringNull;
+	pev->owner = pPlayer->edict();
+	pev->nextthink = gpGlobals->time + .1;
 	SetTouch( NULL );
 }
 
@@ -373,8 +371,8 @@ bool CBasePlayerWeapon::DefaultDeploy( const char* const pszViewModel, const cha
 		return false;
 
 	//TODO: need to alloc these for custom ents - Solokiller
-	m_pPlayer->SetViewModelName( pszViewModel );
-	m_pPlayer->SetWeaponModelName( pszWeaponModel );
+	m_pPlayer->pev->viewmodel = MAKE_STRING( pszViewModel );
+	m_pPlayer->pev->weaponmodel = MAKE_STRING( pszWeaponModel );
 	m_pPlayer->SetWeaponAnimType( pszAnimExt );
 	SendWeaponAnim( iAnim, body );
 
@@ -446,8 +444,9 @@ bool CBasePlayerWeapon::UpdateClientData( CBasePlayer *pPlayer )
 void CBasePlayerWeapon::RetireWeapon( void )
 {
 	// first, no viewmodel at all.
-	m_pPlayer->ClearViewModelName();
-	m_pPlayer->ClearWeaponModelName();
+	m_pPlayer->pev->viewmodel = iStringNull;
+	m_pPlayer->pev->weaponmodel = iStringNull;
+	//m_pPlayer->pev->viewmodelindex = NULL;
 
 	g_pGameRules->GetNextBestWeapon( m_pPlayer, this );
 }
@@ -455,8 +454,8 @@ void CBasePlayerWeapon::RetireWeapon( void )
 void CBasePlayerWeapon::Holster()
 {
 	m_fInReload = false; // cancel any reload in progress.
-	m_pPlayer->ClearViewModelName();
-	m_pPlayer->ClearWeaponModelName();
+	m_pPlayer->pev->viewmodel = 0;
+	m_pPlayer->pev->weaponmodel = 0;
 }
 
 void CBasePlayerWeapon::PrintState( void )

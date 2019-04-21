@@ -112,6 +112,10 @@ const char *CHeadCrab::pBiteSounds[] =
 	"headcrab/hc_headbite.wav",
 };
 
+//=========================================================
+// Classify - indicates this monster's place in the 
+// relationship table.
+//=========================================================
 EntityClassification_t CHeadCrab::GetClassification()
 {
 	return EntityClassifications().GetClassificationId( classify::ALIEN_PREY );
@@ -133,7 +137,11 @@ Vector CHeadCrab::BodyTarget( const Vector &posSrc ) const
 	return Center();
 }
 
-void CHeadCrab::UpdateYawSpeed()
+//=========================================================
+// SetYawSpeed - allows each sequence to have a different
+// turn rate associated with it.
+//=========================================================
+void CHeadCrab :: SetYawSpeed ( void )
 {
 	int ys;
 
@@ -158,19 +166,23 @@ void CHeadCrab::UpdateYawSpeed()
 		break;
 	}
 
-	SetYawSpeed( ys );
+	pev->yaw_speed = ys;
 }
 
+//=========================================================
+// HandleAnimEvent - catches the monster-specific messages
+// that occur when tagged animation frames are played.
+//=========================================================
 void CHeadCrab :: HandleAnimEvent( AnimEvent_t& event )
 {
 	switch( event.event )
 	{
 		case HC_AE_JUMPATTACK:
 		{
-			GetFlags().ClearFlags( FL_ONGROUND );
+			ClearBits( pev->flags, FL_ONGROUND );
 
 			SetAbsOrigin( GetAbsOrigin() + Vector ( 0 , 0 , 1) );// take him off ground so engine doesn't instantly reset onground 
-			UTIL_MakeVectors ( GetAbsAngles() );
+			UTIL_MakeVectors ( pev->angles );
 
 			Vector vecJumpDir;
 			if (m_hEnemy != NULL)
@@ -180,14 +192,14 @@ void CHeadCrab :: HandleAnimEvent( AnimEvent_t& event )
 					gravity = 1;
 
 				// How fast does the headcrab need to travel to reach that height given gravity?
-				float height = (m_hEnemy->GetAbsOrigin().z + m_hEnemy->GetViewOffset().z - GetAbsOrigin().z);
+				float height = (m_hEnemy->GetAbsOrigin().z + m_hEnemy->pev->view_ofs.z - GetAbsOrigin().z);
 				if (height < 16)
 					height = 16;
 				float speed = sqrt( 2 * gravity * height );
 				float time = speed / gravity;
 
 				// Scale the sideways velocity to get there at the right time
-				vecJumpDir = (m_hEnemy->GetAbsOrigin() + m_hEnemy->GetViewOffset() - GetAbsOrigin());
+				vecJumpDir = (m_hEnemy->GetAbsOrigin() + m_hEnemy->pev->view_ofs - GetAbsOrigin());
 				vecJumpDir = vecJumpDir * ( 1.0 / time );
 
 				// Speed to offset gravity at the desired height
@@ -211,7 +223,7 @@ void CHeadCrab :: HandleAnimEvent( AnimEvent_t& event )
 			if ( iSound != 0 )
 				EMIT_SOUND_DYN( this, CHAN_VOICE, pAttackSounds[iSound], GetSoundVolume(), ATTN_IDLE, 0, GetVoicePitch() );
 
-			SetAbsVelocity( vecJumpDir );
+			pev->velocity = vecJumpDir;
 			m_flNextAttack = gpGlobals->time + 2;
 		}
 		break;
@@ -222,6 +234,9 @@ void CHeadCrab :: HandleAnimEvent( AnimEvent_t& event )
 	}
 }
 
+//=========================================================
+// Spawn
+//=========================================================
 void CHeadCrab :: Spawn()
 {
 	Precache( );
@@ -229,19 +244,22 @@ void CHeadCrab :: Spawn()
 	SetModel( "models/headcrab.mdl");
 	SetSize( Vector(-12, -12, 0), Vector(12, 12, 24) );
 
-	SetSolidType( SOLID_SLIDEBOX );
-	SetMoveType( MOVETYPE_STEP );
+	pev->solid			= SOLID_SLIDEBOX;
+	pev->movetype		= MOVETYPE_STEP;
 	m_bloodColor		= BLOOD_COLOR_GREEN;
-	GetEffects().ClearAll();
-	SetHealth( gSkillData.GetHeadcrabHealth() );
-	SetViewOffset( Vector ( 0, 0, 20 ) );// position of the eyes relative to monster's origin.
-	SetYawSpeed( 5 );//!!! should we put this in the monster's changeanim function since turn rates may vary with state/anim?
+	pev->effects		= 0;
+	pev->health			= gSkillData.GetHeadcrabHealth();
+	pev->view_ofs		= Vector ( 0, 0, 20 );// position of the eyes relative to monster's origin.
+	pev->yaw_speed		= 5;//!!! should we put this in the monster's changeanim function since turn rates may vary with state/anim?
 	m_flFieldOfView		= 0.5;// indicates the width of this monster's forward view cone ( as a dotproduct result )
 	m_MonsterState		= MONSTERSTATE_NONE;
 
 	MonsterInit();
 }
 
+//=========================================================
+// Precache - precaches all resources this monster needs
+//=========================================================
 void CHeadCrab :: Precache()
 {
 	PRECACHE_SOUND_ARRAY(pIdleSounds);
@@ -254,9 +272,13 @@ void CHeadCrab :: Precache()
 	PRECACHE_MODEL("models/headcrab.mdl");
 }	
 
-void CHeadCrab :: RunTask ( const Task_t& task )
+
+//=========================================================
+// RunTask 
+//=========================================================
+void CHeadCrab :: RunTask ( const Task_t* pTask )
 {
-	switch ( task.iTask )
+	switch ( pTask->iTask )
 	{
 	case TASK_RANGE_ATTACK1:
 	case TASK_RANGE_ATTACK2:
@@ -271,7 +293,7 @@ void CHeadCrab :: RunTask ( const Task_t& task )
 		}
 	default:
 		{
-			CBaseMonster :: RunTask( task );
+			CBaseMonster :: RunTask(pTask);
 		}
 	}
 }
@@ -282,7 +304,7 @@ void CHeadCrab :: RunTask ( const Task_t& task )
 //=========================================================
 void CHeadCrab :: LeapTouch ( CBaseEntity *pOther )
 {
-	if ( pOther->GetTakeDamageMode() == DAMAGE_NO )
+	if ( !pOther->pev->takedamage )
 	{
 		return;
 	}
@@ -293,7 +315,7 @@ void CHeadCrab :: LeapTouch ( CBaseEntity *pOther )
 	}
 
 	// Don't hit if back on ground
-	if ( !GetFlags().Any( FL_ONGROUND ) )
+	if ( !FBitSet( pev->flags, FL_ONGROUND ) )
 	{
 		EMIT_SOUND_DYN( this, CHAN_WEAPON, RANDOM_SOUND_ARRAY(pBiteSounds), GetSoundVolume(), ATTN_IDLE, 0, GetVoicePitch() );
 		
@@ -303,6 +325,9 @@ void CHeadCrab :: LeapTouch ( CBaseEntity *pOther )
 	SetTouch( NULL );
 }
 
+//=========================================================
+// PrescheduleThink
+//=========================================================
 void CHeadCrab :: PrescheduleThink ( void )
 {
 	// make the crab coo a little bit in combat state
@@ -312,11 +337,11 @@ void CHeadCrab :: PrescheduleThink ( void )
 	}
 }
 
-void CHeadCrab :: StartTask ( const Task_t& task )
+void CHeadCrab :: StartTask ( const Task_t* pTask )
 {
 	m_iTaskStatus = TASKSTATUS_RUNNING;
 
-	switch ( task.iTask )
+	switch ( pTask->iTask )
 	{
 	case TASK_RANGE_ATTACK1:
 		{
@@ -327,26 +352,33 @@ void CHeadCrab :: StartTask ( const Task_t& task )
 		}
 	default:
 		{
-			CBaseMonster :: StartTask( task );
+			CBaseMonster :: StartTask( pTask );
 		}
 	}
 }
 
+
+//=========================================================
+// CheckRangeAttack1
+//=========================================================
 bool CHeadCrab :: CheckRangeAttack1 ( float flDot, float flDist )
 {
-	if ( GetFlags().Any( FL_ONGROUND ) && flDist <= 256 && flDot >= 0.65 )
+	if ( FBitSet( pev->flags, FL_ONGROUND ) && flDist <= 256 && flDot >= 0.65 )
 	{
 		return true;
 	}
 	return false;
 }
 
+//=========================================================
+// CheckRangeAttack2
+//=========================================================
 bool CHeadCrab :: CheckRangeAttack2 ( float flDot, float flDist )
 {
 	return false;
 	// BUGBUG: Why is this code here?  There is no ACT_RANGE_ATTACK2 animation.  I've disabled it for now.
 #if 0
-	if ( GetFlags().Any( FL_ONGROUND ) && flDist > 64 && flDist <= 256 && flDot >= 0.5 )
+	if ( FBitSet( pev->flags, FL_ONGROUND ) && flDist > 64 && flDist <= 256 && flDot >= 0.5 )
 	{
 		return true;
 	}
@@ -374,16 +406,25 @@ void CHeadCrab :: IdleSound ( void )
 	EMIT_SOUND_DYN( this, CHAN_VOICE, RANDOM_SOUND_ARRAY(pIdleSounds), GetSoundVolume(), ATTN_IDLE, 0, GetVoicePitch() );
 }
 
+//=========================================================
+// AlertSound 
+//=========================================================
 void CHeadCrab :: AlertSound ( void )
 {
 	EMIT_SOUND_DYN( this, CHAN_VOICE, RANDOM_SOUND_ARRAY(pAlertSounds), GetSoundVolume(), ATTN_IDLE, 0, GetVoicePitch() );
 }
 
+//=========================================================
+// AlertSound 
+//=========================================================
 void CHeadCrab :: PainSound ( void )
 {
 	EMIT_SOUND_DYN( this, CHAN_VOICE, RANDOM_SOUND_ARRAY(pPainSounds), GetSoundVolume(), ATTN_IDLE, 0, GetVoicePitch() );
 }
 
+//=========================================================
+// DeathSound 
+//=========================================================
 void CHeadCrab :: DeathSound ( void )
 {
 	EMIT_SOUND_DYN( this, CHAN_VOICE, RANDOM_SOUND_ARRAY(pDeathSounds), GetSoundVolume(), ATTN_IDLE, 0, GetVoicePitch() );

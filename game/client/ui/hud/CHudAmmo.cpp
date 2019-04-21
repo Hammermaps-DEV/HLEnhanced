@@ -109,7 +109,7 @@ void CHudAmmo::Init()
 
 	if( CBasePlayer* pPlayer = g_Prediction.GetLocalPlayer() )
 	{
-		pPlayer->GetWeapons().ClearAll();
+		pPlayer->pev->weapons = 0;
 	}
 
 	gHR.Init();
@@ -125,7 +125,7 @@ void CHudAmmo::Reset()
 
 	if( CBasePlayer* pPlayer = g_Prediction.GetLocalPlayer() )
 	{
-		pPlayer->GetWeapons().ClearAll();
+		pPlayer->pev->weapons = 0;
 	}
 
 	m_pWeapon = nullptr;
@@ -179,9 +179,9 @@ void CHudAmmo::Think()
 
 	CBasePlayer* pPlayer = g_Prediction.GetLocalPlayer();
 
-	if ( Hud().GetWeaponBits() != pPlayer->GetWeapons().Get() )
+	if ( Hud().GetWeaponBits() != pPlayer->pev->weapons )
 	{
-		pPlayer->GetWeapons().Set( Hud().GetWeaponBits() );
+		pPlayer->pev->weapons = Hud().GetWeaponBits();
 
 		for (int i = MAX_WEAPONS-1; i > 0; i-- )
 		{

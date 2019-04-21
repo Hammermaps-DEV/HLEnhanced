@@ -9,8 +9,8 @@ LINK_ENTITY_TO_CLASS( env_funnel, CEnvFunnel );
 void CEnvFunnel::Spawn( void )
 {
 	Precache();
-	SetSolidType( SOLID_NOT );
-	GetEffects() = EF_NODRAW;
+	pev->solid = SOLID_NOT;
+	pev->effects = EF_NODRAW;
 }
 
 void CEnvFunnel::Precache( void )
@@ -27,7 +27,7 @@ void CEnvFunnel::Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE us
 	WRITE_COORD( GetAbsOrigin().z );
 	WRITE_SHORT( m_iSprite );
 
-	if( GetSpawnFlags().Any( SF_FUNNEL_REVERSE ) )// funnel flows in reverse?
+	if( pev->spawnflags & SF_FUNNEL_REVERSE )// funnel flows in reverse?
 	{
 		WRITE_SHORT( 1 );
 	}
@@ -40,5 +40,5 @@ void CEnvFunnel::Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE us
 	MESSAGE_END();
 
 	SetThink( &CEnvFunnel::SUB_Remove );
-	SetNextThink( gpGlobals->time );
+	pev->nextthink = gpGlobals->time;
 }

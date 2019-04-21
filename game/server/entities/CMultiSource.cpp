@@ -56,10 +56,10 @@ void CMultiSource::Spawn()
 {
 	// set up think for later registration
 
-	SetSolidType( SOLID_NOT );
-	SetMoveType( MOVETYPE_NONE );
-	SetNextThink( gpGlobals->time + 0.1 );
-	GetSpawnFlags() |= SF_MULTI_INIT;	// Until it's initialized
+	pev->solid = SOLID_NOT;
+	pev->movetype = MOVETYPE_NONE;
+	pev->nextthink = gpGlobals->time + 0.1;
+	pev->spawnflags |= SF_MULTI_INIT;	// Until it's initialized
 	SetThink( &CMultiSource::Register );
 }
 
@@ -108,8 +108,8 @@ bool CMultiSource::IsTriggered( const CBaseEntity* const ) const
 	int i = 0;
 
 	// Still initializing?
-	if( GetSpawnFlags().Any( SF_MULTI_INIT ) )
-		return false;
+	if( pev->spawnflags & SF_MULTI_INIT )
+		return 0;
 
 	while( i < m_iTotal )
 	{
@@ -151,5 +151,5 @@ void CMultiSource::Register( void )
 			m_rgEntities[ m_iTotal++ ] = pTarget;
 	}
 
-	GetSpawnFlags().ClearFlags( SF_MULTI_INIT );
+	pev->spawnflags &= ~SF_MULTI_INIT;
 }

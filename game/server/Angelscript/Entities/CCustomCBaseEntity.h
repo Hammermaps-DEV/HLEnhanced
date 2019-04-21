@@ -276,7 +276,7 @@ public:
 		CALL_EXTEND_FUNC_RET( int, BloodColor, "() const" );
 	}
 
-	void TraceAttack( const CTakeDamageInfo& info, Vector vecDir, TraceResult& tr ) override
+	void TraceAttack( const CTakeDamageInfo& info, Vector vecDir, TraceResult* ptr ) override
 	{
 		if( auto pFunction = GetObject().GetTypeInfo()->GetMethodByDecl( "void TraceAttack(const CTakeDamageInfo& in, Vector, TraceResult& in)" ) )
 		{
@@ -284,15 +284,15 @@ public:
 
 			CASMethod method( *pFunction, ctx, GetObject().Get() );
 
-			method.Call( CallFlag::NONE, &info, &vecDir, &tr );
+			method.Call( CallFlag::NONE, &info, &vecDir, &ptr );
 		}
 		else
 		{
-			BaseClass::TraceAttack( info, vecDir, tr );
+			BaseClass::TraceAttack( info, vecDir, ptr );
 		}
 	}
 
-	void TraceBleed( const CTakeDamageInfo& info, Vector vecDir, TraceResult& tr ) override
+	void TraceBleed( const CTakeDamageInfo& info, Vector vecDir, TraceResult* ptr ) override
 	{
 		if( auto pFunction = GetObject().GetTypeInfo()->GetMethodByDecl( "void TraceBleed(const CTakeDamageInfo& in, Vector, TraceResult& in)" ) )
 		{
@@ -300,11 +300,11 @@ public:
 
 			CASMethod method( *pFunction, ctx, GetObject().Get() );
 
-			method.Call( CallFlag::NONE, &info, &vecDir, &tr );
+			method.Call( CallFlag::NONE, &info, &vecDir, &ptr );
 		}
 		else
 		{
-			BaseClass::TraceBleed( info, vecDir, tr );
+			BaseClass::TraceBleed( info, vecDir, ptr );
 		}
 	}
 

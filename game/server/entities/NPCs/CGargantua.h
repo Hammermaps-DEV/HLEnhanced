@@ -48,33 +48,24 @@ public:
 
 	void UpdateOnRemove() override;
 
-	void UpdateYawSpeed() override;
+	void SetYawSpeed( void ) override;
 	EntityClassification_t GetClassification() override;
 	void OnTakeDamage( const CTakeDamageInfo& info ) override;
-	void TraceAttack( const CTakeDamageInfo& info, Vector vecDir, TraceResult& tr ) override;
+	void TraceAttack( const CTakeDamageInfo& info, Vector vecDir, TraceResult *ptr ) override;
 	void HandleAnimEvent( AnimEvent_t& event ) override;
 
-	/**
-	*	@brief Garg swipe attack
-	*/
-	bool CheckMeleeAttack1( float flDot, float flDist ) override;
-
+	bool CheckMeleeAttack1( float flDot, float flDist ) override;		// Swipe
 	bool CheckMeleeAttack2( float flDot, float flDist ) override;		// Flames
-
-	/**
-	*	@brief Stomp attack
-	*/
-	bool CheckRangeAttack1( float flDot, float flDist ) override;
-
+	bool CheckRangeAttack1( float flDot, float flDist ) override;		// Stomp attack
 	void SetObjectCollisionBox( void ) override
 	{
-		SetAbsMin( GetAbsOrigin() + Vector( -80, -80, 0 ) );
-		SetAbsMax( GetAbsOrigin() + Vector( 80, 80, 214 ) );
+		pev->absmin = GetAbsOrigin() + Vector( -80, -80, 0 );
+		pev->absmax = GetAbsOrigin() + Vector( 80, 80, 214 );
 	}
 
 	Schedule_t *GetScheduleOfType( int Type ) override;
-	void StartTask( const Task_t& task ) override;
-	void RunTask( const Task_t& task ) override;
+	void StartTask( const Task_t* pTask ) override;
+	void RunTask( const Task_t* pTask ) override;
 
 	void PrescheduleThink( void ) override;
 

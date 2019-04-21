@@ -60,7 +60,7 @@ void CEnvLight::KeyValue( KeyValueData* pkvd )
 void CEnvLight::Spawn( void )
 {
 	char szVector[ 64 ];
-	UTIL_MakeAimVectors( GetAbsAngles() );
+	UTIL_MakeAimVectors( pev->angles );
 
 	sprintf( szVector, "%f", gpGlobals->v_forward.x );
 	CVAR_SET_STRING( "sv_skyvec_x", szVector );

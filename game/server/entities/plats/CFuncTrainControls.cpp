@@ -14,15 +14,15 @@ LINK_ENTITY_TO_CLASS( func_traincontrols, CFuncTrainControls );
 
 void CFuncTrainControls::Spawn( void )
 {
-	SetSolidType( SOLID_NOT );
-	SetMoveType( MOVETYPE_NONE );
-	SetModel( GetModelName() );
+	pev->solid = SOLID_NOT;
+	pev->movetype = MOVETYPE_NONE;
+	SetModel( STRING( pev->model ) );
 
-	SetSize( GetRelMin(), GetRelMax() );
+	SetSize( pev->mins, pev->maxs );
 	SetAbsOrigin( GetAbsOrigin() );
 
 	SetThink( &CFuncTrainControls::Find );
-	SetNextThink( gpGlobals->time );
+	pev->nextthink = gpGlobals->time;
 }
 
 void CFuncTrainControls::Find( void )

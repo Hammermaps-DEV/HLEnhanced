@@ -25,12 +25,12 @@ CLaserSpot *CLaserSpot::CreateSpot()
 void CLaserSpot::Spawn()
 {
 	Precache();
-	SetMoveType( MOVETYPE_NONE );
-	SetSolidType( SOLID_NOT );
+	pev->movetype = MOVETYPE_NONE;
+	pev->solid = SOLID_NOT;
 
-	SetRenderMode( kRenderGlow );
-	SetRenderFX( kRenderFxNoDissipation );
-	SetRenderAmount( 255 );
+	pev->rendermode = kRenderGlow;
+	pev->renderfx = kRenderFxNoDissipation;
+	pev->renderamt = 255;
 
 	SetModel( "sprites/laserdot.spr" );
 	SetAbsOrigin( GetAbsOrigin() );
@@ -41,10 +41,10 @@ void CLaserSpot::Spawn()
 //=========================================================
 void CLaserSpot::Suspend( float flSuspendTime )
 {
-	GetEffects() |= EF_NODRAW;
+	pev->effects |= EF_NODRAW;
 
 	SetThink( &CLaserSpot::Revive );
-	SetNextThink( gpGlobals->time + flSuspendTime );
+	pev->nextthink = gpGlobals->time + flSuspendTime;
 }
 
 //=========================================================
@@ -52,7 +52,7 @@ void CLaserSpot::Suspend( float flSuspendTime )
 //=========================================================
 void CLaserSpot::Revive()
 {
-	GetEffects().ClearFlags( EF_NODRAW );
+	pev->effects &= ~EF_NODRAW;
 
 	SetThink( NULL );
 }

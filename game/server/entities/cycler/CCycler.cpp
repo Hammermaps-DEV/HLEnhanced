@@ -32,7 +32,7 @@ END_DATADESC()
 
 // Cycler member functions
 
-void CCycler :: GenericCyclerSpawn(const char* szModel, Vector vecMin, Vector vecMax)
+void CCycler :: GenericCyclerSpawn(char *szModel, Vector vecMin, Vector vecMax)
 {
 	if (!szModel || !*szModel)
 	{
@@ -44,7 +44,7 @@ void CCycler :: GenericCyclerSpawn(const char* szModel, Vector vecMin, Vector ve
 	//TODO: needed? Only the "cycler" entity ever calls this method anyway. - Solokiller
 	SetClassname( "cycler" );
 	PRECACHE_MODEL( szModel );
-	SetModel( szModel );
+	SetModel(	szModel);
 
 	CCycler::Spawn( );
 
@@ -59,49 +59,49 @@ void CCycler::OnTakeDamage( const CTakeDamageInfo& info )
 {
 	if( m_animate )
 	{
-		SetSequence( GetSequence() + 1 );
+		pev->sequence++;
 
 		ResetSequenceInfo();
 
 		if( m_flFrameRate == 0.0 )
 		{
-			SetSequence( 0 );
+			pev->sequence = 0;
 			ResetSequenceInfo();
 		}
-		SetFrame( 0 );
+		pev->frame = 0;
 	}
 	else
 	{
-		SetFrameRate( 1.0 );
+		pev->framerate = 1.0;
 		StudioFrameAdvance( 0.1 );
-		SetFrameRate( 0 );
-		ALERT( at_console, "sequence: %d, frame %.0f\n", GetSequence(), GetFrame() );
+		pev->framerate = 0;
+		ALERT( at_console, "sequence: %d, frame %.0f\n", pev->sequence, pev->frame );
 	}
 }
 
 void CCycler :: Spawn( )
 {
 	InitBoneControllers();
-	SetSolidType( SOLID_SLIDEBOX );
-	SetMoveType( MOVETYPE_NONE );
-	SetTakeDamageMode( DAMAGE_YES );
-	GetEffects().ClearAll();
-	SetHealth( 80000 );// no cycler should die
-	SetYawSpeed( 5 );
-	SetIdealYaw( GetAbsAngles().y );
+	pev->solid			= SOLID_SLIDEBOX;
+	pev->movetype		= MOVETYPE_NONE;
+	pev->takedamage		= DAMAGE_YES;
+	pev->effects		= 0;
+	pev->health			= 80000;// no cycler should die
+	pev->yaw_speed		= 5;
+	pev->ideal_yaw		= pev->angles.y;
 	ChangeYaw( 360 );
 	
 	m_flFrameRate		= 75;
 	m_flGroundSpeed		= 0;
 
-	SetNextThink( GetNextThink() + 1.0 );
+	pev->nextthink		+= 1.0;
 
 	ResetSequenceInfo( );
 
-	if( GetSequence() != 0 || GetFrame() != 0)
+	if (pev->sequence != 0 || pev->frame != 0)
 	{
 		m_animate = 0;
-		SetFrameRate( 0 );
+		pev->framerate = 0;
 	}
 	else
 	{
@@ -114,7 +114,7 @@ void CCycler :: Spawn( )
 //
 void CCycler :: Think( void )
 {
-	SetNextThink( gpGlobals->time + 0.1 );
+	pev->nextthink = gpGlobals->time + 0.1;
 
 	if (m_animate)
 	{
@@ -124,13 +124,13 @@ void CCycler :: Think( void )
 	{
 		// ResetSequenceInfo();
 		// hack to avoid reloading model every frame
-		SetAnimTime( gpGlobals->time );
-		SetFrameRate( 1.0 );
+		pev->animtime = gpGlobals->time;
+		pev->framerate = 1.0;
 		m_fSequenceFinished = false;
 		m_flLastEventCheck = gpGlobals->time;
-		SetFrame( 0 );
+		pev->frame = 0;
 		if (!m_animate)
-			SetFrameRate( 0.0 );	// FIX: don't reset framerate
+			pev->framerate = 0.0;	// FIX: don't reset framerate
 	}
 }
 
@@ -141,7 +141,7 @@ void CCycler :: Use ( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE us
 {
 	m_animate = !m_animate;
 	if (m_animate)
-		SetFrameRate( 1.0 );
+		pev->framerate = 1.0;
 	else
-		SetFrameRate( 0.0 );
+		pev->framerate = 0.0;
 }

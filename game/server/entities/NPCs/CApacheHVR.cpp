@@ -32,8 +32,8 @@ void CApacheHVR::Spawn( void )
 {
 	Precache();
 	// motor
-	SetMoveType( MOVETYPE_FLY );
-	SetSolidType( SOLID_BBOX );
+	pev->movetype = MOVETYPE_FLY;
+	pev->solid = SOLID_BBOX;
 
 	SetModel( "models/HVR.mdl" );
 	SetSize( Vector( 0, 0, 0 ), Vector( 0, 0, 0 ) );
@@ -42,13 +42,13 @@ void CApacheHVR::Spawn( void )
 	SetThink( &CApacheHVR::IgniteThink );
 	SetTouch( &CApacheHVR::ExplodeTouch );
 
-	UTIL_MakeAimVectors( GetAbsAngles() );
+	UTIL_MakeAimVectors( pev->angles );
 	m_vecForward = gpGlobals->v_forward;
-	SetGravity( 0.5 );
+	pev->gravity = 0.5;
 
-	SetNextThink( gpGlobals->time + 0.1 );
+	pev->nextthink = gpGlobals->time + 0.1;
 
-	SetDamage( 150 );
+	pev->dmg = 150;
 }
 
 void CApacheHVR::Precache( void )
@@ -60,10 +60,10 @@ void CApacheHVR::Precache( void )
 
 void CApacheHVR::IgniteThink( void )
 {
-	// SetMoveType( MOVETYPE_TOSS );
+	// pev->movetype = MOVETYPE_TOSS;
 
-	// SetMoveType( MOVETYPE_FLY );
-	GetEffects() |= EF_LIGHT;
+	// pev->movetype = MOVETYPE_FLY;
+	pev->effects |= EF_LIGHT;
 
 	// make rocket sound
 	EMIT_SOUND( this, CHAN_VOICE, "weapons/rocket1.wav", 1, 0.5 );
@@ -85,7 +85,7 @@ void CApacheHVR::IgniteThink( void )
 
 					// set to accelerate
 	SetThink( &CApacheHVR::AccelerateThink );
-	SetNextThink( gpGlobals->time + 0.1 );
+	pev->nextthink = gpGlobals->time + 0.1;
 }
 
 void CApacheHVR::AccelerateThink( void )
@@ -98,14 +98,14 @@ void CApacheHVR::AccelerateThink( void )
 	}
 
 	// accelerate
-	float flSpeed = GetAbsVelocity().Length();
+	float flSpeed = pev->velocity.Length();
 	if( flSpeed < 1800 )
 	{
-		SetAbsVelocity( GetAbsVelocity() + m_vecForward * 200 );
+		pev->velocity = pev->velocity + m_vecForward * 200;
 	}
 
 	// re-aim
-	SetAbsAngles( UTIL_VecToAngles( GetAbsVelocity() ) );
+	pev->angles = UTIL_VecToAngles( pev->velocity );
 
-	SetNextThink( gpGlobals->time + 0.1 );
+	pev->nextthink = gpGlobals->time + 0.1;
 }

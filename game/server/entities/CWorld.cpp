@@ -274,8 +274,8 @@ void CWorld::Precache()
 		}
 	}
 
-	if( GetSpeed() > 0 )
-		CVAR_SET_FLOAT( "sv_zmax", GetSpeed() );
+	if( pev->speed > 0 )
+		CVAR_SET_FLOAT( "sv_zmax", pev->speed );
 	else
 		CVAR_SET_FLOAT( "sv_zmax", 4096 );
 
@@ -293,17 +293,17 @@ void CWorld::Precache()
 		}
 	}
 
-	if( GetSpawnFlags().Any( SF_WORLD_DARK ) )
+	if( pev->spawnflags & SF_WORLD_DARK )
 		CVAR_SET_FLOAT( "v_dark", 1.0 );
 	else
 		CVAR_SET_FLOAT( "v_dark", 0.0 );
 
-	if( GetSpawnFlags().Any( SF_WORLD_TITLE ) )
+	if( pev->spawnflags & SF_WORLD_TITLE )
 		gDisplayTitle = true;		// display the game title if this key is set
 	else
 		gDisplayTitle = false;
 
-	if( GetSpawnFlags().Any( SF_WORLD_FORCETEAM ) )
+	if( pev->spawnflags & SF_WORLD_FORCETEAM )
 	{
 		CVAR_SET_FLOAT( "mp_defaultteam", 1 );
 	}
@@ -332,13 +332,13 @@ void CWorld::KeyValue( KeyValueData *pkvd )
 	else if( FStrEq( pkvd->szKeyName, "WaveHeight" ) )
 	{
 		// Sent over net now.
-		SetScale( atof( pkvd->szValue ) * ( 1.0 / 8.0 ) );
+		pev->scale = atof( pkvd->szValue ) * ( 1.0 / 8.0 );
 		pkvd->fHandled = true;
-		CVAR_SET_FLOAT( "sv_wateramp", GetScale() );
+		CVAR_SET_FLOAT( "sv_wateramp", pev->scale );
 	}
 	else if( FStrEq( pkvd->szKeyName, "MaxRange" ) )
 	{
-		SetSpeed( atof( pkvd->szValue ) );
+		pev->speed = atof( pkvd->szValue );
 		pkvd->fHandled = true;
 	}
 	else if( FStrEq( pkvd->szKeyName, "chaptertitle" ) )
@@ -353,7 +353,7 @@ void CWorld::KeyValue( KeyValueData *pkvd )
 		int flag = atoi( pkvd->szValue );
 		pkvd->fHandled = true;
 		if( flag )
-			GetSpawnFlags() |= SF_WORLD_DARK;
+			pev->spawnflags |= SF_WORLD_DARK;
 	}
 	else if( FStrEq( pkvd->szKeyName, "newunit" ) )
 	{
@@ -365,7 +365,7 @@ void CWorld::KeyValue( KeyValueData *pkvd )
 	else if( FStrEq( pkvd->szKeyName, "gametitle" ) )
 	{
 		if( atoi( pkvd->szValue ) )
-			GetSpawnFlags() |= SF_WORLD_TITLE;
+			pev->spawnflags |= SF_WORLD_TITLE;
 
 		pkvd->fHandled = true;
 	}
@@ -378,7 +378,7 @@ void CWorld::KeyValue( KeyValueData *pkvd )
 	{
 		if( atoi( pkvd->szValue ) )
 		{
-			GetSpawnFlags() |= SF_WORLD_FORCETEAM;
+			pev->spawnflags |= SF_WORLD_FORCETEAM;
 		}
 		pkvd->fHandled = true;
 	}

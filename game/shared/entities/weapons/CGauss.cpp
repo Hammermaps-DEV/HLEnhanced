@@ -114,7 +114,7 @@ bool CGauss::Deploy()
 
 void CGauss::Holster()
 {
-	PLAYBACK_EVENT_FULL( FEV_RELIABLE | FEV_GLOBAL, m_pPlayer->edict(), m_usGaussFire, 0.01, m_pPlayer->GetAbsOrigin(), m_pPlayer->GetAbsAngles(), 0.0, 0.0, 0, 0, 0, 1 );
+	PLAYBACK_EVENT_FULL( FEV_RELIABLE | FEV_GLOBAL, m_pPlayer->edict(), m_usGaussFire, 0.01, m_pPlayer->GetAbsOrigin(), m_pPlayer->pev->angles, 0.0, 0.0, 0, 0, 0, 1 );
 	
 	m_pPlayer->m_flNextAttack = UTIL_WeaponTimeBase() + 0.5;
 	
@@ -294,7 +294,7 @@ void CGauss::StartFire()
 {
 	float flDamage;
 	
-	UTIL_MakeVectors( m_pPlayer->GetViewAngle() + m_pPlayer->GetPunchAngle() );
+	UTIL_MakeVectors( m_pPlayer->pev->v_angle + m_pPlayer->pev->punchangle );
 	Vector vecAiming = gpGlobals->v_forward;
 	Vector vecSrc = m_pPlayer->GetGunPosition( ); // + gpGlobals->v_up * -8 + gpGlobals->v_right * 8;
 	
@@ -323,20 +323,18 @@ void CGauss::StartFire()
 		//ALERT ( at_console, "Time:%f Damage:%f\n", gpGlobals->time - m_pPlayer->m_flStartCharge, flDamage );
 
 #ifndef CLIENT_DLL
-		float flZVel = m_pPlayer->GetAbsVelocity().z;
+		float flZVel = m_pPlayer->pev->velocity.z;
 
 		if ( !m_fPrimaryFire )
 		{
-			m_pPlayer->SetAbsVelocity( m_pPlayer->GetAbsVelocity() - gpGlobals->v_forward * flDamage * 5 );
+			m_pPlayer->pev->velocity = m_pPlayer->pev->velocity - gpGlobals->v_forward * flDamage * 5;
 		}
 
 		if ( !g_pGameRules->IsMultiplayer() )
 
 		{
 			// in deathmatch, gauss can pop you up into the air. Not in single play.
-			Vector vecVelocity = m_pPlayer->GetAbsVelocity();
-			vecVelocity.z = flZVel;
-			m_pPlayer->SetAbsVelocity( vecVelocity );
+			m_pPlayer->pev->velocity.z = flZVel;
 		}
 #endif
 		// player "shoot" animation
@@ -359,13 +357,13 @@ void CGauss::Fire( Vector vecOrigSrc, Vector vecDir, float flDamage )
 #endif
 	
 	// The main firing event is sent unreliably so it won't be delayed.
-	PLAYBACK_EVENT_FULL( FEV_NOTHOST, m_pPlayer->edict(), m_usGaussFire, 0.0, m_pPlayer->GetAbsOrigin(), m_pPlayer->GetAbsAngles(), flDamage, 0.0, 0, 0, m_fPrimaryFire ? 1 : 0, 0 );
+	PLAYBACK_EVENT_FULL( FEV_NOTHOST, m_pPlayer->edict(), m_usGaussFire, 0.0, m_pPlayer->GetAbsOrigin(), m_pPlayer->pev->angles, flDamage, 0.0, 0, 0, m_fPrimaryFire ? 1 : 0, 0 );
 
 	// This reliable event is used to stop the spinning sound
 	// It's delayed by a fraction of second to make sure it is delayed by 1 frame on the client
 	// It's sent reliably anyway, which could lead to other delays
 
-	PLAYBACK_EVENT_FULL( FEV_NOTHOST | FEV_RELIABLE, m_pPlayer->edict(), m_usGaussFire, 0.01, m_pPlayer->GetAbsOrigin(), m_pPlayer->GetAbsAngles(), 0.0, 0.0, 0, 0, 0, 1 );
+	PLAYBACK_EVENT_FULL( FEV_NOTHOST | FEV_RELIABLE, m_pPlayer->edict(), m_usGaussFire, 0.01, m_pPlayer->GetAbsOrigin(), m_pPlayer->pev->angles, 0.0, 0.0, 0, 0, 0, 1 );
 
 	
 	/*ALERT( at_console, "%f %f %f\n%f %f %f\n", 
@@ -407,16 +405,16 @@ void CGauss::Fire( Vector vecOrigSrc, Vector vecDir, float flDamage )
 
 		if ( fFirstBeam )
 		{
-			m_pPlayer->GetEffects() |= EF_MUZZLEFLASH;
+			m_pPlayer->pev->effects |= EF_MUZZLEFLASH;
 			fFirstBeam = false;
 	
 			nTotal += 26;
 		}
 		
-		if (pEntity->GetTakeDamageMode() != DAMAGE_NO )
+		if (pEntity->pev->takedamage)
 		{
 			g_MultiDamage.Clear();
-			pEntity->TraceAttack( CTakeDamageInfo( m_pPlayer, flDamage, DMG_BULLET ), vecDir, tr );
+			pEntity->TraceAttack( CTakeDamageInfo( m_pPlayer, flDamage, DMG_BULLET ), vecDir, &tr );
 			g_MultiDamage.ApplyMultiDamage( m_pPlayer, m_pPlayer );
 		}
 

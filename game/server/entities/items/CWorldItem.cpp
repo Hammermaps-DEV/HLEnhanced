@@ -24,16 +24,16 @@ void CWorldItem::Spawn( void )
 	switch( m_iType )
 	{
 	case 44: // ITEM_BATTERY:
-		pEntity = CBaseEntity::Create( "item_battery", GetAbsOrigin(), GetAbsAngles() );
+		pEntity = CBaseEntity::Create( "item_battery", GetAbsOrigin(), pev->angles );
 		break;
 	case 42: // ITEM_ANTIDOTE:
-		pEntity = CBaseEntity::Create( "item_antidote", GetAbsOrigin(), GetAbsAngles() );
+		pEntity = CBaseEntity::Create( "item_antidote", GetAbsOrigin(), pev->angles );
 		break;
 	case 43: // ITEM_SECURITY:
-		pEntity = CBaseEntity::Create( "item_security", GetAbsOrigin(), GetAbsAngles() );
+		pEntity = CBaseEntity::Create( "item_security", GetAbsOrigin(), pev->angles );
 		break;
 	case 45: // ITEM_SUIT:
-		pEntity = CBaseEntity::Create( "item_suit", GetAbsOrigin(), GetAbsAngles() );
+		pEntity = CBaseEntity::Create( "item_suit", GetAbsOrigin(), pev->angles );
 		break;
 	}
 
@@ -43,9 +43,9 @@ void CWorldItem::Spawn( void )
 	}
 	else
 	{
-		pEntity->SetTarget( GetTarget() );
-		pEntity->SetTargetname( GetTargetname() );
-		pEntity->GetSpawnFlags() = GetSpawnFlags();
+		pEntity->pev->target = pev->target;
+		pEntity->pev->targetname = pev->targetname;
+		pEntity->pev->spawnflags = pev->spawnflags;
 	}
 
 	UTIL_RemoveNow( this );

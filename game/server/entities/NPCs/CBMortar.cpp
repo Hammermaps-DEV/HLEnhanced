@@ -35,20 +35,20 @@ LINK_ENTITY_TO_CLASS( bmortar, CBMortar );
 // UNDONE: right now this is pretty much a copy of the squid spit with minor changes to the way it does damage
 void CBMortar::Spawn( void )
 {
-	SetMoveType( MOVETYPE_TOSS );
+	pev->movetype = MOVETYPE_TOSS;
 
-	SetSolidType( SOLID_BBOX );
-	SetRenderMode( kRenderTransAlpha );
-	SetRenderAmount( 255 );
+	pev->solid = SOLID_BBOX;
+	pev->rendermode = kRenderTransAlpha;
+	pev->renderamt = 255;
 
 	SetModel( "sprites/mommaspit.spr" );
-	SetFrame( 0 );
-	SetScale( 0.5 );
+	pev->frame = 0;
+	pev->scale = 0.5;
 
 	SetSize( Vector( 0, 0, 0 ), Vector( 0, 0, 0 ) );
 
-	m_maxFrame = ( float ) MODEL_FRAMES( GetModelIndex() ) - 1;
-	SetDamageTime( gpGlobals->time + 0.4 );
+	m_maxFrame = ( float ) MODEL_FRAMES( pev->modelindex ) - 1;
+	pev->dmgtime = gpGlobals->time + 0.4;
 }
 
 CBMortar *CBMortar::Shoot( CBaseEntity* pOwner, Vector vecStart, Vector vecVelocity )
@@ -57,11 +57,11 @@ CBMortar *CBMortar::Shoot( CBaseEntity* pOwner, Vector vecStart, Vector vecVeloc
 	pSpit->Spawn();
 
 	pSpit->SetAbsOrigin( vecStart );
-	pSpit->SetAbsVelocity( vecVelocity );
-	pSpit->SetOwner( pOwner );
-	pSpit->SetScale( 2.5 );
+	pSpit->pev->velocity = vecVelocity;
+	pSpit->pev->owner = pOwner->edict();
+	pSpit->pev->scale = 2.5;
 	pSpit->SetThink( &CBMortar::Animate );
-	pSpit->SetNextThink( gpGlobals->time + 0.1 );
+	pSpit->pev->nextthink = gpGlobals->time + 0.1;
 
 	return pSpit;
 }
@@ -90,18 +90,18 @@ void CBMortar::Touch( CBaseEntity *pOther )
 	{
 
 		// make a splat on the wall
-		UTIL_TraceLine( GetAbsOrigin(), GetAbsOrigin() + GetAbsVelocity() * 10, dont_ignore_monsters, ENT( pev ), &tr );
+		UTIL_TraceLine( GetAbsOrigin(), GetAbsOrigin() + pev->velocity * 10, dont_ignore_monsters, ENT( pev ), &tr );
 		UTIL_DecalTrace( &tr, DECAL_MOMMASPLAT );
 	}
 	else
 	{
 		tr.vecEndPos = GetAbsOrigin();
-		tr.vecPlaneNormal = -1 * GetAbsVelocity().Normalize();
+		tr.vecPlaneNormal = -1 * pev->velocity.Normalize();
 	}
 	// make some flecks
 	SpriteSpray( tr.vecEndPos, tr.vecPlaneNormal, gSpitSprite, 24 );
 
-	CBaseEntity* pOwner = GetOwner();
+	CBaseEntity* pOwner = pev->owner ? Instance( pev->owner ) : nullptr;
 
 	RadiusDamage( GetAbsOrigin(), CTakeDamageInfo( this, pOwner, gSkillData.GetBigMommaDmgBlast(), DMG_ACID ), gSkillData.GetBigMommaRadiusBlast(), EntityClassifications().GetNoneId() );
 	UTIL_Remove( this );
@@ -109,21 +109,18 @@ void CBMortar::Touch( CBaseEntity *pOther )
 
 void CBMortar::Animate( void )
 {
-	SetNextThink( gpGlobals->time + 0.1 );
+	pev->nextthink = gpGlobals->time + 0.1;
 
-	if( gpGlobals->time > GetDamageTime() )
+	if( gpGlobals->time > pev->dmgtime )
 	{
-		SetDamageTime( gpGlobals->time + 0.2 );
-		SpriteSpray( GetAbsOrigin(), -GetAbsVelocity().Normalize(), gSpitSprite, 3 );
+		pev->dmgtime = gpGlobals->time + 0.2;
+		SpriteSpray( GetAbsOrigin(), -pev->velocity.Normalize(), gSpitSprite, 3 );
 	}
-
-	const bool bWasAnimated = GetFrame() != 0;
-	SetFrame( GetFrame() + 1 );
-	if( bWasAnimated )
+	if( pev->frame++ )
 	{
-		if( GetFrame() > m_maxFrame )
+		if( pev->frame > m_maxFrame )
 		{
-			SetFrame( 0 );
+			pev->frame = 0;
 		}
 	}
 }

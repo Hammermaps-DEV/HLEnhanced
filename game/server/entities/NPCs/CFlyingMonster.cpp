@@ -28,7 +28,7 @@ extern DLL_GLOBAL CBaseEntity* g_pBodyQueueHead;
 int CFlyingMonster::CheckLocalMove( const Vector &vecStart, const Vector &vecEnd, const CBaseEntity* const pTarget, float *pflDist )
 {
 	// UNDONE: need to check more than the endpoint
-	if ( GetFlags().Any( FL_SWIM ) && (UTIL_PointContents(vecEnd) != CONTENTS_WATER))
+	if (FBitSet(pev->flags, FL_SWIM) && (UTIL_PointContents(vecEnd) != CONTENTS_WATER))
 	{
 		// ALERT(at_aiconsole, "can't swim out of water\n");
 		return LOCALMOVE_INVALID;
@@ -66,7 +66,7 @@ bool CFlyingMonster::FTriangulate( const Vector &vecStart , const Vector &vecEnd
 
 Activity CFlyingMonster :: GetStoppedActivity( void )
 { 
-	if ( GetMoveType() != MOVETYPE_FLY )		// UNDONE: Ground idle here, IDLE may be something else
+	if ( pev->movetype != MOVETYPE_FLY )		// UNDONE: Ground idle here, IDLE may be something else
 		return ACT_IDLE;
 
 	return ACT_HOVER; 
@@ -81,17 +81,15 @@ void CFlyingMonster :: Stop( void )
 		m_flightSpeed = 0;
 		m_IdealActivity = stopped;
 	}
-	Vector vecAngles = GetAbsAngles();
-	vecAngles.z = 0;
-	vecAngles.x = 0;
-	SetAbsAngles( vecAngles );
+	pev->angles.z = 0;
+	pev->angles.x = 0;
 	m_vecTravel = g_vecZero;
 }
 
 
 float CFlyingMonster :: ChangeYaw( int speed )
 {
-	if ( GetMoveType() == MOVETYPE_FLY )
+	if ( pev->movetype == MOVETYPE_FLY )
 	{
 		float diff = FlYawDiff();
 		float target = 0;
@@ -103,9 +101,7 @@ float CFlyingMonster :: ChangeYaw( int speed )
 			else if ( diff > 20 )
 				target = -90;
 		}
-		Vector vecAngles = GetAbsAngles();		
-		vecAngles.z = UTIL_Approach( target, vecAngles.z, 220.0 * gpGlobals->frametime );
-		SetAbsAngles( vecAngles );
+		pev->angles.z = UTIL_Approach( target, pev->angles.z, 220.0 * gpGlobals->frametime );
 	}
 	return CBaseMonster::ChangeYaw( speed );
 }
@@ -113,12 +109,10 @@ float CFlyingMonster :: ChangeYaw( int speed )
 
 void CFlyingMonster::Killed( const CTakeDamageInfo& info, GibAction gibAction )
 {
-	SetMoveType( MOVETYPE_STEP );
-	GetFlags().ClearFlags( FL_ONGROUND );
-	Vector vecAngles = GetAbsAngles();
-	vecAngles.z = 0;
-	vecAngles.x = 0;
-	SetAbsAngles( vecAngles );
+	pev->movetype = MOVETYPE_STEP;
+	ClearBits( pev->flags, FL_ONGROUND );
+	pev->angles.z = 0;
+	pev->angles.x = 0;
 	CBaseMonster::Killed( info, gibAction );
 }
 
@@ -145,7 +139,7 @@ void CFlyingMonster :: HandleAnimEvent( AnimEvent_t& event )
 
 void CFlyingMonster :: Move( float flInterval )
 {
-	if ( GetMoveType() == MOVETYPE_FLY )
+	if ( pev->movetype == MOVETYPE_FLY )
 		m_flGroundSpeed = m_flightSpeed;
 	CBaseMonster::Move( flInterval );
 }
@@ -166,7 +160,7 @@ bool CFlyingMonster::ShouldAdvanceRoute( float flWaypointDist )
 
 void CFlyingMonster::MoveExecute( CBaseEntity *pTargetEnt, const Vector &vecDir, float flInterval )
 {
-	if ( GetMoveType() == MOVETYPE_FLY )
+	if ( pev->movetype == MOVETYPE_FLY )
 	{
 		if ( gpGlobals->time - m_stopTime > 1.0 )
 		{
@@ -217,7 +211,7 @@ float CFlyingMonster::CeilingZ( const Vector &position )
 	if (tr.flFraction != 1.0)
 		maxUp.z = tr.vecEndPos.z;
 
-	if( GetFlags().Any( FL_SWIM ) )
+	if ((pev->flags) & FL_SWIM)
 	{
 		return UTIL_WaterLevel( position, minUp.z, maxUp.z );
 	}
@@ -227,7 +221,7 @@ float CFlyingMonster::CeilingZ( const Vector &position )
 bool CFlyingMonster::ProbeZ( const Vector &position, const Vector &probe, float *pFraction)
 {
 	int conPosition = UTIL_PointContents(position);
-	if ( GetFlags().Any( FL_SWIM ) ^ (conPosition == CONTENTS_WATER))
+	if ( (((pev->flags) & FL_SWIM) == FL_SWIM) ^ (conPosition == CONTENTS_WATER))
 	{
 		//    SWIMING & !WATER
 		// or FLYING  & WATER

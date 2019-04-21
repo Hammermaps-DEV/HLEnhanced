@@ -11,21 +11,19 @@ END_DATADESC()
 
 LINK_ENTITY_TO_CLASS( env_glow, CGlow );
 
-//TODO: is this entity any different from CSprite? - Solokiller
-
 void CGlow::Spawn( void )
 {
-	SetSolidType( SOLID_NOT );
-	SetMoveType( MOVETYPE_NONE );
-	GetEffects().ClearAll();
-	SetFrame( 0 );
+	pev->solid = SOLID_NOT;
+	pev->movetype = MOVETYPE_NONE;
+	pev->effects = 0;
+	pev->frame = 0;
 
-	PRECACHE_MODEL( GetModelName() );
-	SetModel( GetModelName() );
+	PRECACHE_MODEL( ( char * ) STRING( pev->model ) );
+	SetModel( STRING( pev->model ) );
 
-	m_maxFrame = ( float ) MODEL_FRAMES( GetModelIndex() ) - 1;
-	if( m_maxFrame > 1.0 && GetFrameRate() != 0 )
-		SetNextThink( gpGlobals->time + 0.1 );
+	m_maxFrame = ( float ) MODEL_FRAMES( pev->modelindex ) - 1;
+	if( m_maxFrame > 1.0 && pev->framerate != 0 )
+		pev->nextthink = gpGlobals->time + 0.1;
 
 	m_lastTime = gpGlobals->time;
 }
@@ -33,9 +31,9 @@ void CGlow::Spawn( void )
 
 void CGlow::Think( void )
 {
-	Animate( GetFrameRate() * ( gpGlobals->time - m_lastTime ) );
+	Animate( pev->framerate * ( gpGlobals->time - m_lastTime ) );
 
-	SetNextThink( gpGlobals->time + 0.1 );
+	pev->nextthink = gpGlobals->time + 0.1;
 	m_lastTime = gpGlobals->time;
 }
 
@@ -43,5 +41,5 @@ void CGlow::Think( void )
 void CGlow::Animate( float frames )
 {
 	if( m_maxFrame > 0 )
-		SetFrame( fmod( GetFrame() + frames, m_maxFrame ) );
+		pev->frame = fmod( pev->frame + frames, m_maxFrame );
 }

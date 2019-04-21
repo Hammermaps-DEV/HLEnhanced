@@ -58,14 +58,15 @@ void CWallHealth::Spawn()
 {
 	Precache( );
 
-	SetSolidType( SOLID_BSP );
-	SetMoveType( MOVETYPE_PUSH );
+	pev->solid		= SOLID_BSP;
+	pev->movetype	= MOVETYPE_PUSH;
 
 	SetAbsOrigin( GetAbsOrigin());		// set size and link into world
-	SetSize( GetRelMin(), GetRelMax() );
-	SetModel( GetModelName() );
+	SetSize( pev->mins, pev->maxs );
+	SetModel( STRING(pev->model) );
 	m_iJuice = gSkillData.GetHealthChargerCapacity();
-	SetFrame( 0 );
+	pev->frame = 0;			
+
 }
 
 void CWallHealth::Precache()
@@ -88,12 +89,12 @@ void CWallHealth::Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE u
 	// if there is no juice left, turn it off
 	if (m_iJuice <= 0)
 	{
-		SetFrame( 1 );
+		pev->frame = 1;			
 		Off();
 	}
 
 	// if the player doesn't have the suit, or there is no juice left, make the deny noise
-	if( ( m_iJuice <= 0 ) || ( !( pActivator->GetWeapons().Any( 1 << WEAPON_SUIT ) ) ) )
+	if ((m_iJuice <= 0) || (!(pActivator->pev->weapons & (1<<WEAPON_SUIT))))
 	{
 		if (m_flSoundTime <= gpGlobals->time)
 		{
@@ -103,7 +104,7 @@ void CWallHealth::Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE u
 		return;
 	}
 
-	SetNextThink( GetLastThink() + 0.25 );
+	pev->nextthink = pev->ltime + 0.25;
 	SetThink(&CWallHealth::Off);
 
 	// Time to recharge yet?
@@ -139,7 +140,7 @@ void CWallHealth::Recharge(void)
 {
 	EMIT_SOUND( this, CHAN_ITEM, "items/medshot4.wav", 1.0, ATTN_NORM );
 	m_iJuice = gSkillData.GetHealthChargerCapacity();
-	SetFrame( 0 );
+	pev->frame = 0;			
 	SetThink( &CWallHealth::SUB_DoNothing );
 }
 
@@ -153,7 +154,7 @@ void CWallHealth::Off(void)
 
 	if ((!m_iJuice) &&  ( ( m_iReactivate = g_pGameRules->FlHealthChargerRechargeTime() ) > 0) )
 	{
-		SetNextThink( GetLastThink() + m_iReactivate );
+		pev->nextthink = pev->ltime + m_iReactivate;
 		SetThink(&CWallHealth::Recharge);
 	}
 	else

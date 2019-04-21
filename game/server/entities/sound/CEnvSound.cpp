@@ -44,7 +44,7 @@ void CEnvSound::KeyValue( KeyValueData *pkvd )
 void CEnvSound::Spawn()
 {
 	// spread think times
-	SetNextThink( gpGlobals->time + RANDOM_FLOAT( 0.0, 0.5 ) );
+	pev->nextthink = gpGlobals->time + RANDOM_FLOAT( 0.0, 0.5 );
 }
 
 // returns true if the given sound entity (pev) is in range 
@@ -52,8 +52,8 @@ void CEnvSound::Spawn()
 
 bool FEnvSoundInRange( CEnvSound* pSound, CBaseEntity* pTarget, float *pflRange )
 {
-	Vector vecSpot1 = pSound->GetAbsOrigin() + pSound->GetViewOffset();
-	Vector vecSpot2 = pTarget->GetAbsOrigin() + pTarget->GetViewOffset();
+	Vector vecSpot1 = pSound->GetAbsOrigin() + pSound->pev->view_ofs;
+	Vector vecSpot2 = pTarget->GetAbsOrigin() + pTarget->pev->view_ofs;
 	Vector vecRange;
 	float flRange;
 	TraceResult tr;
@@ -174,10 +174,10 @@ void CEnvSound::Think( void )
 	// not in range. do nothing, fall through to think_fast...
 
 env_sound_Think_fast:
-	SetNextThink( gpGlobals->time + 0.25 );
+	pev->nextthink = gpGlobals->time + 0.25;
 	return;
 
 env_sound_Think_slow:
-	SetNextThink( gpGlobals->time + 0.75 );
+	pev->nextthink = gpGlobals->time + 0.75;
 	return;
 }

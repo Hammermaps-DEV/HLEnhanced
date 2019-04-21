@@ -1,0 +1,5 @@
+C:/Users/lbruc/OneDrive/Desktop/Spirit/SOHL-1.9/HLEnhanced/vs/CMakeFiles/client.dir
+C:/Users/lbruc/OneDrive/Desktop/Spirit/SOHL-1.9/HLEnhanced/vs/CMakeFiles/hl.dir
+C:/Users/lbruc/OneDrive/Desktop/Spirit/SOHL-1.9/HLEnhanced/vs/CMakeFiles/ALL_BUILD.dir
+C:/Users/lbruc/OneDrive/Desktop/Spirit/SOHL-1.9/HLEnhanced/vs/CMakeFiles/ZERO_CHECK.dir
+C:/Users/lbruc/OneDrive/Desktop/Spirit/SOHL-1.9/HLEnhanced/vs/source_sdk/tier1/CMakeFiles/tier1.dir

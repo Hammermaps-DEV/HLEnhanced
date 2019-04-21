@@ -1,0 +1,523 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|Win32">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|Win32">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{9834A136-09AC-3289-B921-4DDAB04AC999}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>Win32</Platform>
+    <ProjectName>tier1</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\vs\source_sdk\tier1\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">tier1.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">tier1</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\vs\source_sdk\tier1\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">tier1.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">tier1</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\vs\source_sdk\tier1\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">tier1.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">tier1</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\vs\source_sdk\tier1\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">tier1.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">tier1</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">.lib</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\common;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\public;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>Debug/</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <CppLanguageStandard>c++1y</CppLanguageStandard>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;TIER1_STATIC_LIB;NO_MALLOC_OVERRIDE;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;TIER1_STATIC_LIB;NO_MALLOC_OVERRIDE;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\common;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\public;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\common;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\public;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:X86</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\common;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\public;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>Release/</AssemblerListingLocation>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <CppLanguageStandard>c++1y</CppLanguageStandard>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;TIER1_STATIC_LIB;NO_MALLOC_OVERRIDE;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;TIER1_STATIC_LIB;NO_MALLOC_OVERRIDE;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\common;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\public;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\common;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\public;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:X86</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\common;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\public;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>MinSizeRel/</AssemblerListingLocation>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <CppLanguageStandard>c++1y</CppLanguageStandard>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;TIER1_STATIC_LIB;NO_MALLOC_OVERRIDE;CMAKE_INTDIR="MinSizeRel";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;TIER1_STATIC_LIB;NO_MALLOC_OVERRIDE;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\common;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\public;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\common;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\public;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:X86</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\common;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\public;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>RelWithDebInfo/</AssemblerListingLocation>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <CppLanguageStandard>c++1y</CppLanguageStandard>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;TIER1_STATIC_LIB;NO_MALLOC_OVERRIDE;CMAKE_INTDIR="RelWithDebInfo";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;TIER1_STATIC_LIB;NO_MALLOC_OVERRIDE;CMAKE_INTDIR=\"RelWithDebInfo\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\common;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\public;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\common;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\common;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\public;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:X86</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\tier1\CMakeLists.txt">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Building Custom Rule C:/Users/lbruc/OneDrive/Desktop/Spirit/SOHL-1.9/HLEnhanced/source_sdk/tier1/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/lbruc/OneDrive/Desktop/Spirit/SOHL-1.9/HLEnhanced -BC:/Users/lbruc/OneDrive/Desktop/Spirit/SOHL-1.9/HLEnhanced/vs --check-stamp-file C:/Users/lbruc/OneDrive/Desktop/Spirit/SOHL-1.9/HLEnhanced/vs/source_sdk/tier1/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:/Users/lbruc/OneDrive/Desktop/Spirit/SOHL-1.9/HLEnhanced/source_sdk/tier1/CMakeLists.txt;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\tier1\CMakeLists.txt;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\tier1\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\vs\source_sdk\tier1\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Building Custom Rule C:/Users/lbruc/OneDrive/Desktop/Spirit/SOHL-1.9/HLEnhanced/source_sdk/tier1/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/lbruc/OneDrive/Desktop/Spirit/SOHL-1.9/HLEnhanced -BC:/Users/lbruc/OneDrive/Desktop/Spirit/SOHL-1.9/HLEnhanced/vs --check-stamp-file C:/Users/lbruc/OneDrive/Desktop/Spirit/SOHL-1.9/HLEnhanced/vs/source_sdk/tier1/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:/Users/lbruc/OneDrive/Desktop/Spirit/SOHL-1.9/HLEnhanced/source_sdk/tier1/CMakeLists.txt;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\tier1\CMakeLists.txt;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\tier1\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\vs\source_sdk\tier1\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">Building Custom Rule C:/Users/lbruc/OneDrive/Desktop/Spirit/SOHL-1.9/HLEnhanced/source_sdk/tier1/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/lbruc/OneDrive/Desktop/Spirit/SOHL-1.9/HLEnhanced -BC:/Users/lbruc/OneDrive/Desktop/Spirit/SOHL-1.9/HLEnhanced/vs --check-stamp-file C:/Users/lbruc/OneDrive/Desktop/Spirit/SOHL-1.9/HLEnhanced/vs/source_sdk/tier1/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">C:/Users/lbruc/OneDrive/Desktop/Spirit/SOHL-1.9/HLEnhanced/source_sdk/tier1/CMakeLists.txt;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\tier1\CMakeLists.txt;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\tier1\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\vs\source_sdk\tier1\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">Building Custom Rule C:/Users/lbruc/OneDrive/Desktop/Spirit/SOHL-1.9/HLEnhanced/source_sdk/tier1/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/lbruc/OneDrive/Desktop/Spirit/SOHL-1.9/HLEnhanced -BC:/Users/lbruc/OneDrive/Desktop/Spirit/SOHL-1.9/HLEnhanced/vs --check-stamp-file C:/Users/lbruc/OneDrive/Desktop/Spirit/SOHL-1.9/HLEnhanced/vs/source_sdk/tier1/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">C:/Users/lbruc/OneDrive/Desktop/Spirit/SOHL-1.9/HLEnhanced/source_sdk/tier1/CMakeLists.txt;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\tier1\CMakeLists.txt;C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\tier1\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\vs\source_sdk\tier1\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\tier1\bitbuf.cpp" />
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\tier1\byteswap.cpp" />
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\tier1\CharacterSet.cpp" />
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\tier1\checksum_crc.cpp" />
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\tier1\checksum_md5.cpp" />
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\tier1\ConVar.cpp" />
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\tier1\DataManager.cpp" />
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\tier1\Diff.cpp" />
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\tier1\generichash.cpp" />
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\tier1\JobThread.cpp" />
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\tier1\KeyValues.cpp" />
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\tier1\MemPool.cpp" />
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\tier1\MemStack.cpp" />
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\tier1\netadr.cpp" />
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\tier1\processor_detect.cpp" />
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\tier1\RangeCheckedVar.cpp" />
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\tier1\StringPool.cpp" />
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\tier1\strtools.cpp" />
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\tier1\tier1.cpp" />
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\tier1\TokenReader.cpp" />
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\tier1\UtlBuffer.cpp" />
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\tier1\UtlString.cpp" />
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\tier1\UtlSymbol.cpp" />
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\tier1\xboxstubs.cpp" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\common\ifilesystemopendialog.h" />
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\common\randoverride.cpp" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\common\xbox\xboxstubs.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\basetypes.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\commonmacros.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\coordsize.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\datamap.h" />
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\FileSystem_Helpers.cpp" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\FileSystem_Helpers.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\ICVar.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\mathlib.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\OfflineMode.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\SDK_Color.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\Vector.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\Vector2D.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\winlite.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\worldsize.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\appframework\AppFramework.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\appframework\IAppSystem.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\appframework\IAppSystemGroup.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\appframework\VguiMatSysApp.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\bitmap\Bitmap.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\bitmap\Float_BM.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\bitmap\ImageFormat.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\bitmap\PSD.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\bitmap\TGALoader.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\bitmap\TGAWriter.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\html\htmlmessages.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\html\ichromehtmlwrapper.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\html\ihtmlchrome.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\html\ihtmlserializer.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\html\ipainthtml.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\mathlib\halton.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\mathlib\lightdesc.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\mathlib\math_base.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\mathlib\ssemath.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\basetypes.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\commonmacros.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\dbg.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\dbgflag.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\eventmasks.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\eventmodes.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\fasttimer.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\ia32detect.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\icommandline.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\ioctlcodes.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\k8performancecounters.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\l2cache.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\mem.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\memalloc.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\memdbgoff.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\memdbgon.h" />
+    <ClCompile Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\memoverride.cpp" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\minidump.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\p4performancecounters.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\p5p6performancecounters.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\platform.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\pmelib.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\protected_things.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\testthread.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\threadtools.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\tslist.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\validator.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\valobject.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\valve_off.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\valve_on.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\vcrmode.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\vcr_shared.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\vprof.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\wchartypes.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier0\xbox_codeline_defines.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\bitbuf.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\byteswap.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\CharacterSet.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\checksum_crc.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\checksum_md5.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\ConVar.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\DataManager.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\Diff.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\FmtStr.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\generichash.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\interface.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\JobThread.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\KeyValues.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\MemPool.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\MemStack.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\netadr.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\processor_detect.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\RangeCheckedVar.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\RefCount.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\SmartPtr.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\StringPool.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\strtools.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\tier1.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\TokenReader.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\UtlBidirectionalSet.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\UtlBuffer.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\UtlDict.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\UtlFixedLinkedList.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\UtlFixedMemory.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\UtlFlags.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\UtlHandleTable.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\UtlHash.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\UtlLinkedList.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\UtlMap.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\UtlMemory.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\UtlMultiList.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\UtlNTree.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\UtlPriorityQueue.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\UtlQueue.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\UtlRBTree.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\UtlSortVector.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\UtlStack.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\UtlString.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\UtlStringMap.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\UtlSymbol.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\tier1\UtlVector.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui\Cursor.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui\Dar.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui\IBorder.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui\IClientPanel.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui\IHTML.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui\IImage.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui\IInput.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui\IInputInternal.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui\ILocalize.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui\IPanel.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui\IScheme.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui\ISurface.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui\ISurfaceV28.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui\ISurfaceV29.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui\ISystem.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui\IVGui.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui\IVguiMatInfo.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui\IVguiMatInfoVar.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui\IVguiV06.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui\KeyCode.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui\MouseCode.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui\Point.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui\VGUI2.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\AnimatingImagePanel.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\AnimationController.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\BitmapImagePanel.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\BuildGroup.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\BuildModeDialog.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\Button.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\CheckButton.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\CheckButtonList.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\ComboBox.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\Controls.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\DialogManager.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\DirectorySelectDialog.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\Divider.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\EditablePanel.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\ExpandButton.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\FileOpenDialog.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\FocusNavGroup.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\Frame.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\GraphPanel.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\HTML.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\Image.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\ImageList.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\ImagePanel.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\InputDialog.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\KeyBindingHelpDialog.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\KeyBindingMap.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\KeyBoardEditorDialog.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\Label.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\ListPanel.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\ListViewPanel.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\MenuBar.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\MenuButton.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\Menu.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\MenuItem.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\MessageBox.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\MessageMap.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\PanelAnimationVar.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\Panel.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\PanelListPanel.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\pch_vgui_controls.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\PHandle.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\ProgressBar.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\ProgressBox.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\PropertyDialog.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\PropertyPage.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\PropertySheet.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\QueryBox.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\RadioButton.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\RichText.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\ScrollBar.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\ScrollBarSlider.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\SectionedListPanel.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\Slider.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\Splitter.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\TextEntry.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\TextImage.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\ToggleButton.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\Tooltip.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\ToolWindow.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\TreeView.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\TreeViewListControl.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\URLLabel.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\WizardPanel.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vgui_controls\WizardSubPanel.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vstdlib\cvar.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vstdlib\ICommandline.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vstdlib\IKeyValuesSystem.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vstdlib\pch_vstdlib.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vstdlib\random.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vstdlib\strtools.h" />
+    <ClInclude Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\source_sdk\public\vstdlib\vstdlib.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="C:\Users\lbruc\OneDrive\Desktop\Spirit\SOHL-1.9\HLEnhanced\vs\ZERO_CHECK.vcxproj">
+      <Project>{C3D5C963-BA57-3528-A884-2B8B4198E616}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

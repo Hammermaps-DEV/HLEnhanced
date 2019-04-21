@@ -30,7 +30,7 @@ public:
 
 	void  Spawn( void ) override;
 	void  Precache( void ) override;
-	void  UpdateYawSpeed() override;
+	void  SetYawSpeed( void ) override;
 	EntityClassification_t GetClassification() override;
 	void  HandleAnimEvent( AnimEvent_t& event ) override;
 	DECLARE_SCHEDULES() override;
@@ -44,14 +44,10 @@ public:
 	void CombatUse( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value );
 	void BiteTouch( CBaseEntity *pOther );
 
-	void  StartTask( const Task_t& task ) override;
-	void  RunTask( const Task_t& task ) override;
+	void  StartTask( const Task_t* pTask ) override;
+	void  RunTask( const Task_t* pTask ) override;
 
 	bool  CheckMeleeAttack1( float flDot, float flDist ) override;
-
-	/**
-	*	@brief swim in for a chomp
-	*/
 	bool  CheckRangeAttack1( float flDot, float flDist ) override;
 
 	float ChangeYaw( int speed ) override;

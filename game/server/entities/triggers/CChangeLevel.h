@@ -42,7 +42,7 @@ public:
 
 	char m_szMapName[ cchMapNameMost ];		// trigger_changelevel only:  next map
 	char m_szLandmarkName[ cchMapNameMost ];		// trigger_changelevel only:  landmark on next map
-	string_t m_changeTarget;
+	int		m_changeTarget;
 	float	m_changeTargetDelay;
 };
 

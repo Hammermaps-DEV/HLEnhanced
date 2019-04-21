@@ -36,11 +36,11 @@ void CTripmine::Spawn( )
 {
 	Precache( );
 	SetModel( "models/v_tripmine.mdl");
-	SetFrame( 0 );
-	SetBody( 3 );
-	SetSequence( TRIPMINE_GROUND );
+	pev->frame = 0;
+	pev->body = 3;
+	pev->sequence = TRIPMINE_GROUND;
 	// ResetSequenceInfo( );
-	SetFrameRate( 0 );
+	pev->framerate = 0;
 
 	FallInit();// get ready to fall down
 
@@ -75,9 +75,9 @@ void CTripmine::Holster()
 	if (!m_pPlayer->m_rgAmmo[ PrimaryAmmoIndex() ])
 	{
 		// out of mines
-		m_pPlayer->GetWeapons().ClearFlags( 1 << m_iId );
+		m_pPlayer->pev->weapons &= ~(1<<m_iId);
 		SetThink( &CTripmine::DestroyItem );
-		SetNextThink( gpGlobals->time + 0.1 );
+		pev->nextthink = gpGlobals->time + 0.1;
 	}
 
 	SendWeaponAnim( TRIPMINE_HOLSTER );
@@ -89,7 +89,7 @@ void CTripmine::PrimaryAttack( void )
 	if (m_pPlayer->m_rgAmmo[ PrimaryAmmoIndex() ] <= 0)
 		return;
 
-	UTIL_MakeVectors( m_pPlayer->GetViewAngle() + m_pPlayer->GetPunchAngle() );
+	UTIL_MakeVectors( m_pPlayer->pev->v_angle + m_pPlayer->pev->punchangle );
 	Vector vecSrc	 = m_pPlayer->GetGunPosition( );
 	Vector vecAiming = gpGlobals->v_forward;
 
@@ -109,7 +109,7 @@ void CTripmine::PrimaryAttack( void )
 	if (tr.flFraction < 1.0)
 	{
 		CBaseEntity *pEntity = CBaseEntity::Instance( tr.pHit );
-		if ( pEntity && !pEntity->GetFlags().Any( FL_CONVEYOR ) )
+		if ( pEntity && !(pEntity->pev->flags & FL_CONVEYOR) )
 		{
 			Vector angles = UTIL_VecToAngles( tr.vecPlaneNormal );
 

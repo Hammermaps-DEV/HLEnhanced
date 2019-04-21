@@ -132,7 +132,7 @@ void CCrossbow::FireSniperBolt()
 	// player "shoot" animation
 	m_pPlayer->SetAnimation( PLAYER_ATTACK1 );
 	
-	Vector anglesAim = m_pPlayer->GetViewAngle() + m_pPlayer->GetPunchAngle();
+	Vector anglesAim = m_pPlayer->pev->v_angle + m_pPlayer->pev->punchangle;
 	UTIL_MakeVectors( anglesAim );
 	Vector vecSrc = m_pPlayer->GetGunPosition( ) - gpGlobals->v_up * 2;
 	Vector vecDir = gpGlobals->v_forward;
@@ -143,7 +143,7 @@ void CCrossbow::FireSniperBolt()
 	if ( tr.pHit->v.takedamage )
 	{
 		g_MultiDamage.Clear( );
-		CBaseEntity::Instance(tr.pHit)->TraceAttack( CTakeDamageInfo( m_pPlayer, 120, DMG_BULLET | DMG_NEVERGIB ), vecDir, tr ); 
+		CBaseEntity::Instance(tr.pHit)->TraceAttack( CTakeDamageInfo( m_pPlayer, 120, DMG_BULLET | DMG_NEVERGIB ), vecDir, &tr ); 
 		g_MultiDamage.ApplyMultiDamage( this, m_pPlayer );
 	}
 #endif
@@ -175,7 +175,7 @@ void CCrossbow::FireBolt()
 	// player "shoot" animation
 	m_pPlayer->SetAnimation( PLAYER_ATTACK1 );
 
-	Vector anglesAim = m_pPlayer->GetViewAngle() + m_pPlayer->GetPunchAngle();
+	Vector anglesAim = m_pPlayer->pev->v_angle + m_pPlayer->pev->punchangle;
 	UTIL_MakeVectors( anglesAim );
 	
 	anglesAim.x		= -anglesAim.x;
@@ -185,24 +185,21 @@ void CCrossbow::FireBolt()
 	Vector vecDir = gpGlobals->v_forward;
 
 	CCrossbowBolt *pBolt = CCrossbowBolt::BoltCreate();
-	pBolt->SetAbsOrigin( vecSrc );
-	pBolt->SetAbsAngles( anglesAim );
-	pBolt->SetOwner( m_pPlayer );
+	pBolt->pev->origin = vecSrc;
+	pBolt->pev->angles = anglesAim;
+	pBolt->pev->owner = m_pPlayer->edict();
 
 	if (m_pPlayer->GetWaterLevel() == WATERLEVEL_HEAD)
 	{
-		pBolt->SetAbsVelocity( vecDir * BOLT_WATER_VELOCITY );
-		pBolt->SetSpeed( BOLT_WATER_VELOCITY );
+		pBolt->pev->velocity = vecDir * BOLT_WATER_VELOCITY;
+		pBolt->pev->speed = BOLT_WATER_VELOCITY;
 	}
 	else
 	{
-		pBolt->SetAbsVelocity( vecDir * BOLT_AIR_VELOCITY );
-		pBolt->SetSpeed( BOLT_AIR_VELOCITY );
+		pBolt->pev->velocity = vecDir * BOLT_AIR_VELOCITY;
+		pBolt->pev->speed = BOLT_AIR_VELOCITY;
 	}
-
-	Vector vecAVelocity = pBolt->GetAngularVelocity();
-	vecAVelocity.z = 10;
-	pBolt->SetAngularVelocity( vecAVelocity );
+	pBolt->pev->avelocity.z = 10;
 #endif
 
 	if (!m_iClip && m_pPlayer->m_rgAmmo[ PrimaryAmmoIndex() ] <= 0)
@@ -222,21 +219,18 @@ void CCrossbow::FireBolt()
 
 void CCrossbow::SecondaryAttack()
 {
-	if ( m_pPlayer->GetFOV() != 0 )
+	if ( m_pPlayer->pev->fov != 0 )
 	{
-		//TODO: figure out if these can be merged - Solokiller
-		m_pPlayer->SetFOV( 0 );
-		m_pPlayer->m_iFOV = 0; // 0 means reset to default fov
+		m_pPlayer->pev->fov = m_pPlayer->m_iFOV = 0; // 0 means reset to default fov
 		m_fInZoom = false;
 	}
-	else if ( m_pPlayer->GetFOV() != 20 )
+	else if ( m_pPlayer->pev->fov != 20 )
 	{
-		m_pPlayer->SetFOV( 20 );
-		m_pPlayer->m_iFOV = 20;
+		m_pPlayer->pev->fov = m_pPlayer->m_iFOV = 20;
 		m_fInZoom = true;
 	}
 	
-	SetNextThink( UTIL_WeaponTimeBase() + 0.1 );
+	pev->nextthink = UTIL_WeaponTimeBase() + 0.1;
 	m_flNextSecondaryAttack = UTIL_WeaponTimeBase() + 1.0;
 }
 
@@ -246,7 +240,7 @@ void CCrossbow::Reload( void )
 	if ( m_pPlayer->GetAmmoCountByID( PrimaryAmmoIndex() ) <= 0 )
 		return;
 
-	if ( m_pPlayer->GetFOV() != 0 )
+	if ( m_pPlayer->pev->fov != 0 )
 	{
 		SecondaryAttack();
 	}

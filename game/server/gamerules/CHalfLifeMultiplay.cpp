@@ -520,7 +520,7 @@ void CHalfLifeMultiplay :: PlayerSpawn( CBasePlayer *pPlayer )
 	bool addDefault = true;
 	CBaseEntity	*pWeaponEntity = nullptr;
 
-	pPlayer->GetWeapons().AddFlags( 1 << WEAPON_SUIT );
+	pPlayer->pev->weapons |= (1<<WEAPON_SUIT);
 
 	while( ( pWeaponEntity = UTIL_FindEntityByClassname( pWeaponEntity, "game_player_equip" ) ) != nullptr )
 	{
@@ -574,10 +574,13 @@ int CHalfLifeMultiplay :: IPointsForKill( CBasePlayer *pAttacker, CBasePlayer *p
 void CHalfLifeMultiplay::PlayerKilled( CBasePlayer* pVictim, const CTakeDamageInfo& info )
 {
 	auto pKiller = info.GetAttacker();
-	//auto pInflictor = info.GetInflictor();
+	auto pInflictor = info.GetInflictor();
 
 	ASSERT( pKiller );
-	ASSERT( info.GetInflictor() );
+	ASSERT( pInflictor );
+
+	//Prevents an unreferenced var warning, inflictor needs to be asserted so can't remove it - Solokiller
+	pInflictor = pInflictor;
 
 	DeathNotice( pVictim, info );
 

@@ -188,7 +188,7 @@ bool CBaseMonster::FScheduleValid() const
 			ALERT ( at_aiconsole, "Schedule: %s Failed\n", m_pSchedule->pName );
 
 			Vector tmp = GetAbsOrigin();
-			tmp.z = GetAbsMax().z + 16;
+			tmp.z = pev->absmax.z + 16;
 			UTIL_Sparks( tmp );
 		}
 #endif // DEBUG
@@ -270,7 +270,7 @@ void CBaseMonster :: MaintainSchedule ( void )
 			const Task_t* pTask = GetTask();
 			ASSERT( pTask != nullptr );
 			TaskBegin();
-			StartTask( *pTask );
+			StartTask( pTask );
 		}
 
 		// UNDONE: Twice?!!!
@@ -287,7 +287,7 @@ void CBaseMonster :: MaintainSchedule ( void )
 	{
 		const Task_t* pTask = GetTask();
 		ASSERT( pTask != nullptr );
-		RunTask( *pTask );
+		RunTask( pTask );
 	}
 
 	// UNDONE: We have to do this so that we have an animation set to blend to if RunTask changes the animation
@@ -299,14 +299,17 @@ void CBaseMonster :: MaintainSchedule ( void )
 	}
 }
 
-void CBaseMonster :: RunTask ( const Task_t& task )
+//=========================================================
+// RunTask 
+//=========================================================
+void CBaseMonster :: RunTask ( const Task_t* pTask )
 {
-	switch ( task.iTask )
+	switch ( pTask->iTask )
 	{
 	case TASK_TURN_RIGHT:
 	case TASK_TURN_LEFT:
 		{
-			ChangeYaw( GetYawSpeed() );
+			ChangeYaw( pev->yaw_speed );
 
 			if ( FacingIdeal() )
 			{
@@ -320,14 +323,14 @@ void CBaseMonster :: RunTask ( const Task_t& task )
 		{
 			CBaseEntity *pTarget;
 
-			if ( task.iTask == TASK_PLAY_SEQUENCE_FACE_TARGET )
+			if ( pTask->iTask == TASK_PLAY_SEQUENCE_FACE_TARGET )
 				pTarget = m_hTargetEnt;
 			else
 				pTarget = m_hEnemy;
 			if ( pTarget )
 			{
-				SetIdealYaw( UTIL_VecToYaw( pTarget->GetAbsOrigin() - GetAbsOrigin() ) );
-				ChangeYaw( GetYawSpeed() );
+				pev->ideal_yaw = UTIL_VecToYaw( pTarget->GetAbsOrigin() - GetAbsOrigin() );
+				ChangeYaw( pev->yaw_speed );
 			}
 			if ( m_fSequenceFinished )
 				TaskComplete();
@@ -349,7 +352,7 @@ void CBaseMonster :: RunTask ( const Task_t& task )
 		{
 			MakeIdealYaw( m_vecEnemyLKP );
 
-			ChangeYaw( GetYawSpeed() );
+			ChangeYaw( pev->yaw_speed );
 
 			if ( FacingIdeal() )
 			{
@@ -363,7 +366,7 @@ void CBaseMonster :: RunTask ( const Task_t& task )
 	case TASK_FACE_IDEAL:
 	case TASK_FACE_ROUTE:
 		{
-			ChangeYaw( GetYawSpeed() );
+			ChangeYaw( pev->yaw_speed );
 
 			if ( FacingIdeal() )
 			{
@@ -396,7 +399,7 @@ void CBaseMonster :: RunTask ( const Task_t& task )
 	case TASK_WAIT_FACE_ENEMY:
 		{
 			MakeIdealYaw ( m_vecEnemyLKP );
-			ChangeYaw( GetYawSpeed() );
+			ChangeYaw( pev->yaw_speed ); 
 
 			if ( gpGlobals->time >= m_flWaitFinished )
 			{
@@ -414,7 +417,7 @@ void CBaseMonster :: RunTask ( const Task_t& task )
 			{
 				distance = ( m_vecMoveGoal - GetAbsOrigin() ).Length2D();
 				// Re-evaluate when you think your finished, or the target has moved too far
-				if ( (distance < task.flData) || (m_vecMoveGoal - m_hTargetEnt->GetAbsOrigin()).Length() > task.flData * 0.5 )
+				if ( (distance < pTask->flData) || (m_vecMoveGoal - m_hTargetEnt->GetAbsOrigin()).Length() > pTask->flData * 0.5 )
 				{
 					m_vecMoveGoal = m_hTargetEnt->GetAbsOrigin();
 					distance = ( m_vecMoveGoal - GetAbsOrigin() ).Length2D();
@@ -423,7 +426,7 @@ void CBaseMonster :: RunTask ( const Task_t& task )
 
 				// Set the appropriate activity based on an overlapping range
 				// overlap the range to prevent oscillation
-				if ( distance < task.flData )
+				if ( distance < pTask->flData )
 				{
 					TaskComplete();
 					RouteClear();		// Stop moving
@@ -447,10 +450,9 @@ void CBaseMonster :: RunTask ( const Task_t& task )
 		}
 	case TASK_DIE:
 		{
-			//TODO: define constant - Solokiller
-			if ( m_fSequenceFinished && GetFrame() >= 255 )
+			if ( m_fSequenceFinished && pev->frame >= 255 )
 			{
-				SetDeadFlag( DEAD_DEAD );
+				pev->deadflag = DEAD_DEAD;
 				
 				SetThink ( NULL );
 				StopAnimation();
@@ -459,11 +461,11 @@ void CBaseMonster :: RunTask ( const Task_t& task )
 				{
 					// a bit of a hack. If a corpses' bbox is positioned such that being left solid so that it can be attacked will
 					// block the player on a slope or stairs, the corpse is made nonsolid. 
-//					SetSolidType( SOLID_NOT );
+//					pev->solid = SOLID_NOT;
 					SetSize( Vector ( -4, -4, 0 ), Vector ( 4, 4, 1 ) );
 				}
 				else // !!!HACKHACK - put monster in a thin, wide bounding box until we fix the solid type/bounding volume problem
-					SetSize( Vector ( GetRelMin().x, GetRelMin().y, GetRelMin().z ), Vector ( GetRelMax().x, GetRelMax().y, GetRelMin().z + 1 ) );
+					SetSize( Vector ( pev->mins.x, pev->mins.y, pev->mins.z ), Vector ( pev->maxs.x, pev->maxs.y, pev->mins.z + 1 ) );
 
 				if ( ShouldFadeOnDeath() )
 				{
@@ -500,7 +502,7 @@ void CBaseMonster :: RunTask ( const Task_t& task )
 	case TASK_RELOAD:
 		{
 			MakeIdealYaw ( m_vecEnemyLKP );
-			ChangeYaw ( GetYawSpeed() );
+			ChangeYaw ( pev->yaw_speed );
 
 			if ( m_fSequenceFinished )
 			{
@@ -525,7 +527,7 @@ void CBaseMonster :: RunTask ( const Task_t& task )
 				m_pCine->StartSequence( (CBaseMonster *)this, m_pCine->m_iszPlay, true );
 				if ( m_fSequenceFinished )
 					ClearSchedule();
-				SetFrameRate( 1.0 );
+				pev->framerate = 1.0;
 				//ALERT( at_aiconsole, "Script %s has begun for %s\n", STRING( m_pCine->m_iszPlay ), GetClassname() );
 			}
 			break;
@@ -561,16 +563,21 @@ void CBaseMonster :: SetTurnActivity ( void )
 	}
 }
 
-void CBaseMonster :: StartTask ( const Task_t& task )
+//=========================================================
+// Start task - selects the correct activity and performs
+// any necessary calculations to start the next task on the
+// schedule. 
+//=========================================================
+void CBaseMonster :: StartTask ( const Task_t* pTask )
 {
-	switch ( task.iTask )
+	switch ( pTask->iTask )
 	{
 	case TASK_TURN_RIGHT:
 		{
 			float flCurrentYaw;
 			
-			flCurrentYaw = UTIL_AngleMod( GetAbsAngles().y );
-			SetIdealYaw( UTIL_AngleMod( flCurrentYaw - task.flData ) );
+			flCurrentYaw = UTIL_AngleMod( pev->angles.y );
+			pev->ideal_yaw = UTIL_AngleMod( flCurrentYaw - pTask->flData );
 			SetTurnActivity();
 			break;
 		}
@@ -578,20 +585,20 @@ void CBaseMonster :: StartTask ( const Task_t& task )
 		{
 			float flCurrentYaw;
 			
-			flCurrentYaw = UTIL_AngleMod( GetAbsAngles().y );
-			SetIdealYaw( UTIL_AngleMod( flCurrentYaw + task.flData ) );
+			flCurrentYaw = UTIL_AngleMod( pev->angles.y );
+			pev->ideal_yaw = UTIL_AngleMod( flCurrentYaw + pTask->flData );
 			SetTurnActivity();
 			break;
 		}
 	case TASK_REMEMBER:
 		{
-			Remember ( (int)task.flData );
+			Remember ( (int)pTask->flData );
 			TaskComplete();
 			break;
 		}
 	case TASK_FORGET:
 		{
-			Forget ( (int)task.flData );
+			Forget ( (int)pTask->flData );
 			TaskComplete();
 			break;
 		}
@@ -642,7 +649,7 @@ void CBaseMonster :: StartTask ( const Task_t& task )
 	case TASK_PLAY_SEQUENCE_FACE_TARGET:
 	case TASK_PLAY_SEQUENCE:
 		{
-			m_IdealActivity = ( Activity )( int )task.flData;
+			m_IdealActivity = ( Activity )( int )pTask->flData;
 			break;
 		}
 	case TASK_PLAY_ACTIVE_IDLE:
@@ -656,7 +663,7 @@ void CBaseMonster :: StartTask ( const Task_t& task )
 		{
 			Schedule_t *pNewSchedule;
 
-			pNewSchedule = GetScheduleOfType( (int)task.flData );
+			pNewSchedule = GetScheduleOfType( (int)pTask->flData );
 			
 			if ( pNewSchedule )
 			{
@@ -677,7 +684,7 @@ void CBaseMonster :: StartTask ( const Task_t& task )
 				return;
 			}
 
-			if ( FindCover( m_hEnemy->GetAbsOrigin(), m_hEnemy->GetViewOffset(), 0, task.flData ) )
+			if ( FindCover( m_hEnemy->GetAbsOrigin(), m_hEnemy->pev->view_ofs, 0, pTask->flData ) )
 			{
 				// try for cover farther than the FLData from the schedule.
 				TaskComplete();
@@ -697,7 +704,7 @@ void CBaseMonster :: StartTask ( const Task_t& task )
 				return;
 			}
 
-			if ( FindCover( m_hEnemy->GetAbsOrigin(), m_hEnemy->GetViewOffset(), task.flData, CoverRadius() ) )
+			if ( FindCover( m_hEnemy->GetAbsOrigin(), m_hEnemy->pev->view_ofs, pTask->flData, CoverRadius() ) )
 			{
 				// try for cover farther than the FLData from the schedule.
 				TaskComplete();
@@ -717,7 +724,7 @@ void CBaseMonster :: StartTask ( const Task_t& task )
 				return;
 			}
 
-			if ( FindCover( m_hEnemy->GetAbsOrigin(), m_hEnemy->GetViewOffset(), 0, CoverRadius() ) )
+			if ( FindCover( m_hEnemy->GetAbsOrigin(), m_hEnemy->pev->view_ofs, 0, CoverRadius() ) )
 			{
 				// try for cover farther than the FLData from the schedule.
 				TaskComplete();
@@ -743,16 +750,16 @@ void CBaseMonster :: StartTask ( const Task_t& task )
 			else
 				pCover = m_hEnemy;
 
-			if ( FindLateralCover( pCover->GetAbsOrigin(), pCover->GetViewOffset() ) )
+			if ( FindLateralCover( pCover->GetAbsOrigin(), pCover->pev->view_ofs ) )
 			{
 				// try lateral first
-				m_flMoveWaitFinished = gpGlobals->time + task.flData;
+				m_flMoveWaitFinished = gpGlobals->time + pTask->flData;
 				TaskComplete();
 			}
-			else if ( FindCover( pCover->GetAbsOrigin(), pCover->GetViewOffset(), 0, CoverRadius() ) )
+			else if ( FindCover( pCover->GetAbsOrigin(), pCover->pev->view_ofs, 0, CoverRadius() ) )
 			{
 				// then try for plain ole cover
-				m_flMoveWaitFinished = gpGlobals->time + task.flData;
+				m_flMoveWaitFinished = gpGlobals->time + pTask->flData;
 				TaskComplete();
 			}
 			else
@@ -764,10 +771,10 @@ void CBaseMonster :: StartTask ( const Task_t& task )
 		}
 	case TASK_FIND_COVER_FROM_ORIGIN:
 		{
-			if ( FindCover( GetAbsOrigin(), GetViewOffset(), 0, CoverRadius() ) )
+			if ( FindCover( GetAbsOrigin(), pev->view_ofs, 0, CoverRadius() ) )
 			{
 				// then try for plain ole cover
-				m_flMoveWaitFinished = gpGlobals->time + task.flData;
+				m_flMoveWaitFinished = gpGlobals->time + pTask->flData;
 				TaskComplete();
 			}
 			else
@@ -788,7 +795,7 @@ void CBaseMonster :: StartTask ( const Task_t& task )
 			if ( pBestSound && FindLateralCover( pBestSound->m_vecOrigin, g_vecZero ) )
 			{
 				// try lateral first
-				m_flMoveWaitFinished = gpGlobals->time + task.flData;
+				m_flMoveWaitFinished = gpGlobals->time + pTask->flData;
 				TaskComplete();
 			}
 			*/
@@ -796,7 +803,7 @@ void CBaseMonster :: StartTask ( const Task_t& task )
 			if ( pBestSound && FindCover( pBestSound->m_vecOrigin, g_vecZero, pBestSound->m_iVolume, CoverRadius() ) )
 			{
 				// then try for plain ole cover
-				m_flMoveWaitFinished = gpGlobals->time + task.flData;
+				m_flMoveWaitFinished = gpGlobals->time + pTask->flData;
 				TaskComplete();
 			}
 			else
@@ -808,7 +815,7 @@ void CBaseMonster :: StartTask ( const Task_t& task )
 		}
 	case TASK_FACE_HINTNODE:
 		{
-			SetIdealYaw( WorldGraph.m_pNodes[ m_iHintNode ].m_flHintYaw );
+			pev->ideal_yaw = WorldGraph.m_pNodes[ m_iHintNode ].m_flHintYaw;
 			SetTurnActivity();
 			break;
 		}
@@ -861,12 +868,12 @@ void CBaseMonster :: StartTask ( const Task_t& task )
 	case TASK_WAIT:
 	case TASK_WAIT_FACE_ENEMY:
 		{// set a future time that tells us when the wait is over.
-			m_flWaitFinished = gpGlobals->time + task.flData;	
+			m_flWaitFinished = gpGlobals->time + pTask->flData;	
 			break;
 		}
 	case TASK_WAIT_RANDOM:
 		{// set a future time that tells us when the wait is over.
-			m_flWaitFinished = gpGlobals->time + RANDOM_FLOAT( 0.1, task.flData );
+			m_flWaitFinished = gpGlobals->time + RANDOM_FLOAT( 0.1, pTask->flData );
 			break;
 		}
 	case TASK_MOVE_TO_TARGET_RANGE:
@@ -890,7 +897,7 @@ void CBaseMonster :: StartTask ( const Task_t& task )
 				TaskComplete();
 			else
 			{
-				if ( task.iTask == TASK_WALK_TO_TARGET )
+				if ( pTask->iTask == TASK_WALK_TO_TARGET )
 					newActivity = ACT_WALK;
 				else
 					newActivity = ACT_RUN;
@@ -958,7 +965,7 @@ void CBaseMonster :: StartTask ( const Task_t& task )
 		}
 	case TASK_SET_ACTIVITY:
 		{
-			m_IdealActivity = (Activity)(int)task.flData;
+			m_IdealActivity = (Activity)(int)pTask->flData;
 			TaskComplete();
 			break;
 		}
@@ -968,7 +975,7 @@ void CBaseMonster :: StartTask ( const Task_t& task )
 			{
 				TaskComplete();
 			}
-			else if (BuildNearestRoute( m_vecEnemyLKP, GetViewOffset(), 0, (m_vecEnemyLKP - GetAbsOrigin()).Length() ))
+			else if (BuildNearestRoute( m_vecEnemyLKP, pev->view_ofs, 0, (m_vecEnemyLKP - GetAbsOrigin()).Length() ))
 			{
 				TaskComplete();
 			}
@@ -994,7 +1001,7 @@ void CBaseMonster :: StartTask ( const Task_t& task )
 			{
 				TaskComplete();
 			}
-			else if (BuildNearestRoute( pEnemy->GetAbsOrigin(), pEnemy->GetViewOffset(), 0, (pEnemy->GetAbsOrigin() - GetAbsOrigin()).Length() ))
+			else if (BuildNearestRoute( pEnemy->GetAbsOrigin(), pEnemy->pev->view_ofs, 0, (pEnemy->GetAbsOrigin() - GetAbsOrigin()).Length() ))
 			{
 				TaskComplete();
 			}
@@ -1008,7 +1015,7 @@ void CBaseMonster :: StartTask ( const Task_t& task )
 		}
 	case TASK_GET_PATH_TO_ENEMY_CORPSE:
 		{
-			UTIL_MakeVectors( GetAbsAngles() );
+			UTIL_MakeVectors( pev->angles );
 			if ( BuildRoute ( m_vecEnemyLKP - gpGlobals->v_forward * 64, bits_MF_TO_LOCATION, NULL ) )
 			{
 				TaskComplete();
@@ -1134,7 +1141,7 @@ case TASK_GET_PATH_TO_BESTSCENT:
 		}
 	case TASK_WALK_PATH:
 		{
-			if ( GetMoveType() == MOVETYPE_FLY )
+			if ( pev->movetype == MOVETYPE_FLY )
 			{
 				m_movementActivity = ACT_FLY;
 			}
@@ -1155,7 +1162,7 @@ case TASK_GET_PATH_TO_BESTSCENT:
 			Vector2D	vec2RightSide;
 
 			// to start strafing, we have to first figure out if the target is on the left side or right side
-			UTIL_MakeVectors ( GetAbsAngles() );
+			UTIL_MakeVectors ( pev->angles );
 
 			vec2DirToPoint = ( m_Route[ 0 ].vecLocation - GetAbsOrigin() ).Make2D().Normalize();
 			vec2RightSide = gpGlobals->v_right.Make2D().Normalize();
@@ -1186,7 +1193,7 @@ case TASK_GET_PATH_TO_BESTSCENT:
 
 	case TASK_EAT:
 		{
-			Eat( task.flData );
+			Eat( pTask->flData );
 			TaskComplete();
 			break;
 		}
@@ -1201,7 +1208,7 @@ case TASK_GET_PATH_TO_BESTSCENT:
 			
 			m_IdealActivity = GetDeathActivity();
 
-			SetDeadFlag( DEAD_DYING );
+			pev->deadflag = DEAD_DYING;
 			break;
 		}
 	case TASK_SOUND_WAKE:
@@ -1248,7 +1255,7 @@ case TASK_GET_PATH_TO_BESTSCENT:
 				m_pCine->StartSequence( (CBaseMonster *)this, m_pCine->m_iszIdle, false );
 				if (FStrEq( STRING(m_pCine->m_iszIdle), STRING(m_pCine->m_iszPlay)))
 				{
-					SetFrameRate( 0 );
+					pev->framerate = 0;
 				}
 			}
 			else
@@ -1258,8 +1265,8 @@ case TASK_GET_PATH_TO_BESTSCENT:
 		}
 	case TASK_PLAY_SCRIPT:
 		{
-			SetMoveType( MOVETYPE_FLY );
-			GetFlags().ClearFlags( FL_ONGROUND );
+			pev->movetype = MOVETYPE_FLY;
+			ClearBits(pev->flags, FL_ONGROUND);
 			m_scriptState = SCRIPT_PLAYING;
 			break;
 		}
@@ -1273,7 +1280,7 @@ case TASK_GET_PATH_TO_BESTSCENT:
 		{
 			if ( m_hTargetEnt != NULL )
 			{
-				SetAbsOrigin( m_hTargetEnt->GetAbsOrigin() );	// Plant on target
+				pev->origin = m_hTargetEnt->GetAbsOrigin();	// Plant on target
 			}
 
 			TaskComplete();
@@ -1283,7 +1290,7 @@ case TASK_GET_PATH_TO_BESTSCENT:
 		{
 			if ( m_hTargetEnt != NULL )
 			{
-				SetIdealYaw( UTIL_AngleMod( m_hTargetEnt->GetAbsAngles().y ) );
+				pev->ideal_yaw = UTIL_AngleMod( m_hTargetEnt->pev->angles.y );
 			}
 
 			TaskComplete();
@@ -1294,13 +1301,13 @@ case TASK_GET_PATH_TO_BESTSCENT:
 
 	case TASK_SUGGEST_STATE:
 		{
-			m_IdealMonsterState = (MONSTERSTATE)(int)task.flData;
+			m_IdealMonsterState = (MONSTERSTATE)(int)pTask->flData;
 			TaskComplete();
 			break;
 		}
 
 	case TASK_SET_FAIL_SCHEDULE:
-		m_failSchedule = (int)task.flData;
+		m_failSchedule = (int)pTask->flData;
 		TaskComplete();
 		break;
 
@@ -1311,7 +1318,7 @@ case TASK_GET_PATH_TO_BESTSCENT:
 
 	default:
 		{
-			ALERT ( at_aiconsole, "No StartTask entry for %d\n", (SHARED_TASKS)task.iTask );
+			ALERT ( at_aiconsole, "No StartTask entry for %d\n", (SHARED_TASKS)pTask->iTask );
 			break;
 		}
 	}
@@ -1334,6 +1341,12 @@ const Task_t* CBaseMonster::GetTask() const
 	}
 }
 
+//=========================================================
+// GetSchedule - Decides which type of schedule best suits
+// the monster's current state and conditions. Then calls
+// monster's member function to get a pointer to a schedule
+// of the proper type.
+//=========================================================
 Schedule_t *CBaseMonster :: GetSchedule ( void )
 {
 	switch	( m_MonsterState )

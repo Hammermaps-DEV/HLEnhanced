@@ -29,41 +29,41 @@ void CRotDoor::Spawn( void )
 	CBaseToggle::AxisDir( this );
 
 	// check for clockwise rotation
-	if( GetSpawnFlags().Any( SF_DOOR_ROTATE_BACKWARDS ) )
-		SetMoveDir( GetMoveDir() * -1 );
+	if( FBitSet( pev->spawnflags, SF_DOOR_ROTATE_BACKWARDS ) )
+		pev->movedir = pev->movedir * -1;
 
 	//m_flWait			= 2; who the hell did this? (sjb)
-	m_vecAngle1 = GetAbsAngles();
-	m_vecAngle2 = GetAbsAngles() + GetMoveDir() * m_flMoveDistance;
+	m_vecAngle1 = pev->angles;
+	m_vecAngle2 = pev->angles + pev->movedir * m_flMoveDistance;
 
 	ASSERTSZ( m_vecAngle1 != m_vecAngle2, "rotating door start/end positions are equal" );
 
-	if( GetSpawnFlags().Any( SF_DOOR_PASSABLE ) )
-		SetSolidType( SOLID_NOT );
+	if( FBitSet( pev->spawnflags, SF_DOOR_PASSABLE ) )
+		pev->solid = SOLID_NOT;
 	else
-		SetSolidType( SOLID_BSP );
+		pev->solid = SOLID_BSP;
 
-	SetMoveType( MOVETYPE_PUSH );
+	pev->movetype = MOVETYPE_PUSH;
 	SetAbsOrigin( GetAbsOrigin() );
-	SetModel( GetModelName() );
+	SetModel( STRING( pev->model ) );
 
-	if( GetSpeed() == 0 )
-		SetSpeed( 100 );
+	if( pev->speed == 0 )
+		pev->speed = 100;
 
 	// DOOR_START_OPEN is to allow an entity to be lighted in the closed position
 	// but spawn in the open position
-	if( GetSpawnFlags().Any( SF_DOOR_START_OPEN ) )
+	if( FBitSet( pev->spawnflags, SF_DOOR_START_OPEN ) )
 	{	// swap pos1 and pos2, put door at pos2, invert movement direction
-		SetAbsAngles( m_vecAngle2 );
+		pev->angles = m_vecAngle2;
 		Vector vecSav = m_vecAngle1;
 		m_vecAngle2 = m_vecAngle1;
 		m_vecAngle1 = vecSav;
-		SetMoveDir( GetMoveDir() * -1 );
+		pev->movedir = pev->movedir * -1;
 	}
 
 	m_toggle_state = TS_AT_BOTTOM;
 
-	if( GetSpawnFlags().Any( SF_DOOR_USE_ONLY ) )
+	if( FBitSet( pev->spawnflags, SF_DOOR_USE_ONLY ) )
 	{
 		SetTouch( NULL );
 	}
@@ -75,9 +75,9 @@ void CRotDoor::Spawn( void )
 void CRotDoor::SetToggleState( int state )
 {
 	if( state == TS_AT_TOP )
-		SetAbsAngles( m_vecAngle2 );
+		pev->angles = m_vecAngle2;
 	else
-		SetAbsAngles( m_vecAngle1 );
+		pev->angles = m_vecAngle1;
 
 	SetAbsOrigin( GetAbsOrigin() );
 }

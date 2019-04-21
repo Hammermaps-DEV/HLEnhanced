@@ -45,19 +45,19 @@ void CXenTree::Spawn( void )
 	Precache();
 
 	SetModel( "models/tree.mdl" );
-	SetMoveType( MOVETYPE_NONE );
-	SetSolidType( SOLID_BBOX );
+	pev->movetype = MOVETYPE_NONE;
+	pev->solid = SOLID_BBOX;
 
-	SetTakeDamageMode( DAMAGE_YES );
+	pev->takedamage = DAMAGE_YES;
 
 	SetSize( Vector( -30, -30, 0 ), Vector( 30, 30, 188 ) );
 	SetActivity( ACT_IDLE );
-	SetNextThink( gpGlobals->time + 0.1 );
-	SetFrame( RANDOM_FLOAT( 0, 255 ) );
-	SetFrameRate( RANDOM_FLOAT( 0.7, 1.4 ) );
+	pev->nextthink = gpGlobals->time + 0.1;
+	pev->frame = RANDOM_FLOAT( 0, 255 );
+	pev->framerate = RANDOM_FLOAT( 0.7, 1.4 );
 
 	Vector triggerPosition;
-	UTIL_MakeVectorsPrivate( GetAbsAngles(), &triggerPosition, nullptr, nullptr );
+	UTIL_MakeVectorsPrivate( pev->angles, &triggerPosition, nullptr, nullptr );
 	triggerPosition = GetAbsOrigin() + ( triggerPosition * 64 );
 	// Create the trigger
 	m_pTrigger = CXenTreeTrigger::TriggerCreate( this, triggerPosition );
@@ -83,7 +83,7 @@ void CXenTree::Touch( CBaseEntity *pOther )
 void CXenTree::Think( void )
 {
 	float flInterval = StudioFrameAdvance();
-	SetNextThink( gpGlobals->time + 0.1 );
+	pev->nextthink = gpGlobals->time + 0.1;
 	DispatchAnimEvents( flInterval );
 
 	switch( GetActivity() )
@@ -92,7 +92,7 @@ void CXenTree::Think( void )
 		if( m_fSequenceFinished )
 		{
 			SetActivity( ACT_IDLE );
-			SetFrameRate( RANDOM_FLOAT( 0.6, 1.4 ) );
+			pev->framerate = RANDOM_FLOAT( 0.6, 1.4 );
 		}
 		break;
 
@@ -111,23 +111,21 @@ void CXenTree::HandleAnimEvent( AnimEvent_t& event )
 		{
 			CBaseEntity *pList[ 8 ];
 			bool sound = false;
-			int count = UTIL_EntitiesInBox( pList, 8, m_pTrigger->GetAbsMin(), m_pTrigger->GetAbsMax(), FL_MONSTER | FL_CLIENT );
+			int count = UTIL_EntitiesInBox( pList, 8, m_pTrigger->pev->absmin, m_pTrigger->pev->absmax, FL_MONSTER | FL_CLIENT );
 			Vector forward;
 
-			UTIL_MakeVectorsPrivate( GetAbsAngles(), &forward, nullptr, nullptr );
+			UTIL_MakeVectorsPrivate( pev->angles, &forward, nullptr, nullptr );
 
 			for( int i = 0; i < count; i++ )
 			{
 				if( pList[ i ] != this )
 				{
-					if( pList[ i ]->GetOwner() != this )
+					if( pList[ i ]->pev->owner != edict() )
 					{
 						sound = true;
 						pList[ i ]->TakeDamage( this, this, 25, DMG_CRUSH | DMG_SLASH );
-						Vector vecPunchAngle = pList[ i ]->GetPunchAngle();
-						vecPunchAngle.x = 15;
-						pList[ i ]->SetPunchAngle( vecPunchAngle );
-						pList[ i ]->SetAbsVelocity( pList[ i ]->GetAbsVelocity() + forward * 100 );
+						pList[ i ]->pev->punchangle.x = 15;
+						pList[ i ]->pev->velocity = pList[ i ]->pev->velocity + forward * 100;
 					}
 				}
 			}
@@ -148,7 +146,7 @@ void CXenTree::Attack( void )
 	if( GetActivity() == ACT_IDLE )
 	{
 		SetActivity( ACT_MELEE_ATTACK1 );
-		SetFrameRate( RANDOM_FLOAT( 1.0, 1.4 ) );
+		pev->framerate = RANDOM_FLOAT( 1.0, 1.4 );
 		EMIT_SOUND_ARRAY_DYN( CHAN_WEAPON, pAttackMissSounds );
 	}
 }

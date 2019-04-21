@@ -32,17 +32,17 @@ void CInfoBM::KeyValue( KeyValueData* pkvd )
 {
 	if( FStrEq( pkvd->szKeyName, "radius" ) )
 	{
-		SetScale( atof( pkvd->szValue ) );
+		pev->scale = atof( pkvd->szValue );
 		pkvd->fHandled = true;
 	}
 	else if( FStrEq( pkvd->szKeyName, "reachdelay" ) )
 	{
-		SetSpeed( atof( pkvd->szValue ) );
+		pev->speed = atof( pkvd->szValue );
 		pkvd->fHandled = true;
 	}
 	else if( FStrEq( pkvd->szKeyName, "reachtarget" ) )
 	{
-		SetMessage( ALLOC_STRING( pkvd->szValue ) );
+		pev->message = ALLOC_STRING( pkvd->szValue );
 		pkvd->fHandled = true;
 	}
 	else if( FStrEq( pkvd->szKeyName, "reachsequence" ) )

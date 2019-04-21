@@ -36,7 +36,7 @@ private:
 	char m_sMainText[ MAX_BUTTON_SIZE ];
 	char m_cBoundKey;
 
-	//SchemeHandle_t m_hTextScheme;
+	SchemeHandle_t m_hTextScheme;
 
 	void RecalculateText( void );
 
@@ -72,8 +72,7 @@ public:
 
 	// Overloaded vgui functions
 	virtual void paint();
-	//Needed to rename this since Clang doesn't like the overload - Solokiller
-	virtual void setButtonText( const char *text );
+	virtual void setText( const char *text );
 	virtual void paintBackground();
 
 	void cursorEntered( void );

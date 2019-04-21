@@ -27,43 +27,43 @@ LINK_ENTITY_TO_CLASS( cycler_wreckage, CWreckage );
 
 void CWreckage::Spawn( void )
 {
-	SetSolidType( SOLID_NOT );
-	SetMoveType( MOVETYPE_NONE );
-	SetTakeDamageMode( DAMAGE_NO );
-	GetEffects().ClearAll();
+	pev->solid = SOLID_NOT;
+	pev->movetype = MOVETYPE_NONE;
+	pev->takedamage = 0;
+	pev->effects = 0;
 
-	SetFrame( 0 );
-	SetNextThink( gpGlobals->time + 0.1 );
+	pev->frame = 0;
+	pev->nextthink = gpGlobals->time + 0.1;
 
-	if( HasModel() )
+	if( pev->model )
 	{
-		PRECACHE_MODEL( GetModelName() );
-		SetModel( GetModelName() );
+		PRECACHE_MODEL( ( char * ) STRING( pev->model ) );
+		SetModel( STRING( pev->model ) );
 	}
-	// SetScale( 5.0 );
+	// pev->scale = 5.0;
 
 	m_flStartTime = gpGlobals->time;
 }
 
 void CWreckage::Precache()
 {
-	if( HasModel() )
-		PRECACHE_MODEL( GetModelName() );
+	if( pev->model )
+		PRECACHE_MODEL( ( char * ) STRING( pev->model ) );
 }
 
 void CWreckage::Think( void )
 {
 	StudioFrameAdvance();
-	SetNextThink( gpGlobals->time + 0.2 );
+	pev->nextthink = gpGlobals->time + 0.2;
 
-	if( GetDamageTime() )
+	if( pev->dmgtime )
 	{
-		if( GetDamageTime() < gpGlobals->time )
+		if( pev->dmgtime < gpGlobals->time )
 		{
 			UTIL_Remove( this );
 			return;
 		}
-		else if( RANDOM_FLOAT( 0, GetDamageTime() - m_flStartTime ) > GetDamageTime() - gpGlobals->time )
+		else if( RANDOM_FLOAT( 0, pev->dmgtime - m_flStartTime ) > pev->dmgtime - gpGlobals->time )
 		{
 			return;
 		}
@@ -71,9 +71,9 @@ void CWreckage::Think( void )
 
 	Vector VecSrc;
 
-	VecSrc.x = RANDOM_FLOAT( GetAbsMin().x, GetAbsMax().x );
-	VecSrc.y = RANDOM_FLOAT( GetAbsMin().y, GetAbsMax().y );
-	VecSrc.z = RANDOM_FLOAT( GetAbsMin().z, GetAbsMax().z );
+	VecSrc.x = RANDOM_FLOAT( pev->absmin.x, pev->absmax.x );
+	VecSrc.y = RANDOM_FLOAT( pev->absmin.y, pev->absmax.y );
+	VecSrc.z = RANDOM_FLOAT( pev->absmin.z, pev->absmax.z );
 
 	MESSAGE_BEGIN( MSG_PVS, SVC_TEMPENTITY, VecSrc );
 	WRITE_BYTE( TE_SMOKE );

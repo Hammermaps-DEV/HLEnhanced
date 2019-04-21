@@ -65,14 +65,14 @@ void CRecharge::Spawn()
 {
 	Precache( );
 
-	SetSolidType( SOLID_BSP );
-	SetMoveType( MOVETYPE_PUSH );
+	pev->solid		= SOLID_BSP;
+	pev->movetype	= MOVETYPE_PUSH;
 
 	SetAbsOrigin( GetAbsOrigin());		// set size and link into world
-	SetSize( GetRelMin(), GetRelMax() );
-	SetModel( GetModelName() );
+	SetSize( pev->mins, pev->maxs );
+	SetModel( STRING(pev->model) );
 	m_iJuice = gSkillData.GetSuitChargerCapacity();
-	SetFrame( 0 );
+	pev->frame = 0;			
 }
 
 void CRecharge::Precache()
@@ -92,12 +92,12 @@ void CRecharge::Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE use
 	// if there is no juice left, turn it off
 	if (m_iJuice <= 0)
 	{
-		SetFrame( 1 );
+		pev->frame = 1;			
 		Off();
 	}
 
 	// if the player doesn't have the suit, or there is no juice left, make the deny noise
-	if( ( m_iJuice <= 0 ) || ( !( pActivator->GetWeapons().Any( 1 << WEAPON_SUIT ) ) ) )
+	if ((m_iJuice <= 0) || (!(pActivator->pev->weapons & (1<<WEAPON_SUIT))))
 	{
 		if (m_flSoundTime <= gpGlobals->time)
 		{
@@ -107,7 +107,7 @@ void CRecharge::Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE use
 		return;
 	}
 
-	SetNextThink( GetLastThink() + 0.25 );
+	pev->nextthink = pev->ltime + 0.25;
 	SetThink(&CRecharge::Off);
 
 	// Time to recharge yet?
@@ -141,14 +141,13 @@ void CRecharge::Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE use
 
 
 	// charge the player
-	//TODO: constant for this is used by battery, make configurable - Solokiller
-	if (m_hActivator->GetArmorAmount() < 100)
+	if (m_hActivator->pev->armorvalue < 100)
 	{
 		m_iJuice--;
-		m_hActivator->SetArmorAmount( m_hActivator->GetArmorAmount() + 1 );
+		m_hActivator->pev->armorvalue += 1;
 
-		if (m_hActivator->GetArmorAmount() > 100)
-			m_hActivator->SetArmorAmount( 100 );
+		if (m_hActivator->pev->armorvalue > 100)
+			m_hActivator->pev->armorvalue = 100;
 	}
 
 	// govern the rate of charge
@@ -158,7 +157,7 @@ void CRecharge::Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE use
 void CRecharge::Recharge(void)
 {
 	m_iJuice = gSkillData.GetSuitChargerCapacity();
-	SetFrame( 0 );
+	pev->frame = 0;			
 	SetThink( &CRecharge::SUB_DoNothing );
 }
 
@@ -172,7 +171,7 @@ void CRecharge::Off(void)
 
 	if ((!m_iJuice) &&  ( ( m_iReactivate = g_pGameRules->FlHEVChargerRechargeTime() ) > 0) )
 	{
-		SetNextThink( GetLastThink() + m_iReactivate );
+		pev->nextthink = pev->ltime + m_iReactivate;
 		SetThink(&CRecharge::Recharge);
 	}
 	else

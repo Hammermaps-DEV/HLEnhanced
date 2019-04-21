@@ -52,7 +52,7 @@ LINK_ENTITY_TO_CLASS( monster_satchel, CSatchelCharge );
 //=========================================================
 void CSatchelCharge::Deactivate( void )
 {
-	SetSolidType( SOLID_NOT );
+	pev->solid = SOLID_NOT;
 	UTIL_Remove( this );
 }
 
@@ -61,8 +61,8 @@ void CSatchelCharge :: Spawn( void )
 {
 	Precache( );
 	// motor
-	SetMoveType( MOVETYPE_BOUNCE );
-	SetSolidType( SOLID_BBOX );
+	pev->movetype = MOVETYPE_BOUNCE;
+	pev->solid = SOLID_BBOX;
 
 	SetModel( "models/w_satchel.mdl");
 	//SetSize( Vector( -16, -16, -4), Vector(16, 16, 32) );	// Old box -- size of headcrab monsters/players get blocked by this
@@ -72,25 +72,25 @@ void CSatchelCharge :: Spawn( void )
 	SetTouch( &CSatchelCharge::SatchelSlide );
 	SetUse( &CSatchelCharge::DetonateUse );
 	SetThink( &CSatchelCharge::SatchelThink );
-	SetNextThink( gpGlobals->time + 0.1 );
+	pev->nextthink = gpGlobals->time + 0.1;
 
-	SetGravity( 0.5 );
-	SetFriction( 0.8 );
+	pev->gravity = 0.5;
+	pev->friction = 0.8;
 
-	SetDamage( gSkillData.GetPlrDmgSatchel() );
+	pev->dmg = gSkillData.GetPlrDmgSatchel();
 	// ResetSequenceInfo( );
-	SetSequence( 1 );
+	pev->sequence = 1;
 }
 
 
 void CSatchelCharge::SatchelSlide( CBaseEntity *pOther )
 {
 	// don't hit the guy that launched this grenade
-	if ( pOther == GetOwner() )
+	if ( pOther->edict() == pev->owner )
 		return;
 
-	// SetAngularVelocity( Vector (300, 300, 300) );
-	SetGravity( 1 );// normal gravity now
+	// pev->avelocity = Vector (300, 300, 300);
+	pev->gravity = 1;// normal gravity now
 
 	// HACKHACK - On ground isn't always set, so look for ground underneath
 	TraceResult tr;
@@ -99,11 +99,11 @@ void CSatchelCharge::SatchelSlide( CBaseEntity *pOther )
 	if ( tr.flFraction < 1.0 )
 	{
 		// add a bit of static friction
-		SetAbsVelocity( GetAbsVelocity() * 0.95 );
-		SetAngularVelocity( GetAngularVelocity() * 0.9 );
+		pev->velocity = pev->velocity * 0.95;
+		pev->avelocity = pev->avelocity * 0.9;
 		// play sliding sound, volume based on velocity
 	}
-	if ( !GetFlags().Any( FL_ONGROUND ) && GetAbsVelocity().Length2D() > 10 )
+	if ( !(pev->flags & FL_ONGROUND) && pev->velocity.Length2D() > 10 )
 	{
 		BounceSound();
 	}
@@ -114,7 +114,7 @@ void CSatchelCharge::SatchelSlide( CBaseEntity *pOther )
 void CSatchelCharge :: SatchelThink( void )
 {
 	StudioFrameAdvance( );
-	SetNextThink( gpGlobals->time + 0.1 );
+	pev->nextthink = gpGlobals->time + 0.1;
 
 	if (!IsInWorld())
 	{
@@ -124,21 +124,18 @@ void CSatchelCharge :: SatchelThink( void )
 
 	if ( GetWaterLevel() == WATERLEVEL_HEAD )
 	{
-		SetMoveType( MOVETYPE_FLY );
-		Vector vecVelocity = GetAbsVelocity() * 0.8;
-		SetAngularVelocity( GetAngularVelocity() * 0.9 );
-		vecVelocity.z += 8;
-		SetAbsVelocity( vecVelocity );
+		pev->movetype = MOVETYPE_FLY;
+		pev->velocity = pev->velocity * 0.8;
+		pev->avelocity = pev->avelocity * 0.9;
+		pev->velocity.z += 8;
 	}
 	else if ( GetWaterLevel() == WATERLEVEL_DRY)
 	{
-		SetMoveType( MOVETYPE_BOUNCE );
+		pev->movetype = MOVETYPE_BOUNCE;
 	}
 	else
 	{
-		Vector vecVelocity = GetAbsVelocity();
-		vecVelocity.z -= 8;
-		SetAbsVelocity( vecVelocity );
+		pev->velocity.z -= 8;
 	}	
 }
 
@@ -201,10 +198,8 @@ bool CSatchel::AddToPlayer( CBasePlayer *pPlayer )
 {
 	int bResult = CBasePlayerWeapon::AddToPlayer( pPlayer );
 	
-	//TODO: if the player had no satchels left, this adds it back to the Hud weapon list. replace with CBasePlayer method - Solokiller
-	pPlayer->GetWeapons() |= ( 1 << m_iId );
-	//TODO: maybe do this when the satchel is dropped so it doesn't have invalid state until picked up again? - Solokiller
-	//TODO: Could probably re-check if the current player has any deployed satchels on pick-up, would be more robust anyway - Solokiller
+	//TODO: why is this here? - Solokiller
+	pPlayer->pev->weapons |= (1<<m_iId);
 	m_chargeReady = ChargeState::NONE;// this satchel charge weapon now forgets that any satchels are deployed by it.
 
 	if ( bResult )
@@ -304,9 +299,9 @@ void CSatchel::Holster()
 
 	if ( !m_pPlayer->m_rgAmmo[ PrimaryAmmoIndex() ] && m_chargeReady == ChargeState::NONE )
 	{
-		m_pPlayer->GetWeapons().ClearFlags( 1 << m_iId );
+		m_pPlayer->pev->weapons &= ~(1<<m_iId);
 		SetThink( &CSatchel::DestroyItem );
-		SetNextThink( gpGlobals->time + 0.1 );
+		pev->nextthink = gpGlobals->time + 0.1;
 	}
 }
 
@@ -359,14 +354,14 @@ void CSatchel::Throw( void )
 #ifndef CLIENT_DLL
 		Vector vecSrc = m_pPlayer->GetAbsOrigin();
 
-		Vector vecThrow = gpGlobals->v_forward * 274 + m_pPlayer->GetAbsVelocity();
+		Vector vecThrow = gpGlobals->v_forward * 274 + m_pPlayer->pev->velocity;
 
 		CBaseEntity *pSatchel = Create( "monster_satchel", vecSrc, Vector( 0, 0, 0), m_pPlayer->edict() );
-		pSatchel->SetAbsVelocity( vecThrow );
-		pSatchel->SetAngularVelocity( Vector( 0, 400, 0 ) );
+		pSatchel->pev->velocity = vecThrow;
+		pSatchel->pev->avelocity.y = 400;
 
-		m_pPlayer->SetViewModelName( "models/v_satchel_radio.mdl" );
-		m_pPlayer->SetWeaponModelName( "models/p_satchel_radio.mdl" );
+		m_pPlayer->pev->viewmodel = MAKE_STRING("models/v_satchel_radio.mdl");
+		m_pPlayer->pev->weaponmodel = MAKE_STRING("models/p_satchel_radio.mdl");
 #else
 		LoadVModel ( "models/v_satchel_radio.mdl", m_pPlayer );
 #endif
@@ -412,8 +407,8 @@ void CSatchel::WeaponIdle( void )
 		}
 
 #ifndef CLIENT_DLL
-		m_pPlayer->SetViewModelName( "models/v_satchel.mdl" );
-		m_pPlayer->SetWeaponModelName( "models/p_satchel.mdl" );
+		m_pPlayer->pev->viewmodel = MAKE_STRING("models/v_satchel.mdl");
+		m_pPlayer->pev->weaponmodel = MAKE_STRING("models/p_satchel.mdl");
 #else
 		LoadVModel ( "models/v_satchel.mdl", m_pPlayer );
 #endif
@@ -443,7 +438,7 @@ size_t DeactivateSatchels( CBasePlayer* const pOwner, const SatchelAction action
 
 		if( pSatchel )
 		{
-			if( pSatchel->GetOwner() == pOwner )
+			if( pSatchel->pev->owner == pOwner->edict() )
 			{
 				if( action == SatchelAction::DETONATE )
 					pSatchel->Use( pOwner, pOwner, USE_ON, 0 );

@@ -54,7 +54,7 @@ void CBasePlayer::Observer_FindNextPlayer( bool bReverse )
 		if ( pEnt == this )
 			continue;
 		// Don't spec observers or players who haven't picked a class yet
-		if ( ((CBasePlayer*)pEnt)->IsObserver() || (pEnt->GetEffects().Any( EF_NODRAW ) ) )
+		if ( ((CBasePlayer*)pEnt)->IsObserver() || (pEnt->pev->effects & EF_NODRAW) )
 			continue;
 
 		// MOD AUTHORS: Add checks on target here.
@@ -73,7 +73,7 @@ void CBasePlayer::Observer_FindNextPlayer( bool bReverse )
 		// ALERT( at_console, "Now Tracking %s\n", m_hObserverTarget->GetNetName() );
 
 		// Store the target in pev so the physics DLL can get to it
-		if ( GetObserverMode() != OBS_ROAMING)
+		if (pev->iuser1 != OBS_ROAMING)
 			pev->iuser2 = m_hObserverTarget->entindex();
 	
 		
@@ -91,19 +91,19 @@ void CBasePlayer::Observer_HandleButtons()
 	// Jump changes from modes: Chase to Roaming
 	if ( m_afButtonPressed & IN_JUMP )
 	{
-		if ( GetObserverMode() == OBS_CHASE_LOCKED )
+		if ( pev->iuser1 == OBS_CHASE_LOCKED )
 			Observer_SetMode( OBS_CHASE_FREE );
 
-		else if ( GetObserverMode() == OBS_CHASE_FREE )
+		else if ( pev->iuser1 == OBS_CHASE_FREE )
 			Observer_SetMode( OBS_IN_EYE );
 
-		else if ( GetObserverMode() == OBS_IN_EYE )
+		else if ( pev->iuser1 == OBS_IN_EYE )
 			Observer_SetMode( OBS_ROAMING );
 
-		else if ( GetObserverMode() == OBS_ROAMING )
+		else if ( pev->iuser1 == OBS_ROAMING )
 			Observer_SetMode( OBS_MAP_FREE );
 
-		else if ( GetObserverMode() == OBS_MAP_FREE )
+		else if ( pev->iuser1 == OBS_MAP_FREE )
 			Observer_SetMode( OBS_MAP_CHASE );
 
 		else
@@ -113,7 +113,7 @@ void CBasePlayer::Observer_HandleButtons()
 	}
 
 	// Attack moves to the next player
-	if ( m_afButtonPressed & IN_ATTACK )//&& GetObserverMode() != OBS_ROAMING )
+	if ( m_afButtonPressed & IN_ATTACK )//&& pev->iuser1 != OBS_ROAMING )
 	{
 		Observer_FindNextPlayer( false );
 
@@ -121,7 +121,7 @@ void CBasePlayer::Observer_HandleButtons()
 	}
 
 	// Attack2 moves to the prev player
-	if ( m_afButtonPressed & IN_ATTACK2)// && GetObserverMode() != OBS_ROAMING )
+	if ( m_afButtonPressed & IN_ATTACK2)// && pev->iuser1 != OBS_ROAMING )
 	{
 		Observer_FindNextPlayer( true );
 
@@ -131,7 +131,7 @@ void CBasePlayer::Observer_HandleButtons()
 
 void CBasePlayer::Observer_CheckTarget()
 {
-	if( GetObserverMode() == OBS_ROAMING )
+	if( pev->iuser1 == OBS_ROAMING )
 		return;
 
 	// try to find a traget if we have no current one
@@ -143,7 +143,7 @@ void CBasePlayer::Observer_CheckTarget()
 		{
 			// no target found at all 
 
-			int lastMode = GetObserverMode();
+			int lastMode = pev->iuser1;
 
 			Observer_SetMode( OBS_ROAMING );
 
@@ -162,7 +162,7 @@ void CBasePlayer::Observer_CheckTarget()
 	}
 
 	// check taget
-	if (target->GetDeadFlag() == DEAD_DEAD)
+	if (target->pev->deadflag == DEAD_DEAD)
 	{
 		if ( (target->m_fDeadTime + 2.0f ) < gpGlobals->time )
 		{
@@ -176,7 +176,7 @@ void CBasePlayer::Observer_CheckTarget()
 void CBasePlayer::Observer_CheckProperties()
 {
 	// try to find a traget if we have no current one
-	if ( GetObserverMode() == OBS_IN_EYE && m_hObserverTarget != NULL)
+	if ( pev->iuser1 == OBS_IN_EYE && m_hObserverTarget != NULL)
 	{
 		CBasePlayer* target = UTIL_PlayerByIndex( m_hObserverTarget->entindex() );
 
@@ -226,7 +226,7 @@ void CBasePlayer::Observer_SetMode( int iMode )
 {
 
 	// Just abort if we're changing to the mode we're already in
-	if ( iMode == GetObserverMode() )
+	if ( iMode == pev->iuser1 )
 		return;
 
 	// is valid mode ?
@@ -239,12 +239,12 @@ void CBasePlayer::Observer_SetMode( int iMode )
 
 		if ( (pEnt == this) || (pEnt == NULL) )
 			m_hObserverTarget = NULL;
-		else if ( ((CBasePlayer*)pEnt)->IsObserver() || (pEnt->GetEffects().Any( EF_NODRAW ) ) )
+		else if ( ((CBasePlayer*)pEnt)->IsObserver() || (pEnt->pev->effects & EF_NODRAW) )
 			m_hObserverTarget = NULL;
 	}
 
 	// set spectator mode
-	InternalSetObserverMode( iMode );
+	pev->iuser1 = iMode;
 
 	// if we are not roaming, we need a valid target to track
 	if ( (iMode != OBS_ROAMING) && (m_hObserverTarget == NULL) )
@@ -255,24 +255,24 @@ void CBasePlayer::Observer_SetMode( int iMode )
 		if (m_hObserverTarget == NULL)
 		{
 			ClientPrint( this, HUD_PRINTCENTER, "#Spec_NoTarget"  );
-			InternalSetObserverMode( OBS_ROAMING );
+			pev->iuser1 = OBS_ROAMING;
 		}
 	}
 
 	// set target if not roaming
-	if ( GetObserverMode() == OBS_ROAMING)
+	if (pev->iuser1 == OBS_ROAMING)
 	{
-		SetObserverTargetIndex( 0 );
+		pev->iuser2 = 0;
 	}
 	else
-		SetObserverTargetIndex( m_hObserverTarget->entindex() );
+		pev->iuser2 = m_hObserverTarget->entindex();
 	
 	pev->iuser3 = 0;	// clear second target from death cam
 	
 	// print spepctaor mode on client screen
 
 	char modemsg[16];
-	sprintf(modemsg,"#Spec_Mode%i", GetObserverMode() );
+	sprintf(modemsg,"#Spec_Mode%i", pev->iuser1 );
 	ClientPrint( this, HUD_PRINTCENTER, modemsg );
 
 	m_iObserverLastMode = iMode;
@@ -284,7 +284,7 @@ void CBasePlayer::Observer_SetMode( int iMode )
 //=========================================================
 void CBasePlayer::StartDeathCam()
 {
-	if( GetViewOffset() == g_vecZero )
+	if( pev->view_ofs == g_vecZero )
 	{
 		// don't accept subsequent attempts to StartDeathCam()
 		return;
@@ -314,8 +314,7 @@ void CBasePlayer::StartDeathCam()
 		CopyToBodyQue( this );
 
 		SetAbsOrigin( pSpot->GetAbsOrigin() );
-		SetViewAngle( pSpot->GetViewAngle() );
-		SetAbsAngles( pSpot->GetViewAngle() );
+		pev->angles = pev->v_angle = pSpot->GetViewAngle();
 	}
 	else
 	{
@@ -325,19 +324,18 @@ void CBasePlayer::StartDeathCam()
 		UTIL_TraceLine( GetAbsOrigin(), GetAbsOrigin() + Vector( 0, 0, 128 ), ignore_monsters, edict(), &tr );
 
 		SetAbsOrigin( tr.vecEndPos );
-		SetViewAngle( UTIL_VecToAngles( tr.vecEndPos - GetAbsOrigin() ) );
-		SetAbsAngles( GetViewAngle() );
+		pev->angles = pev->v_angle = UTIL_VecToAngles( tr.vecEndPos - GetAbsOrigin() );
 	}
 
 	// start death cam
 
 	m_afPhysicsFlags |= PFLAG_OBSERVER;
-	SetViewOffset( g_vecZero );
+	pev->view_ofs = g_vecZero;
 	SetFixAngleMode( FIXANGLE_SET );
-	SetSolidType( SOLID_NOT );
-	SetTakeDamageMode( DAMAGE_NO );
-	SetMoveType( MOVETYPE_NONE );
-	SetModelIndex( 0 );
+	pev->solid = SOLID_NOT;
+	pev->takedamage = DAMAGE_NO;
+	pev->movetype = MOVETYPE_NONE;
+	pev->modelindex = 0;
 }
 
 void CBasePlayer::StartObserver( Vector vecPosition, Vector vecViewAngle )
@@ -370,7 +368,7 @@ void CBasePlayer::StartObserver( Vector vecPosition, Vector vecViewAngle )
 
 	// reset FOV
 	m_iFOV = m_iClientFOV = 0;
-	SetFOV( m_iFOV );
+	pev->fov = m_iFOV;
 	MESSAGE_BEGIN( MSG_ONE, gmsgSetFOV, NULL, this );
 		WRITE_BYTE( 0 );
 	MESSAGE_END();
@@ -378,18 +376,17 @@ void CBasePlayer::StartObserver( Vector vecPosition, Vector vecViewAngle )
 	// Setup flags
 	m_iHideHUD = ( HIDEHUD_HEALTH | HIDEHUD_WEAPONS );
 	m_afPhysicsFlags |= PFLAG_OBSERVER;
-	GetEffects() = EF_NODRAW;
-	SetViewOffset( g_vecZero );
-	SetViewAngle( vecViewAngle );
-	SetAbsAngles( vecViewAngle );
+	pev->effects = EF_NODRAW;
+	pev->view_ofs = g_vecZero;
+	pev->angles = pev->v_angle = vecViewAngle;
 	SetFixAngleMode( FIXANGLE_SET );
-	SetSolidType( SOLID_NOT );
-	SetTakeDamageMode( DAMAGE_NO );
-	SetMoveType( MOVETYPE_NONE );
+	pev->solid = SOLID_NOT;
+	pev->takedamage = DAMAGE_NO;
+	pev->movetype = MOVETYPE_NONE;
 	ClearBits( m_afPhysicsFlags, PFLAG_DUCKING );
-	GetFlags().ClearFlags( FL_DUCKING );
-	SetDeadFlag( DEAD_RESPAWNABLE );
-	SetHealth( 1 );
+	ClearBits( pev->flags, FL_DUCKING );
+	pev->deadflag = DEAD_RESPAWNABLE;
+	pev->health = 1;
 
 	// Clear out the status bar
 	m_fInitHUD = true;

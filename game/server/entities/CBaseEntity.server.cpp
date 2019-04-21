@@ -27,32 +27,30 @@ void SetObjectCollisionBox( entvars_t *pev );
 // give health
 float CBaseEntity::GiveHealth( float flHealth, int bitsDamageType )
 {
-	if( GetTakeDamageMode() == DAMAGE_NO )
+	if( !pev->takedamage )
 		return 0;
 
 	// heal
-	if( GetHealth() >= GetMaxHealth() )
+	if( pev->health >= pev->max_health )
 		return 0;
 
-	const float flOldHealth = GetHealth();
+	const float flOldHealth = pev->health;
 
-	float flNewHealth = GetHealth() + flHealth;
+	pev->health += flHealth;
 
 	//TODO: if the entity's health drops below 1, kill it. - Solokiller
 
-	if( flNewHealth > GetMaxHealth() )
-		flNewHealth = GetMaxHealth();
+	if( pev->health > pev->max_health )
+		pev->health = pev->max_health;
 
-	SetHealth( flNewHealth );
-
-	return GetHealth() - flOldHealth;
+	return pev->health - flOldHealth;
 }
 
 // inflict damage on this entity.  bitsDamageType indicates type of damage inflicted, ie: DMG_CRUSH
 
 void CBaseEntity::OnTakeDamage( const CTakeDamageInfo& info )
 {
-	if( GetTakeDamageMode() == DAMAGE_NO )
+	if( !pev->takedamage )
 		return;
 
 	auto pInflictor = info.GetInflictor();
@@ -70,22 +68,21 @@ void CBaseEntity::OnTakeDamage( const CTakeDamageInfo& info )
 	// save damage based on the target's armor level
 
 	// figure momentum add (don't let hurt brushes or other triggers move player)
-	if( ( !FNullEnt( pInflictor ) ) && ( GetMoveType() == MOVETYPE_WALK || GetMoveType() == MOVETYPE_STEP ) && ( info.GetAttacker()->GetSolidType() != SOLID_TRIGGER ) )
+	if( ( !FNullEnt( pInflictor ) ) && ( pev->movetype == MOVETYPE_WALK || pev->movetype == MOVETYPE_STEP ) && ( info.GetAttacker()->pev->solid != SOLID_TRIGGER ) )
 	{
-		Vector vecDir = GetAbsOrigin() - ( pInflictor->GetAbsMin() + pInflictor->GetAbsMax() ) * 0.5;
+		Vector vecDir = GetAbsOrigin() - ( pInflictor->pev->absmin + pInflictor->pev->absmax ) * 0.5;
 		vecDir = vecDir.Normalize();
 
-		//TODO: use human hull here? - Solokiller
-		float flForce = info.GetDamage() * ( ( 32 * 32 * 72.0 ) / ( GetBounds().x * GetBounds().y * GetBounds().z ) ) * 5;
+		float flForce = info.GetDamage() * ( ( 32 * 32 * 72.0 ) / ( pev->size.x * pev->size.y * pev->size.z ) ) * 5;
 
 		if( flForce > 1000.0 )
 			flForce = 1000.0;
-		SetAbsVelocity( GetAbsVelocity() + vecDir * flForce );
+		pev->velocity = pev->velocity + vecDir * flForce;
 	}
 
 	// do the damage
-	SetHealth( GetHealth() - info.GetDamage() );
-	if( GetHealth() <= 0 )
+	pev->health -= info.GetDamage();
+	if( pev->health <= 0 )
 	{
 		Killed( info, GIB_NORMAL );
 		return;
@@ -96,8 +93,8 @@ void CBaseEntity::OnTakeDamage( const CTakeDamageInfo& info )
 
 void CBaseEntity::Killed( const CTakeDamageInfo& info, GibAction gibAction )
 {
-	SetTakeDamageMode( DAMAGE_NO );
-	SetDeadFlag( DEAD_DEAD );
+	pev->takedamage = DAMAGE_NO;
+	pev->deadflag = DEAD_DEAD;
 	UTIL_Remove( this );
 }
 
@@ -165,14 +162,15 @@ bool CBaseEntity::Restore( CRestore &restore )
 		SetClassificationOverride( EntityClassifications().GetClassificationId( restore.ReadNamedString( "classificationOverride" ) ) );
 	}
 
-	if( GetModelIndex() != 0 && HasModel() )
+	if( pev->modelindex != 0 && !FStringNull( pev->model ) )
 	{
-		Vector mins = GetRelMin();	// Set model is about to destroy these
-		Vector maxs = GetRelMax();
+		Vector mins, maxs;
+		mins = pev->mins;	// Set model is about to destroy these
+		maxs = pev->maxs;
 
 
-		PRECACHE_MODEL( GetModelName() );
-		SetModel( GetModelName() );
+		PRECACHE_MODEL( ( char * ) STRING( pev->model ) );
+		SetModel( STRING( pev->model ) );
 		SetSize( mins, maxs );	// Reset them
 	}
 
@@ -186,35 +184,35 @@ void CBaseEntity::SetObjectCollisionBox( void )
 
 bool CBaseEntity::Intersects( const CBaseEntity* const pOther ) const
 {
-	if( pOther->GetAbsMin().x > GetAbsMax().x ||
-		pOther->GetAbsMin().y > GetAbsMax().y ||
-		pOther->GetAbsMin().z > GetAbsMax().z ||
-		pOther->GetAbsMax().x < GetAbsMin().x ||
-		pOther->GetAbsMax().y < GetAbsMin().y ||
-		pOther->GetAbsMax().z < GetAbsMin().z )
+	if( pOther->pev->absmin.x > pev->absmax.x ||
+		pOther->pev->absmin.y > pev->absmax.y ||
+		pOther->pev->absmin.z > pev->absmax.z ||
+		pOther->pev->absmax.x < pev->absmin.x ||
+		pOther->pev->absmax.y < pev->absmin.y ||
+		pOther->pev->absmax.z < pev->absmin.z )
 		return false;
 	return true;
 }
 
 void CBaseEntity::MakeDormant( void )
 {
-	GetFlags() |= FL_DORMANT;
+	SetBits( pev->flags, FL_DORMANT );
 
 	// Don't touch
-	SetSolidType( SOLID_NOT );
+	pev->solid = SOLID_NOT;
 	// Don't move
-	SetMoveType( MOVETYPE_NONE );
+	pev->movetype = MOVETYPE_NONE;
 	// Don't draw
-	GetEffects() |= EF_NODRAW;
+	SetBits( pev->effects, EF_NODRAW );
 	// Don't think
-	SetNextThink( 0 );
+	pev->nextthink = 0;
 	// Relink
 	SetAbsOrigin( GetAbsOrigin() );
 }
 
 bool CBaseEntity::IsDormant() const
 {
-	return GetFlags().Any( FL_DORMANT );
+	return FBitSet( pev->flags, FL_DORMANT ) != 0;
 }
 
 bool CBaseEntity::IsInWorld() const
@@ -227,12 +225,12 @@ bool CBaseEntity::IsInWorld() const
 	if( GetAbsOrigin().y <= -WORLD_BOUNDARY ) return false;
 	if( GetAbsOrigin().z <= -WORLD_BOUNDARY ) return false;
 	// speed
-	if( GetAbsVelocity().x >= MAX_VELOCITY ) return false;
-	if( GetAbsVelocity().y >= MAX_VELOCITY ) return false;
-	if( GetAbsVelocity().z >= MAX_VELOCITY ) return false;
-	if( GetAbsVelocity().x <= -MAX_VELOCITY ) return false;
-	if( GetAbsVelocity().y <= -MAX_VELOCITY ) return false;
-	if( GetAbsVelocity().z <= -MAX_VELOCITY ) return false;
+	if( pev->velocity.x >= MAX_VELOCITY ) return false;
+	if( pev->velocity.y >= MAX_VELOCITY ) return false;
+	if( pev->velocity.z >= MAX_VELOCITY ) return false;
+	if( pev->velocity.x <= -MAX_VELOCITY ) return false;
+	if( pev->velocity.y <= -MAX_VELOCITY ) return false;
+	if( pev->velocity.z <= -MAX_VELOCITY ) return false;
 
 	return true;
 }
@@ -250,10 +248,10 @@ bool CBaseEntity::ShouldToggle( USE_TYPE useType, const bool currentState ) cons
 
 int	CBaseEntity::DamageDecal( int bitsDamageType ) const
 {
-	if( GetRenderMode() == kRenderTransAlpha )
+	if( pev->rendermode == kRenderTransAlpha )
 		return -1;
 
-	if( GetRenderMode() != kRenderNormal )
+	if( pev->rendermode != kRenderNormal )
 		return DECAL_BPROOF1;
 
 	return DECAL_GUNSHOT1 + RANDOM_LONG( 0, 4 );
@@ -277,8 +275,8 @@ CBaseEntity* CBaseEntity::Create( const char* const pszName, const Vector& vecOr
 	}
 	pEntity = Instance( pent );
 	pEntity->pev->owner = pentOwner;
-	pEntity->SetAbsOrigin( vecOrigin );
-	pEntity->SetAbsAngles( vecAngles );
+	pEntity->pev->origin = vecOrigin;
+	pEntity->pev->angles = vecAngles;
 
 	if( bSpawnEntity )
 	{

@@ -1,8 +1,4 @@
 #include <memory>
-#include <string>
-
-#include <xercesc/dom/DOMDocument.hpp>
-#include <xercesc/dom/DOMNodeList.hpp>
 
 #include <Angelscript/CASModule.h>
 
@@ -15,6 +11,8 @@
 
 #include "CFile.h"
 
+#include "keyvalues/Keyvalues.h"
+
 #include "CHLASServerManager.h"
 
 #include "CASPluginData.h"
@@ -22,13 +20,6 @@
 #include "CASPluginModuleBuilder.h"
 
 #include "CASPluginManager.h"
-
-#include "xml/CStrX.h"
-#include "xml/CXMLManager.h"
-#include "xml/XMLUtils.h"
-#include "xml/CXStr.h"
-
-//TODO: need a separate cvar to control logging - Solokiller
 
 //TODO: should be a client command. - Solokiller
 static void ServerCommand_ListPlugins()
@@ -284,65 +275,73 @@ void CASPluginManager::LoadPluginsFile( const char* const pszPluginFile, LoadLis
 		return;
 	}
 
-	auto document = xml::XMLManager().ParseFile( pszPluginFile, "GAMECONFIG" );
+	CFile file( pszPluginFile, "rb", "GAMECONFIG" );
 
-	if( !document )
+	//TODO: use a parser that does this efficiently. - Solokiller
+
+	if( !file.IsOpen() )
 	{
 		Alert( at_console, "CASPluginManager::LoadPluginsFile: Couldn't open plugin file \"%s\"\n", pszPluginFile );
 		return;
 	}
 
-	xercesc::DOMNode* pRoot = xml::FindRootNode( *document, "plugins_config" );
+	const auto size = file.Size();
 
-	if( !pRoot )
+	auto data = std::make_unique<char[]>( size );
+
+	const auto read = file.Read( data.get(), size );
+
+	if( static_cast<decltype( size )>( read ) != size )
 	{
-		Alert( at_console, "CASPluginManager::LoadPluginsFile: File \"%s\": no configuration found, ignoring\n", pszPluginFile );
+		Alert( at_console, "CASPluginManager::LoadPluginsFile: Failed to read file \"%s\" contents\n", pszPluginFile );
 		return;
 	}
 
-	auto pChildren = pRoot->getChildNodes();
+	file.Close();
 
-	const auto count = pChildren->getLength();
+	kv::CKeyvaluesLexer::Memory_t memory( data.get(), size, false );
 
-	const auto szPluginNodeName = xml::AsciiToXMLCh( "plugin" );
+	kv::Parser parser( memory );
 
-	for( decltype( pChildren->getLength() ) index = 0; index < count; ++index )
+	const auto result = parser.Parse();
+
+	if( result != kv::Parser::ParseResult::SUCCESS )
 	{
-		auto pPlugin = pChildren->item( index );
+		Alert( at_console, "CASPluginManager::LoadPluginsFile: Failed to parse file \"%s\" contents\n", pszPluginFile );
+		return;
+	}
 
-		//Ignore non-element nodes silently
-		if( pPlugin->getNodeType() != xercesc::DOMNode::ELEMENT_NODE )
-			continue;
+	auto pKeyvalues = parser.GetKeyvalues();
 
-		//For now, warn if unknown nodes are encountered - Solokiller
-		if( xercesc::XMLString::compareString( pPlugin->getNodeName(), szPluginNodeName.data() ) != 0 )
+	auto pPlugins = pKeyvalues->FindFirstChild<kv::Block>( "plugins" );
+
+	if( !pPlugins )
+	{
+		Alert( at_console, "CASPluginManager::LoadPluginsFile: File \"%s\": no plugin list found\n", pszPluginFile );
+		return;
+	}
+
+	for( const auto pKV : pPlugins->GetChildren() )
+	{
+		if( pKV->GetKey() != "plugin" )
 		{
-			Alert( at_console, "CASPluginManager::LoadPluginsFile: File \"%s\": encountered unknown node \"%s\", ignoring\n",
-				   pszPluginFile, xml::CStrX( pPlugin->getNodeName() ).LocalForm() );
+			Alert( at_console, "CASPluginManager::LoadPluginsFile: File \"%s\": encountered non-plugin block \"%s\" in list, ignoring\n", pszPluginFile, pKV->GetKey().CStr() );
 			continue;
 		}
 
-		if( !pPlugin->hasAttributes() )
+		if( pKV->GetType() != kv::NodeType::BLOCK )
 		{
-			Alert( at_console, "CASPluginManager::LoadPluginsFile: File \"%s\": encountered plugin with no attributes, ignoring\n", pszPluginFile );
+			Alert( at_console, "CASPluginManager::LoadPluginsFile: File \"%s\": encountered non-block plugin entry, ignoring\n", pszPluginFile );
 			continue;
 		}
 
-		auto& attrs = *pPlugin->getAttributes();
+		auto pPlugin = static_cast<kv::Block*>( pKV );
 
-		auto pName = xml::GetNamedItem( attrs, "name" );
-		auto pScript = xml::GetNamedItem( attrs, "script" );
+		auto szName = pPlugin->FindFirstKeyvalue( "name" );
 
-		if( !pName || !pScript )
-		{
-			Alert( at_console, "CASPluginManager::LoadPluginsFile: File \"%s\": encountered plugin with one or more missing parameters, ignoring\n", pszPluginFile );
-			continue;
-		}
+		auto szScript = pPlugin->FindFirstKeyvalue( "script" );
 
-		const xml::CStrX szName{ pName->getNodeValue() };
-		const xml::CStrX szScript{ pScript->getNodeValue() };
-
-		if( !( *szName.LocalForm() ) || !( *szScript.LocalForm() ) )
+		if( szName.IsEmpty() || szScript.IsEmpty() )
 		{
 			Alert( at_console, "CASPluginManager::LoadPluginsFile: File \"%s\": encountered plugin with one or more missing parameters, ignoring\n", pszPluginFile );
 			continue;
@@ -352,10 +351,10 @@ void CASPluginManager::LoadPluginsFile( const char* const pszPluginFile, LoadLis
 		if( pPluginsToLoad )
 		{
 			auto it = std::find_if( pPluginsToLoad->begin(), pPluginsToLoad->end(), 
-				[ & ]( const auto& szPlugin )
-				{
-					return stricmp( szPlugin.c_str(), szName.LocalForm() ) == 0;
-				}
+			[ & ]( const auto& szPlugin )
+			{
+				return stricmp( szPlugin.c_str(), szName.CStr() ) == 0;
+			}
 			);
 
 			if( it == pPluginsToLoad->end() )
@@ -364,20 +363,12 @@ void CASPluginManager::LoadPluginsFile( const char* const pszPluginFile, LoadLis
 			pPluginsToLoad->erase( it );
 		}
 
+		auto szLifetime = pPlugin->FindFirstKeyvalue( "lifetime" );
+
 		//Defaults to hot reloadable if not specified.
-		PluginLifetime lifetime = PluginLifetime::HOTRELOADABLE;
+		const auto lifetime = !szLifetime.IsEmpty() ? PluginLifetimeFromString( szLifetime.CStr() ) : PluginLifetime::HOTRELOADABLE;
 
-		if( auto pLifetime = xml::GetNamedItem( attrs, "lifetime" ) )
-		{
-			const xml::CStrX szLifetime{ pLifetime->getNodeValue() };
-
-			if( *szLifetime.LocalForm() )
-				lifetime = PluginLifetimeFromString( szLifetime.LocalForm() );
-			else
-				Alert( at_console, "CASPluginManager::LoadPluginsFile: File \"%s\": encountered plugin with empty lifetime attribute, ignoring\n", pszPluginFile );
-		}
-
-		LoadPlugin( szName.LocalForm(), szScript.LocalForm(), lifetime );
+		LoadPlugin( szName.CStr(), szScript.CStr(), lifetime );
 	}
 
 	if( pPluginsToLoad && !pPluginsToLoad->empty() )

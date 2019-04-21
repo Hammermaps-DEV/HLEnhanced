@@ -44,22 +44,22 @@ void CXenSpore::Spawn( void )
 {
 	Precache();
 
-	SetModel( pModelNames[ GetSkin() ] );
-	SetMoveType( MOVETYPE_NONE );
-	SetSolidType( SOLID_BBOX );
-	SetTakeDamageMode( DAMAGE_YES );
+	SetModel( pModelNames[ pev->skin ] );
+	pev->movetype = MOVETYPE_NONE;
+	pev->solid = SOLID_BBOX;
+	pev->takedamage = DAMAGE_YES;
 
 	//	SetActivity( ACT_IDLE );
-	SetSequence( 0 );
-	SetFrame( RANDOM_FLOAT( 0, 255 ) );
-	SetFrameRate( RANDOM_FLOAT( 0.7, 1.4 ) );
+	pev->sequence = 0;
+	pev->frame = RANDOM_FLOAT( 0, 255 );
+	pev->framerate = RANDOM_FLOAT( 0.7, 1.4 );
 	ResetSequenceInfo();
-	SetNextThink( gpGlobals->time + RANDOM_FLOAT( 0.1, 0.4 ) );	// Load balance these a bit
+	pev->nextthink = gpGlobals->time + RANDOM_FLOAT( 0.1, 0.4 );	// Load balance these a bit
 }
 
 void CXenSpore::Precache( void )
 {
-	PRECACHE_MODEL( ( char * ) pModelNames[ GetSkin() ] );
+	PRECACHE_MODEL( ( char * ) pModelNames[ pev->skin ] );
 }
 
 void CXenSpore::Touch( CBaseEntity *pOther )
@@ -69,7 +69,7 @@ void CXenSpore::Touch( CBaseEntity *pOther )
 void CXenSpore::Think( void )
 {
 	/*float flInterval = */StudioFrameAdvance();
-	SetNextThink( gpGlobals->time + 0.1 );
+	pev->nextthink = gpGlobals->time + 0.1;
 
 #if 0
 	DispatchAnimEvents( flInterval );
@@ -86,27 +86,27 @@ void CXenSpore::Think( void )
 
 void CXenSporeSmall::Spawn( void )
 {
-	SetSkin( 0 );
+	pev->skin = 0;
 	CXenSpore::Spawn();
 	SetSize( Vector( -16, -16, 0 ), Vector( 16, 16, 64 ) );
 }
 
 void CXenSporeMed::Spawn( void )
 {
-	SetSkin( 1 );
+	pev->skin = 1;
 	CXenSpore::Spawn();
 	SetSize( Vector( -40, -40, 0 ), Vector( 40, 40, 120 ) );
 }
 
 void CXenSporeLarge::Spawn( void )
 {
-	SetSkin( 2 );
+	pev->skin = 2;
 	CXenSpore::Spawn();
 	SetSize( Vector( -48, -48, 110 ), Vector( 48, 48, 240 ) );
 
 	Vector forward, right;
 
-	UTIL_MakeVectorsPrivate( GetAbsAngles(), &forward, &right, nullptr );
+	UTIL_MakeVectorsPrivate( pev->angles, &forward, &right, nullptr );
 
 	// Rotate the leg hulls into position
 	for( size_t i = 0; i < ARRAYSIZE( m_hullSizes ); i++ )
@@ -118,14 +118,14 @@ CXenHull *CXenHull::CreateHull( CBaseEntity *source, const Vector &mins, const V
 	auto pHull = static_cast<CXenHull*>( UTIL_CreateNamedEntity( "xen_hull" ) );
 
 	pHull->SetAbsOrigin( source->GetAbsOrigin() + offset );
-	pHull->SetModel( source->GetModelName() );
-	pHull->SetSolidType( SOLID_BBOX );
-	pHull->SetMoveType( MOVETYPE_NONE );
-	pHull->SetOwner( source );
+	pHull->SetModel( STRING( source->pev->model ) );
+	pHull->pev->solid = SOLID_BBOX;
+	pHull->pev->movetype = MOVETYPE_NONE;
+	pHull->pev->owner = source->edict();
 	pHull->SetSize( mins, maxs );
-	pHull->SetRenderAmount( 0 );
-	pHull->SetRenderMode( kRenderTransTexture );
-	//	pHull->GetEffects() = EF_NODRAW;
+	pHull->pev->renderamt = 0;
+	pHull->pev->rendermode = kRenderTransTexture;
+	//	pHull->pev->effects = EF_NODRAW;
 
 	return pHull;
 }

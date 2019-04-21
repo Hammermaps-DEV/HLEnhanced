@@ -2,10 +2,6 @@
 #include <memory>
 #include <string>
 
-#include <xercesc/dom/DOMDocument.hpp>
-#include <xercesc/dom/DOMNodeList.hpp>
-#include <xercesc/util/XMLUniDefs.hpp>
-
 #include <angelscript.h>
 
 #include <Angelscript/ScriptAPI/ASCDateTime.h>
@@ -21,12 +17,8 @@
 
 #include "extdll.h"
 #include "util.h"
+#include "CFile.h"
 #include "Server.h"
-
-#include "xml/CStrX.h"
-#include "xml/CXMLManager.h"
-#include "xml/XMLUtils.h"
-#include "xml/CXStr.h"
 
 #include "ASHLSQL.h"
 
@@ -106,7 +98,6 @@ static unsigned int ParseMySQLPort( std::string& szHostName )
 	//Based on AMX's SQLX interface; allow scripts to specify a port using host:port format. - Solokiller
 	size_t uiPortSep = szHostName.find( ':' );
 
-	//TODO: define default in config - Solokiller
 	unsigned int uiPort = 3306;
 
 	if( uiPortSep != std::string::npos )
@@ -134,8 +125,6 @@ static CASMySQLConnection* HLCreateMySQLConnection( const std::string& szHost, c
 */
 static CASMySQLConnection* HLCreateMySQLConnectionWithDefaults( const std::string& szDatabase = "" )
 {
-	//TODO: parse config file ahead of time, add option to reparse as needed, support multiple named connections - Solokiller
-
 	if( !( *as_mysql_config.string ) )
 	{
 		Alert( at_logged, "SQL::CreateMySQLConnectionWithDefaults: No config file specified; cannot create connection\n" );
@@ -144,110 +133,141 @@ static CASMySQLConnection* HLCreateMySQLConnectionWithDefaults( const std::strin
 
 	//Parse the config file.
 	//Only load from the mod directory to prevent malicious servers from downloading files and overriding them.
-	auto document = xml::XMLManager().ParseFile( as_mysql_config.string, "GAMECONFIG" );
+	CFile file( as_mysql_config.string, "r", "GAMECONFIG" );
 
-	if( !document )
+	if( !file.IsOpen() )
 	{
 		Alert( at_error, "SQL::CreateMySQLConnectionWithDefaults: Couldn't open config file \"%s\"!\n", as_mysql_config.string );
 		return nullptr;
 	}
 
-	auto pRoot = xml::FindRootNode( *document, "mysql_config" );
+	const size_t uiSize = file.Size();
 
-	if( !pRoot )
+	auto buffer = std::make_unique<char[]>( uiSize + 1 );
+
+	file.Read( buffer.get(), uiSize );
+
+	buffer[ uiSize ] = '\0';
+
+	file.Close();
+
+	const char* pszData = buffer.get();
+
+	pszData = COM_Parse( pszData );
+
+	if( !pszData )
 	{
-		Alert( at_console, "SQL::CreateMySQLConnectionWithDefaults: File \"%s\": no configuration found, ignoring\n", as_mysql_config.string );
+		Alert( at_error, "SQL::CreateMySQLConnectionWithDefaults: Couldn't parse config file \"%s\"!\n", as_mysql_config.string );
 		return nullptr;
 	}
 
-	auto pConnections = xml::GetElementsByTagName( *document, "connection" );
-
-	if( !pConnections )
+	if( strcmp( MYSQL_DEFAULT_CONN_BLOCK, com_token ) )
 	{
-		Alert( at_console, "SQL::CreateMySQLConnectionWithDefaults: File \"%s\": no connections found, ignoring\n", as_mysql_config.string );
+		Alert( at_error, "SQL::CreateMySQLConnectionWithDefaults: Expected \"" MYSQL_DEFAULT_CONN_BLOCK "\", got \"%s\"\n", com_token );
 		return nullptr;
 	}
 
-	//Find the default connection
-	xercesc::DOMNode* pDefault = nullptr;
+	pszData = COM_Parse( pszData );
 
-	const auto count = pConnections->getLength();
-
-	const auto szDefaultName = xml::AsciiToXMLCh( "default" );
-
-	for( decltype( pConnections->getLength() ) index = 0; index < count; ++index )
+	if( !pszData )
 	{
-		auto pConn = pConnections->item( index );
+		Alert( at_error, "SQL::CreateMySQLConnectionWithDefaults: Couldn't parse config file \"%s\"!\n", as_mysql_config.string );
+		return nullptr;
+	}
 
-		if( pConn->getNodeType() != xercesc::DOMNode::ELEMENT_NODE )
+	if( strcmp( "{", com_token ) )
+	{
+		Alert( at_error, "SQL::CreateMySQLConnectionWithDefaults: Expected \"{\", got \"%s\"\n", com_token );
+		return nullptr;
+	}
+
+	char szKey[ 512 ];
+
+	char szHost[ 512 ] = {};
+	char szUser[ 512 ] = {};
+	char szPass[ 1024 ] = {};
+
+	//Password can be empty, so track separately.
+	bool bHasPass = false;
+
+	while( true )
+	{
+		pszData = COM_Parse( pszData );
+
+		if( !pszData )
 		{
-			Alert( at_console, "SQL::CreateMySQLConnectionWithDefaults: File \"%s\": Non-element connection node found, ignoring\n", as_mysql_config.string );
-			continue;
+			Alert( at_error, "SQL::CreateMySQLConnectionWithDefaults: Couldn't parse config file \"%s\"!\n", as_mysql_config.string );
+			return nullptr;
 		}
 
-		if( !pConn->hasAttributes() )
+		if( strcmp( "}", com_token ) == 0 )
 		{
-			Alert( at_console, "SQL::CreateMySQLConnectionWithDefaults: File \"%s\": encountered connection with no attributes, ignoring\n", as_mysql_config.string );
-			continue;
-		}
-
-		auto& attrs = *pConn->getAttributes();
-
-		auto pName = xml::GetNamedItem( attrs, "name" );
-
-		if( !pName )
-		{
-			Alert( at_console, "SQL::CreateMySQLConnectionWithDefaults: File \"%s\": encountered connection with one or more missing parameters, ignoring\n", as_mysql_config.string );
-			continue;
-		}
-
-		if( xercesc::XMLString::compareString( pName->getNodeValue(), szDefaultName.data() ) == 0 )
-		{
-			pDefault = pConn;
 			break;
 		}
+
+		strncpy( szKey, com_token, sizeof( szKey ) );
+		szKey[ sizeof( szKey ) - 1 ] = '\0';
+
+		pszData = COM_Parse( pszData );
+
+		if( !pszData )
+		{
+			Alert( at_error, "SQL::CreateMySQLConnectionWithDefaults: Couldn't parse config file \"%s\"!\n", as_mysql_config.string );
+			return nullptr;
+		}
+
+		if( strcmp( "host", szKey ) == 0 )
+		{
+			strncpy( szHost, com_token, sizeof( szHost ) );
+			szHost[ sizeof( szHost ) - 1 ] = '\0';
+		}
+		else if( strcmp( "user", szKey ) == 0 )
+		{
+			strncpy( szUser, com_token, sizeof( szUser ) );
+			szUser[ sizeof( szUser ) - 1 ] = '\0';
+		}
+		else if( strcmp( "pass", szKey ) == 0 )
+		{
+			strncpy( szPass, com_token, sizeof( szPass ) );
+			szPass[ sizeof( szPass ) - 1 ] = '\0';
+
+			bHasPass = true;
+		}
+		else
+		{
+			//Don't output the value, it might contain sensitive data.
+			Alert( at_warning, "SQL::CreateMySQLConnectionWithDefaults: Unknown keyvalue \"%s\"\n", szKey );
+		}
 	}
 
-	if( !pDefault )
+	bool bHasAllValues = true;
+
+	if( !( *szHost ) )
 	{
-		Alert( at_console, "SQL::CreateMySQLConnectionWithDefaults: File \"%s\": No default connection found\n", as_mysql_config.string );
-		return nullptr;
+		Alert( at_error, "SQL::CreateMySQLConnectionWithDefaults: Missing value for key \"host\"\n" );
+		bHasAllValues = false;
 	}
 
-	//We know it has attributes since we checked it earlier
-	auto& attrs = *pDefault->getAttributes();
-
-	const auto pHost = xml::GetNamedItem( attrs, "host" );
-	const auto pUser = xml::GetNamedItem( attrs, "user" );
-	const auto pPass = xml::GetNamedItem( attrs, "pass" );
-
-	if( !pHost || !pUser || !pPass )
+	if( !( *szUser ) )
 	{
-		Alert( at_console, "SQL::CreateMySQLConnectionWithDefaults: File \"%s\": Connection is missing one or more parameters, cannot create connection\n", as_mysql_config.string );
-		return nullptr;
+		Alert( at_error, "SQL::CreateMySQLConnectionWithDefaults: Missing value for key \"user\"\n" );
+		bHasAllValues = false;
 	}
 
-	const xml::CStrX szHost{ pHost->getNodeValue() };
-	const xml::CStrX szUser{ pUser->getNodeValue() };
-	const xml::CStrX szPass{ pPass->getNodeValue() };
-
-	if( !( *szHost.LocalForm() ) )
+	if( !bHasPass )
 	{
-		Alert( at_console, "SQL::CreateMySQLConnectionWithDefaults: File \"%s\": Connection has empty host setting, cannot create connection\n", as_mysql_config.string );
-		return nullptr;
+		Alert( at_error, "SQL::CreateMySQLConnectionWithDefaults: Missing value for key \"pass\"\n" );
+		bHasAllValues = false;
 	}
 
-	if( !( *szUser.LocalForm() ) )
-	{
-		Alert( at_console, "SQL::CreateMySQLConnectionWithDefaults: File \"%s\": Connection has empty username setting, cannot create connection\n", as_mysql_config.string );
+	if( !bHasAllValues )
 		return nullptr;
-	}
 
-	std::string szHostName = szHost.LocalForm();
+	std::string szHostName = szHost;
 
 	const unsigned int uiPort = ParseMySQLPort( szHostName );
 
-	return new CASMySQLConnection( *g_pSQLThreadPool, szHostName.c_str(), szUser.LocalForm(), szPass.LocalForm(), szDatabase.c_str(), uiPort, "", 0 );
+	return new CASMySQLConnection( *g_pSQLThreadPool, szHostName.c_str(), szUser, szPass, szDatabase.c_str(), uiPort, "", 0 );
 }
 
 void RegisterScriptHLSQL( asIScriptEngine& engine )

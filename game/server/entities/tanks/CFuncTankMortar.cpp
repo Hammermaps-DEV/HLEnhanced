@@ -11,7 +11,7 @@ void CFuncTankMortar::KeyValue( KeyValueData *pkvd )
 {
 	if( FStrEq( pkvd->szKeyName, "iMagnitude" ) )
 	{
-		SetImpulse( atoi( pkvd->szValue ) );
+		pev->impulse = atoi( pkvd->szValue );
 		pkvd->fHandled = true;
 	}
 	else
@@ -29,11 +29,11 @@ void CFuncTankMortar::Fire( const Vector &barrelEnd, const Vector &forward, CBas
 			TraceResult tr;
 
 			// TankTrace needs gpGlobals->v_up, etc.
-			UTIL_MakeAimVectors( GetAbsAngles() );
+			UTIL_MakeAimVectors( pev->angles );
 
 			TankTrace( barrelEnd, forward, gTankSpread[ m_spread ], tr );
 
-			UTIL_CreateExplosion( tr.vecEndPos, GetAbsAngles(), this, GetImpulse(), true );
+			UTIL_CreateExplosion( tr.vecEndPos, GetAbsAngles(), this, GetImpulse().Get(), true );
 
 			CFuncTank::Fire( barrelEnd, forward, pAttacker );
 		}

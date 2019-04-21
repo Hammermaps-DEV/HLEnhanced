@@ -50,9 +50,7 @@ void CLight :: KeyValue( KeyValueData* pkvd)
 	}
 	else if (FStrEq(pkvd->szKeyName, "pitch"))
 	{
-		Vector vecAngles = GetAbsAngles();
-		vecAngles.x = atof(pkvd->szValue);
-		SetAbsAngles( vecAngles );
+		pev->angles.x = atof(pkvd->szValue);
 		pkvd->fHandled = true;
 	}
 	else if (FStrEq(pkvd->szKeyName, "pattern"))
@@ -76,7 +74,7 @@ void CLight :: Spawn( void )
 	
 	if (m_iStyle >= 32)
 	{
-		if ( GetSpawnFlags().Any( SF_LIGHT_START_OFF ) )
+		if (FBitSet(pev->spawnflags, SF_LIGHT_START_OFF))
 			LIGHT_STYLE(m_iStyle, "a");
 		else if (m_iszPattern)
 			LIGHT_STYLE(m_iStyle, (char *)STRING( m_iszPattern ));
@@ -90,21 +88,21 @@ void CLight :: Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useT
 {
 	if (m_iStyle >= 32)
 	{
-		if ( !ShouldToggle( useType, !GetSpawnFlags().Any( SF_LIGHT_START_OFF ) ) )
+		if ( !ShouldToggle( useType, !FBitSet(pev->spawnflags, SF_LIGHT_START_OFF) ) )
 			return;
 
-		if( GetSpawnFlags().Any( SF_LIGHT_START_OFF ) )
+		if (FBitSet(pev->spawnflags, SF_LIGHT_START_OFF))
 		{
 			if (m_iszPattern)
 				LIGHT_STYLE(m_iStyle, (char *)STRING( m_iszPattern ));
 			else
 				LIGHT_STYLE(m_iStyle, "m");
-			GetSpawnFlags().ClearFlags( SF_LIGHT_START_OFF );
+			ClearBits(pev->spawnflags, SF_LIGHT_START_OFF);
 		}
 		else
 		{
 			LIGHT_STYLE(m_iStyle, "a");
-			GetSpawnFlags().AddFlags( SF_LIGHT_START_OFF );
+			SetBits(pev->spawnflags, SF_LIGHT_START_OFF);
 		}
 	}
 }

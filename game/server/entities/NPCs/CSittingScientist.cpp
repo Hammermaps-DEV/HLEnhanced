@@ -40,32 +40,32 @@ void CSittingScientist::Spawn()
 
 	SetSize( Vector( -14, -14, 0 ), Vector( 14, 14, 36 ) );
 
-	SetSolidType( SOLID_SLIDEBOX );
-	SetMoveType( MOVETYPE_STEP );
-	GetEffects().ClearAll();
-	SetHealth( 50 );
+	pev->solid = SOLID_SLIDEBOX;
+	pev->movetype = MOVETYPE_STEP;
+	pev->effects = 0;
+	pev->health = 50;
 
 	m_bloodColor = BLOOD_COLOR_RED;
 	m_flFieldOfView = VIEW_FIELD_WIDE; // indicates the width of this monster's forward view cone ( as a dotproduct result )
 
 	m_afCapability = bits_CAP_HEAR | bits_CAP_TURN_HEAD;
 
-	GetSpawnFlags().AddFlags( SF_MONSTER_PREDISASTER ); // predisaster only!
+	SetBits( pev->spawnflags, SF_MONSTER_PREDISASTER ); // predisaster only!
 
-	if( GetBody() == -1 )
+	if( pev->body == -1 )
 	{// -1 chooses a random head
-		SetBody( RANDOM_LONG( 0, NUM_SCIENTIST_HEADS - 1 ) );// pick a head, any head
+		pev->body = RANDOM_LONG( 0, NUM_SCIENTIST_HEADS - 1 );// pick a head, any head
 	}
 	// Luther is black, make his hands black
-	if( GetBody() == HEAD_LUTHER )
-		SetSkin( 1 );
+	if( pev->body == HEAD_LUTHER )
+		pev->skin = 1;
 
 	m_baseSequence = LookupSequence( "sitlookleft" );
-	SetSequence( m_baseSequence + RANDOM_LONG( 0, 4 ) );
+	pev->sequence = m_baseSequence + RANDOM_LONG( 0, 4 );
 	ResetSequenceInfo();
 
 	SetThink( &CSittingScientist::SittingThink );
-	SetNextThink( gpGlobals->time + 0.1 );
+	pev->nextthink = gpGlobals->time + 0.1;
 
 	UTIL_DropToFloor( this );
 }
@@ -91,18 +91,18 @@ void CSittingScientist::SittingThink( void )
 		pent = FindNearestFriend( true );
 		if( pent )
 		{
-			float yaw = VecToYaw( pent->GetAbsOrigin() - GetAbsOrigin() ) - GetAbsAngles().y;
+			float yaw = VecToYaw( pent->GetAbsOrigin() - GetAbsOrigin() ) - pev->angles.y;
 
 			if( yaw > 180 ) yaw -= 360;
 			if( yaw < -180 ) yaw += 360;
 
 			if( yaw > 0 )
-				SetSequence( m_baseSequence + SITTING_ANIM_sitlookleft );
+				pev->sequence = m_baseSequence + SITTING_ANIM_sitlookleft;
 			else
-				SetSequence( m_baseSequence + SITTING_ANIM_sitlookright );
+				pev->sequence = m_baseSequence + SITTING_ANIM_sitlookright;
 
 			ResetSequenceInfo();
-			SetFrame( 0 );
+			pev->frame = 0;
 			SetBoneController( 0, 0 );
 		}
 	}
@@ -115,12 +115,12 @@ void CSittingScientist::SittingThink( void )
 		{
 			// respond to question
 			IdleRespond();
-			SetSequence( m_baseSequence + SITTING_ANIM_sitscared );
+			pev->sequence = m_baseSequence + SITTING_ANIM_sitscared;
 			m_flResponseDelay = 0;
 		}
 		else if( i < 30 )
 		{
-			SetSequence( m_baseSequence + SITTING_ANIM_sitting3 );
+			pev->sequence = m_baseSequence + SITTING_ANIM_sitting3;
 
 			// turn towards player or nearest friend and speak
 
@@ -132,27 +132,27 @@ void CSittingScientist::SittingThink( void )
 			if( !FIdleSpeak() || !pent )
 			{
 				m_headTurn = RANDOM_LONG( 0, 8 ) * 10 - 40;
-				SetSequence( m_baseSequence + SITTING_ANIM_sitting3 );
+				pev->sequence = m_baseSequence + SITTING_ANIM_sitting3;
 			}
 			else
 			{
 				// only turn head if we spoke
-				float yaw = VecToYaw( pent->GetAbsOrigin() - GetAbsOrigin() ) - GetAbsAngles().y;
+				float yaw = VecToYaw( pent->GetAbsOrigin() - GetAbsOrigin() ) - pev->angles.y;
 
 				if( yaw > 180 ) yaw -= 360;
 				if( yaw < -180 ) yaw += 360;
 
 				if( yaw > 0 )
-					SetSequence( m_baseSequence + SITTING_ANIM_sitlookleft );
+					pev->sequence = m_baseSequence + SITTING_ANIM_sitlookleft;
 				else
-					SetSequence( m_baseSequence + SITTING_ANIM_sitlookright );
+					pev->sequence = m_baseSequence + SITTING_ANIM_sitlookright;
 
 				//ALERT(at_console, "sitting speak\n");
 			}
 		}
 		else if( i < 60 )
 		{
-			SetSequence( m_baseSequence + SITTING_ANIM_sitting3 );
+			pev->sequence = m_baseSequence + SITTING_ANIM_sitting3;
 			m_headTurn = RANDOM_LONG( 0, 8 ) * 10 - 40;
 			if( RANDOM_LONG( 0, 99 ) < 5 )
 			{
@@ -162,18 +162,18 @@ void CSittingScientist::SittingThink( void )
 		}
 		else if( i < 80 )
 		{
-			SetSequence( m_baseSequence + SITTING_ANIM_sitting2 );
+			pev->sequence = m_baseSequence + SITTING_ANIM_sitting2;
 		}
 		else if( i < 100 )
 		{
-			SetSequence( m_baseSequence + SITTING_ANIM_sitscared );
+			pev->sequence = m_baseSequence + SITTING_ANIM_sitscared;
 		}
 
 		ResetSequenceInfo();
-		SetFrame( 0 );
+		pev->frame = 0;
 		SetBoneController( 0, m_headTurn );
 	}
-	SetNextThink( gpGlobals->time + 0.1 );
+	pev->nextthink = gpGlobals->time + 0.1;
 }
 
 //=========================================================

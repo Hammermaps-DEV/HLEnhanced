@@ -73,12 +73,21 @@ const char *CController::pDeathSounds[] =
 	"controller/con_die2.wav",
 };
 
+
+//=========================================================
+// Classify - indicates this monster's place in the 
+// relationship table.
+//=========================================================
 EntityClassification_t CController::GetClassification()
 {
 	return EntityClassifications().GetClassificationId( classify::ALIEN_MILITARY );
 }
 
-void CController::UpdateYawSpeed()
+//=========================================================
+// SetYawSpeed - allows each sequence to have a different
+// turn rate associated with it.
+//=========================================================
+void CController :: SetYawSpeed ( void )
 {
 	int ys;
 
@@ -90,7 +99,7 @@ void CController::UpdateYawSpeed()
 	}
 #endif
 
-	SetYawSpeed( ys );
+	pev->yaw_speed = ys;
 }
 
 void CController::OnTakeDamage( const CTakeDamageInfo& info )
@@ -173,6 +182,10 @@ void CController :: DeathSound( void )
 	EMIT_SOUND_ARRAY_DYN( CHAN_VOICE, pDeathSounds ); 
 }
 
+//=========================================================
+// HandleAnimEvent - catches the monster-specific messages
+// that occur when tagged animation frames are played.
+//=========================================================
 void CController :: HandleAnimEvent( AnimEvent_t& event )
 {
 	switch( event.event )
@@ -225,9 +238,9 @@ void CController :: HandleAnimEvent( AnimEvent_t& event )
 				WRITE_COORD( 32 ); // decay
 			MESSAGE_END();
 
-			CBaseMonster *pBall = (CBaseMonster*)Create( "controller_head_ball", vecStart, GetAbsAngles(), edict() );
+			CBaseMonster *pBall = (CBaseMonster*)Create( "controller_head_ball", vecStart, pev->angles, edict() );
 
-			pBall->SetAbsVelocity( Vector( 0, 0, 32 ) );
+			pBall->pev->velocity = Vector( 0, 0, 32 );
 			pBall->m_hEnemy = m_hEnemy;
 
 			m_iBall[0] = 0;
@@ -264,6 +277,9 @@ void CController :: HandleAnimEvent( AnimEvent_t& event )
 	}
 }
 
+//=========================================================
+// Spawn
+//=========================================================
 void CController :: Spawn()
 {
 	Precache( );
@@ -271,18 +287,21 @@ void CController :: Spawn()
 	SetModel( "models/controller.mdl");
 	SetSize( Vector( -32, -32, 0 ), Vector( 32, 32, 64 ));
 
-	SetSolidType( SOLID_SLIDEBOX );
-	SetMoveType( MOVETYPE_FLY );
-	GetFlags() |= FL_FLY;
+	pev->solid			= SOLID_SLIDEBOX;
+	pev->movetype		= MOVETYPE_FLY;
+	pev->flags			|= FL_FLY;
 	m_bloodColor		= BLOOD_COLOR_GREEN;
-	SetHealth( gSkillData.GetControllerHealth() );
-	SetViewOffset( Vector( 0, 0, -2 ) );// position of the eyes relative to monster's origin.
+	pev->health			= gSkillData.GetControllerHealth();
+	pev->view_ofs		= Vector( 0, 0, -2 );// position of the eyes relative to monster's origin.
 	m_flFieldOfView		= VIEW_FIELD_FULL;// indicates the width of this monster's forward view cone ( as a dotproduct result )
 	m_MonsterState		= MONSTERSTATE_NONE;
 
 	MonsterInit();
 }
 
+//=========================================================
+// Precache - precaches all resources this monster needs
+//=========================================================
 void CController :: Precache()
 {
 	PRECACHE_MODEL("models/controller.mdl");
@@ -411,16 +430,19 @@ BEGIN_SCHEDULES( CController )
 	slControllerFail,
 END_SCHEDULES()
 
-void CController :: StartTask ( const Task_t& task )
+//=========================================================
+// StartTask
+//=========================================================
+void CController :: StartTask ( const Task_t* pTask )
 {
-	switch ( task.iTask )
+	switch ( pTask->iTask )
 	{
 	case TASK_RANGE_ATTACK1:
-		CSquadMonster :: StartTask ( task );
+		CSquadMonster :: StartTask ( pTask );
 		break;
 	case TASK_GET_PATH_TO_ENEMY_LKP:
 		{
-			if (BuildNearestRoute( m_vecEnemyLKP, GetViewOffset(), task.flData, (m_vecEnemyLKP - GetAbsOrigin()).Length() + 1024 ))
+			if (BuildNearestRoute( m_vecEnemyLKP, pev->view_ofs, pTask->flData, (m_vecEnemyLKP - GetAbsOrigin()).Length() + 1024 ))
 			{
 				TaskComplete();
 			}
@@ -442,7 +464,7 @@ void CController :: StartTask ( const Task_t& task )
 				return;
 			}
 
-			if (BuildNearestRoute( pEnemy->GetAbsOrigin(), pEnemy->GetViewOffset(), task.flData, (pEnemy->GetAbsOrigin() - GetAbsOrigin()).Length() + 1024 ))
+			if (BuildNearestRoute( pEnemy->GetAbsOrigin(), pEnemy->pev->view_ofs, pTask->flData, (pEnemy->GetAbsOrigin() - GetAbsOrigin()).Length() + 1024 ))
 			{
 				TaskComplete();
 			}
@@ -455,7 +477,7 @@ void CController :: StartTask ( const Task_t& task )
 			break;
 		}
 	default:
-		CSquadMonster :: StartTask ( task );
+		CSquadMonster :: StartTask ( pTask );
 		break;
 	}
 }
@@ -506,7 +528,7 @@ int CController::LookupFloat( )
 		return LookupSequence( "up" );
 	}
 
-	UTIL_MakeAimVectors( GetAbsAngles() );
+	UTIL_MakeAimVectors( pev->angles );
 	float x = DotProduct( gpGlobals->v_forward, m_velocity );
 	float y = DotProduct( gpGlobals->v_right, m_velocity );
 	float z = DotProduct( gpGlobals->v_up, m_velocity );
@@ -534,7 +556,11 @@ int CController::LookupFloat( )
 	}
 }
 
-void CController :: RunTask ( const Task_t& task )
+
+//=========================================================
+// RunTask 
+//=========================================================
+void CController :: RunTask ( const Task_t* pTask )
 {
 
 	if (m_flShootEnd > gpGlobals->time)
@@ -545,14 +571,14 @@ void CController :: RunTask ( const Task_t& task )
 	
 		while (m_flShootTime < m_flShootEnd && m_flShootTime < gpGlobals->time)
 		{
-			Vector vecSrc = vecHand + GetAbsVelocity() * (m_flShootTime - gpGlobals->time);
+			Vector vecSrc = vecHand + pev->velocity * (m_flShootTime - gpGlobals->time);
 			Vector vecDir;
 			
 			if (m_hEnemy != NULL)
 			{
 				if (HasConditions( bits_COND_SEE_ENEMY ))
 				{
-					m_vecEstVelocity = m_vecEstVelocity * 0.5 + m_hEnemy->GetAbsVelocity() * 0.5;
+					m_vecEstVelocity = m_vecEstVelocity * 0.5 + m_hEnemy->pev->velocity * 0.5;
 				}
 				else
 				{
@@ -563,8 +589,8 @@ void CController :: RunTask ( const Task_t& task )
 				vecDir = vecDir + Vector( RANDOM_FLOAT( -delta, delta ), RANDOM_FLOAT( -delta, delta ), RANDOM_FLOAT( -delta, delta ) ) * gSkillData.GetControllerSpeedBall();
 
 				vecSrc = vecSrc + vecDir * (gpGlobals->time - m_flShootTime);
-				CBaseMonster *pBall = (CBaseMonster*)Create( "controller_energy_ball", vecSrc, GetAbsAngles(), edict() );
-				pBall->SetAbsVelocity( vecDir );
+				CBaseMonster *pBall = (CBaseMonster*)Create( "controller_energy_ball", vecSrc, pev->angles, edict() );
+				pBall->pev->velocity = vecDir;
 			}
 			m_flShootTime += 0.2;
 		}
@@ -579,56 +605,63 @@ void CController :: RunTask ( const Task_t& task )
 		}
 	}
 
-	switch ( task.iTask )
+	switch ( pTask->iTask )
 	{
 	case TASK_WAIT_FOR_MOVEMENT:
 	case TASK_WAIT:
 	case TASK_WAIT_FACE_ENEMY:
 	case TASK_WAIT_PVS:
 		MakeIdealYaw( m_vecEnemyLKP );
-		ChangeYaw( GetYawSpeed() );
+		ChangeYaw( pev->yaw_speed );
 
 		if (m_fSequenceFinished)
 		{
 			m_fInCombat = false;
 		}
 
-		CSquadMonster :: RunTask ( task );
+		CSquadMonster :: RunTask ( pTask );
 
 		if (!m_fInCombat)
 		{
 			if (HasConditions ( bits_COND_CAN_RANGE_ATTACK1 ))
 			{
-				SetSequence( LookupActivity( ACT_RANGE_ATTACK1 ) );
-				SetFrame( 0 );
+				pev->sequence = LookupActivity( ACT_RANGE_ATTACK1 );
+				pev->frame = 0;
 				ResetSequenceInfo( );
 				m_fInCombat = true;
 			}
 			else if (HasConditions ( bits_COND_CAN_RANGE_ATTACK2 ))
 			{
-				SetSequence( LookupActivity( ACT_RANGE_ATTACK2 ) );
-				SetFrame( 0 );
+				pev->sequence = LookupActivity( ACT_RANGE_ATTACK2 );
+				pev->frame = 0;
 				ResetSequenceInfo( );
 				m_fInCombat = true;
 			}
 			else
 			{
 				int iFloat = LookupFloat( );
-				if (m_fSequenceFinished || iFloat != GetSequence() )
+				if (m_fSequenceFinished || iFloat != pev->sequence)
 				{
-					SetSequence( iFloat );
-					SetFrame( 0 );
+					pev->sequence = iFloat;
+					pev->frame = 0;
 					ResetSequenceInfo( );
 				}
 			}
 		}
 		break;
 	default: 
-		CSquadMonster :: RunTask ( task );
+		CSquadMonster :: RunTask ( pTask );
 		break;
 	}
 }
 
+
+//=========================================================
+// GetSchedule - Decides which type of schedule best suits
+// the monster's current state and conditions. Then calls
+// monster's member function to get a pointer to a schedule
+// of the proper type.
+//=========================================================
 Schedule_t *CController :: GetSchedule ( void )
 {
 	switch	( m_MonsterState )
@@ -680,6 +713,14 @@ Schedule_t* CController :: GetScheduleOfType ( int Type )
 	return CBaseMonster :: GetScheduleOfType( Type );
 }
 
+
+
+
+
+//=========================================================
+// CheckRangeAttack1  - shoot a bigass energy ball out of their head
+//
+//=========================================================
 bool CController :: CheckRangeAttack1 ( float flDot, float flDist )
 {
 	if ( flDot > 0.5 && flDist > 256 && flDist <= 2048 )
@@ -740,7 +781,7 @@ void CController :: RunAI( void )
 		{
 			m_pBall[i] = CSprite::SpriteCreate( "sprites/xspark4.spr", GetAbsOrigin(), true );
 			m_pBall[i]->SetTransparency( kRenderGlow, 255, 255, 255, 255, kRenderFxNoDissipation );
-			m_pBall[i]->SetAttachment( this, (i + 3) );
+			m_pBall[i]->SetAttachment( edict(), (i + 3) );
 			m_pBall[i]->SetScale( 1.0 );
 		}
 
@@ -840,7 +881,7 @@ void CController :: Move ( float flInterval )
 		flWaypointDist = ( m_Route[ m_iRouteIndex ].vecLocation - GetAbsOrigin() ).Length();
 		
 		// MakeIdealYaw ( m_Route[ m_iRouteIndex ].vecLocation );
-		// ChangeYaw( GetYawSpeed() );
+		// ChangeYaw ( pev->yaw_speed );
 
 		// if the waypoint is closer than CheckDist, CheckDist is the dist to waypoint
 		if ( flWaypointDist < DIST_TO_CHECK )
@@ -1009,7 +1050,7 @@ void CController::MoveExecute( CBaseEntity *pTargetEnt, const Vector &vecDir, fl
 
 	// ALERT( at_console, "move %.4f %.4f %.4f : %f\n", vecDir.x, vecDir.y, vecDir.z, flInterval );
 
-	// float flTotal = m_flGroundSpeed * GetFrameRate() * flInterval;
+	// float flTotal = m_flGroundSpeed * pev->framerate * flInterval;
 	// UTIL_MoveToOrigin ( this, m_Route[ m_iRouteIndex ].vecLocation, flTotal, MOVE_STRAFE );
 
 	m_velocity = m_velocity * 0.8 + m_flGroundSpeed * vecDir * 0.2;

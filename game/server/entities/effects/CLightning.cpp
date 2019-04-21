@@ -38,26 +38,26 @@ void CLightning::Spawn( void )
 		SetThink( &CLightning::SUB_Remove );
 		return;
 	}
-	SetSolidType( SOLID_NOT );							// Remove model & collisions
+	pev->solid = SOLID_NOT;							// Remove model & collisions
 	Precache();
 
-	SetDamageTime( gpGlobals->time );
+	pev->dmgtime = gpGlobals->time;
 
 	if( ServerSide() )
 	{
 		SetThink( NULL );
-		if( GetDamage() > 0 )
+		if( pev->dmg > 0 )
 		{
 			SetThink( &CLightning::DamageThink );
-			SetNextThink( gpGlobals->time + 0.1 );
+			pev->nextthink = gpGlobals->time + 0.1;
 		}
 		if( HasTargetname() )
 		{
-			if( !GetSpawnFlags().Any( SF_BEAM_STARTON ) )
+			if( !( pev->spawnflags & SF_BEAM_STARTON ) )
 			{
-				GetEffects() = EF_NODRAW;
+				pev->effects = EF_NODRAW;
 				m_active = false;
-				SetNextThink( 0 );
+				pev->nextthink = 0;
 			}
 			else
 				m_active = true;
@@ -72,10 +72,10 @@ void CLightning::Spawn( void )
 		{
 			SetUse( &CLightning::StrikeUse );
 		}
-		if( !HasTargetname() || GetSpawnFlags().Any( SF_BEAM_STARTON ) )
+		if( !HasTargetname() || FBitSet( pev->spawnflags, SF_BEAM_STARTON ) )
 		{
 			SetThink( &CLightning::StrikeThink );
-			SetNextThink( gpGlobals->time + 1.0 );
+			pev->nextthink = gpGlobals->time + 1.0;
 		}
 	}
 }
@@ -140,7 +140,7 @@ void CLightning::KeyValue( KeyValueData *pkvd )
 	}
 	else if( FStrEq( pkvd->szKeyName, "damage" ) )
 	{
-		SetDamage( atof( pkvd->szValue ) );
+		pev->dmg = atof( pkvd->szValue );
 		pkvd->fHandled = true;
 	}
 	else
@@ -157,10 +157,10 @@ void CLightning::StrikeThink( void )
 {
 	if( m_life != 0 )
 	{
-		if( GetSpawnFlags().Any( SF_BEAM_RANDOM ) )
-			SetNextThink( gpGlobals->time + m_life + RANDOM_FLOAT( 0, m_restrike ) );
+		if( pev->spawnflags & SF_BEAM_RANDOM )
+			pev->nextthink = gpGlobals->time + m_life + RANDOM_FLOAT( 0, m_restrike );
 		else
-			SetNextThink( gpGlobals->time + m_life + m_restrike );
+			pev->nextthink = gpGlobals->time + m_life + m_restrike;
 	}
 	m_active = true;
 
@@ -188,7 +188,7 @@ void CLightning::StrikeThink( void )
 	{
 		if( UTIL_IsPointEntity( pStart ) || UTIL_IsPointEntity( pEnd ) )
 		{
-			if( GetSpawnFlags().Any( SF_BEAM_RING ) )
+			if( pev->spawnflags & SF_BEAM_RING )
 			{
 				// don't work
 				return;
@@ -228,7 +228,7 @@ void CLightning::StrikeThink( void )
 		}
 		else
 		{
-			if( GetSpawnFlags().Any( SF_BEAM_RING ) )
+			if( pev->spawnflags & SF_BEAM_RING )
 				WRITE_BYTE( TE_BEAMRING );
 			else
 				WRITE_BYTE( TE_BEAMENTS );
@@ -238,29 +238,29 @@ void CLightning::StrikeThink( void )
 
 			WRITE_SHORT( m_spriteTexture );
 			WRITE_BYTE( m_frameStart ); // framestart
-			WRITE_BYTE( ( int ) GetFrameRate() ); // framerate
+			WRITE_BYTE( ( int ) pev->framerate ); // framerate
 			WRITE_BYTE( ( int ) ( m_life*10.0 ) ); // life
 			WRITE_BYTE( m_boltWidth );  // width
 			WRITE_BYTE( m_noiseAmplitude );   // noise
-			WRITE_BYTE( ( int ) GetRenderColor().x );   // r, g, b
-			WRITE_BYTE( ( int ) GetRenderColor().y );   // r, g, b
-			WRITE_BYTE( ( int ) GetRenderColor().z );   // r, g, b
-			WRITE_BYTE( GetRenderAmount() );	// brightness
+			WRITE_BYTE( ( int ) pev->rendercolor.x );   // r, g, b
+			WRITE_BYTE( ( int ) pev->rendercolor.y );   // r, g, b
+			WRITE_BYTE( ( int ) pev->rendercolor.z );   // r, g, b
+			WRITE_BYTE( pev->renderamt );	// brightness
 			WRITE_BYTE( m_speed );		// speed
 		MESSAGE_END();
 		DoSparks( pStart->GetAbsOrigin(), pEnd->GetAbsOrigin() );
-		if( GetDamage() > 0 )
+		if( pev->dmg > 0 )
 		{
 			TraceResult tr;
 			UTIL_TraceLine( pStart->GetAbsOrigin(), pEnd->GetAbsOrigin(), dont_ignore_monsters, NULL, &tr );
-			BeamDamageInstant( &tr, GetDamage() );
+			BeamDamageInstant( &tr, pev->dmg );
 		}
 	}
 }
 
 void CLightning::DamageThink( void )
 {
-	SetNextThink( gpGlobals->time + 0.1 );
+	pev->nextthink = gpGlobals->time + 0.1;
 	TraceResult tr;
 	UTIL_TraceLine( GetStartPos(), GetEndPos(), dont_ignore_monsters, NULL, &tr );
 	BeamDamage( &tr );
@@ -343,14 +343,14 @@ void CLightning::Zap( const Vector &vecSrc, const Vector &vecDest )
 		WRITE_COORD( vecDest.z );
 		WRITE_SHORT( m_spriteTexture );
 		WRITE_BYTE( m_frameStart ); // framestart
-		WRITE_BYTE( ( int ) GetFrameRate() ); // framerate
+		WRITE_BYTE( ( int ) pev->framerate ); // framerate
 		WRITE_BYTE( ( int ) ( m_life*10.0 ) ); // life
 		WRITE_BYTE( m_boltWidth );  // width
 		WRITE_BYTE( m_noiseAmplitude );   // noise
-		WRITE_BYTE( ( int ) GetRenderColor().x );   // r, g, b
-		WRITE_BYTE( ( int ) GetRenderColor().y );   // r, g, b
-		WRITE_BYTE( ( int ) GetRenderColor().z );   // r, g, b
-		WRITE_BYTE( GetRenderAmount() );	// brightness
+		WRITE_BYTE( ( int ) pev->rendercolor.x );   // r, g, b
+		WRITE_BYTE( ( int ) pev->rendercolor.y );   // r, g, b
+		WRITE_BYTE( ( int ) pev->rendercolor.z );   // r, g, b
+		WRITE_BYTE( pev->renderamt );	// brightness
 		WRITE_BYTE( m_speed );		// speed
 	MESSAGE_END();
 #else
@@ -384,10 +384,10 @@ void CLightning::StrikeUse( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_T
 	else
 	{
 		SetThink( &CLightning::StrikeThink );
-		SetNextThink( gpGlobals->time + 0.1 );
+		pev->nextthink = gpGlobals->time + 0.1;
 	}
 
-	if( !GetSpawnFlags().Any( SF_BEAM_TOGGLE ) )
+	if( !FBitSet( pev->spawnflags, SF_BEAM_TOGGLE ) )
 		SetUse( NULL );
 }
 
@@ -398,18 +398,18 @@ void CLightning::ToggleUse( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_T
 	if( m_active )
 	{
 		m_active = false;
-		GetEffects() |= EF_NODRAW;
-		SetNextThink( 0 );
+		pev->effects |= EF_NODRAW;
+		pev->nextthink = 0;
 	}
 	else
 	{
 		m_active = true;
-		GetEffects().ClearFlags( EF_NODRAW );
+		pev->effects &= ~EF_NODRAW;
 		DoSparks( GetStartPos(), GetEndPos() );
-		if( GetDamage() > 0 )
+		if( pev->dmg > 0 )
 		{
-			SetNextThink( gpGlobals->time );
-			SetDamageTime( gpGlobals->time );
+			pev->nextthink = gpGlobals->time;
+			pev->dmgtime = gpGlobals->time;
 		}
 	}
 }
@@ -431,11 +431,11 @@ void CLightning::BeamUpdateVars( void )
 	pointStart = UTIL_IsPointEntity( pStart );
 	pointEnd = UTIL_IsPointEntity( pEnd );
 
-	SetSkin( 0 );
-	SetSequence( 0 );
-	SetRenderMode( kRenderNormal );
-	GetFlags() |= FL_CUSTOMENTITY;
-	SetModelName( m_iszSpriteName );
+	pev->skin = 0;
+	pev->sequence = 0;
+	pev->rendermode = 0;
+	pev->flags |= FL_CUSTOMENTITY;
+	pev->model = m_iszSpriteName;
 	SetTexture( m_spriteTexture );
 
 	beamType = BEAM_ENTS;
@@ -479,8 +479,8 @@ void CLightning::BeamUpdateVars( void )
 	SetNoise( m_noiseAmplitude );
 	SetFrame( m_frameStart );
 	SetScrollRate( m_speed );
-	if( GetSpawnFlags().Any( SF_BEAM_SHADEIN ) )
-		SetBeamFlags( BEAM_FSHADEIN );
-	else if( GetSpawnFlags().Any( SF_BEAM_SHADEOUT ) )
-		SetBeamFlags( BEAM_FSHADEOUT );
+	if( pev->spawnflags & SF_BEAM_SHADEIN )
+		SetFlags( BEAM_FSHADEIN );
+	else if( pev->spawnflags & SF_BEAM_SHADEOUT )
+		SetFlags( BEAM_FSHADEOUT );
 }

@@ -14,14 +14,14 @@ LINK_ENTITY_TO_CLASS( item_sodacan, CItemSoda );
 void CItemSoda::Spawn( void )
 {
 	Precache();
-	SetSolidType( SOLID_NOT );
-	SetMoveType( MOVETYPE_TOSS );
+	pev->solid = SOLID_NOT;
+	pev->movetype = MOVETYPE_TOSS;
 
 	SetModel( "models/can.mdl" );
 	SetSize( Vector( 0, 0, 0 ), Vector( 0, 0, 0 ) );
 
 	SetThink( &CItemSoda::CanThink );
-	SetNextThink( gpGlobals->time + 0.5 );
+	pev->nextthink = gpGlobals->time + 0.5;
 }
 
 void CItemSoda::Precache( void )
@@ -32,7 +32,7 @@ void CItemSoda::CanThink( void )
 {
 	EMIT_SOUND( this, CHAN_WEAPON, "weapons/g_bounce3.wav", 1, ATTN_NORM );
 
-	SetSolidType( SOLID_TRIGGER );
+	pev->solid = SOLID_TRIGGER;
 	SetSize( Vector( -8, -8, 0 ), Vector( 8, 8, 8 ) );
 	SetThink( NULL );
 	SetTouch( &CItemSoda::CanTouch );
@@ -49,16 +49,16 @@ void CItemSoda::CanTouch( CBaseEntity *pOther )
 
 	pOther->GiveHealth( 1, DMG_GENERIC );// a bit of health.
 
-	if( !FNullEnt( GetOwner() ) )
+	if( !FNullEnt( pev->owner ) )
 	{
 		// tell the machine the can was taken
-		GetOwner()->SetFrags( 0 );
+		pev->owner->v.frags = 0;
 	}
 
-	SetSolidType( SOLID_NOT );
-	SetMoveType( MOVETYPE_NONE );
-	GetEffects() = EF_NODRAW;
+	pev->solid = SOLID_NOT;
+	pev->movetype = MOVETYPE_NONE;
+	pev->effects = EF_NODRAW;
 	SetTouch( NULL );
 	SetThink( &CItemSoda::SUB_Remove );
-	SetNextThink( gpGlobals->time );
+	pev->nextthink = gpGlobals->time;
 }

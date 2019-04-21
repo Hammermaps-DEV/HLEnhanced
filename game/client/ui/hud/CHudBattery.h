@@ -36,9 +36,7 @@ private:
 	const wrect_t *m_prc1;
 	const wrect_t *m_prc2;
 	int	  m_iBat;
-#if defined( _TFC )
 	int	  m_iBatMax;
-#endif
 	float m_fFade;
 	int	  m_iHeight;		// width of the battery innards
 };

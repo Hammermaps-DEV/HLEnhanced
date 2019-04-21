@@ -940,7 +940,7 @@ void EV_FireGauss( event_args_t *args )
 							}
 
 	//////////////////////////////////// WHAT TO DO HERE
-							// CSoundEnt::InsertSound ( bits_SOUND_COMBAT, GetAbsOrigin(), NORMAL_EXPLOSION_VOLUME, 3.0 );
+							// CSoundEnt::InsertSound ( bits_SOUND_COMBAT, pev->origin, NORMAL_EXPLOSION_VOLUME, 3.0 );
 
 							EV_HLDM_DecalGunshot( &beam_tr, BULLET_MONSTER_12MM );
 							
@@ -1253,7 +1253,7 @@ void EV_FireRpg( event_args_t *args )
 //	    EGON START 
 //======================
 const int g_fireAnims1[] = { EGON_FIRE1, EGON_FIRE2, EGON_FIRE3, EGON_FIRE4 };
-//const int g_fireAnims2[] = { EGON_ALTFIRECYCLE };
+const int g_fireAnims2[] = { EGON_ALTFIRECYCLE };
 
 #define	EGON_PRIMARY_VOLUME		450
 #define EGON_BEAM_SPRITE		"sprites/xbeam1.spr"

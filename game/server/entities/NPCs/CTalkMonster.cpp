@@ -369,9 +369,9 @@ void CTalkMonster :: SetActivity ( Activity newActivity )
 }
 
 
-void CTalkMonster :: StartTask( const Task_t& task )
+void CTalkMonster :: StartTask( const Task_t* pTask )
 {
-	switch ( task.iTask )
+	switch ( pTask->iTask )
 	{
 	case TASK_TLK_SPEAK:
 		// ask question or make statement
@@ -402,7 +402,7 @@ void CTalkMonster :: StartTask( const Task_t& task )
 	case TASK_TLK_LOOK_AT_CLIENT:
 	case TASK_TLK_CLIENT_STARE:
 		// track head to the client for a while.
-		m_flWaitFinished = gpGlobals->time + task.flData;
+		m_flWaitFinished = gpGlobals->time + pTask->flData;
 		break;
 
 	case TASK_TLK_EYECONTACT:
@@ -411,19 +411,19 @@ void CTalkMonster :: StartTask( const Task_t& task )
 	case TASK_TLK_IDEALYAW:
 		if (m_hTalkTarget != NULL)
 		{
-			SetYawSpeed( 60 );
-			float yaw = VecToYaw(m_hTalkTarget->GetAbsOrigin() - GetAbsOrigin()) - GetAbsAngles().y;
+			pev->yaw_speed = 60;
+			float yaw = VecToYaw(m_hTalkTarget->GetAbsOrigin() - GetAbsOrigin()) - pev->angles.y;
 
 			if (yaw > 180) yaw -= 360;
 			if (yaw < -180) yaw += 360;
 
 			if (yaw < 0)
 			{
-				SetIdealYaw( min( yaw + 45, 0.0f ) + GetAbsAngles().y );
+				pev->ideal_yaw = min( yaw + 45, 0.0f ) + pev->angles.y;
 			}
 			else
 			{
-				SetIdealYaw( max( yaw - 45, 0.0f ) + GetAbsAngles().y );
+				pev->ideal_yaw = max( yaw - 45, 0.0f ) + pev->angles.y;
 			}
 		}
 		TaskComplete();
@@ -453,17 +453,17 @@ void CTalkMonster :: StartTask( const Task_t& task )
 
 	case TASK_MOVE_AWAY_PATH:
 		{
-			Vector dir = GetAbsAngles();
-			dir.y = GetIdealYaw() + 180;
+			Vector dir = pev->angles;
+			dir.y = pev->ideal_yaw + 180;
 			Vector move;
 
 			UTIL_MakeVectorsPrivate( dir, &move, nullptr, nullptr );
-			dir = GetAbsOrigin() + move * task.flData;
+			dir = GetAbsOrigin() + move * pTask->flData;
 			if ( MoveToLocation( ACT_WALK, 2, dir ) )
 			{
 				TaskComplete();
 			}
-			else if ( FindCover( GetAbsOrigin(), GetViewOffset(), 0, CoverRadius() ) )
+			else if ( FindCover( GetAbsOrigin(), pev->view_ofs, 0, CoverRadius() ) )
 			{
 				// then try for plain ole cover
 				m_flMoveWaitFinished = gpGlobals->time + 2;
@@ -479,18 +479,18 @@ void CTalkMonster :: StartTask( const Task_t& task )
 
 	case TASK_PLAY_SCRIPT:
 		m_hTalkTarget = NULL;
-		CBaseMonster::StartTask( task );
+		CBaseMonster::StartTask( pTask );
 		break;
 
 	default:
-		CBaseMonster::StartTask( task );
+		CBaseMonster::StartTask( pTask );
 	}
 }
 
 
-void CTalkMonster :: RunTask( const Task_t& task )
+void CTalkMonster :: RunTask( const Task_t* pTask )
 {
-	switch( task.iTask )
+	switch( pTask->iTask )
 	{
 	case TASK_TLK_CLIENT_STARE:
 	case TASK_TLK_LOOK_AT_CLIENT:
@@ -519,7 +519,7 @@ void CTalkMonster :: RunTask( const Task_t& task )
 
 			if( pPlayer )
 			{
-				if( task.iTask == TASK_TLK_CLIENT_STARE )
+				if( pTask->iTask == TASK_TLK_CLIENT_STARE )
 				{
 					// fail out if the player looks away or moves away.
 					if( ( pPlayer->v.origin - GetAbsOrigin() ).Length2D() > TLK_STARE_DIST )
@@ -556,7 +556,7 @@ void CTalkMonster :: RunTask( const Task_t& task )
 			if( pPlayer )
 			{
 				MakeIdealYaw( pPlayer->v.origin );
-				ChangeYaw( GetYawSpeed() );
+				ChangeYaw( pev->yaw_speed );
 				IdleHeadTurn( pPlayer->v.origin );
 				if( gpGlobals->time > m_flWaitFinished && FlYawDiff() < 10 )
 				{
@@ -592,7 +592,7 @@ void CTalkMonster :: RunTask( const Task_t& task )
 			distance = (m_vecLastPosition - GetAbsOrigin()).Length2D();
 
 			// Walk path until far enough away
-			if ( distance > task.flData || MovementIsComplete() )
+			if ( distance > pTask->flData || MovementIsComplete() )
 			{
 				TaskComplete();
 				RouteClear();		// Stop moving
@@ -619,7 +619,7 @@ void CTalkMonster :: RunTask( const Task_t& task )
 				}
 			}
 
-			CBaseMonster::RunTask( task );
+			CBaseMonster::RunTask( pTask );
 			if( TaskIsComplete() )
 				IdleHeadTurn( GetAbsOrigin() );
 			break;
@@ -635,7 +635,7 @@ void CTalkMonster :: RunTask( const Task_t& task )
 			{
 				SetBoneController( 0, 0 );
 			}
-			CBaseMonster::RunTask( task );
+			CBaseMonster::RunTask( pTask );
 
 			break;
 		}
@@ -646,7 +646,7 @@ void CTalkMonster :: RunTask( const Task_t& task )
 void CTalkMonster::Killed( const CTakeDamageInfo& info, GibAction gibAction )
 {
 	// If a client killed me (unless I was already Barnacle'd), make everyone else mad/afraid of him
-	if ( info.GetAttacker() && info.GetAttacker()->GetFlags().Any( FL_CLIENT ) && m_MonsterState != MONSTERSTATE_PRONE )
+	if ( info.GetAttacker() && (info.GetAttacker()->pev->flags & FL_CLIENT) && m_MonsterState != MONSTERSTATE_PRONE )
 	{
 		AlertFriends();
 		LimitFollowers( info.GetAttacker(), 0 );
@@ -677,7 +677,7 @@ CBaseEntity	*CTalkMonster::EnumFriends( CBaseEntity *pPrevious, int listNumber, 
 		if ( bTrace )
 		{
 			vecCheck = pFriend->GetAbsOrigin();
-			vecCheck.z = pFriend->GetAbsMax().z;
+			vecCheck.z = pFriend->pev->absmax.z;
 
 			UTIL_TraceLine( GetAbsOrigin(), vecCheck, ignore_monsters, ENT(pev), &tr);
 		}
@@ -773,6 +773,11 @@ float CTalkMonster::TargetDistance( void )
 	return (m_hTargetEnt->GetAbsOrigin() - GetAbsOrigin()).Length();
 }
 
+
+//=========================================================
+// HandleAnimEvent - catches the monster-specific messages
+// that occur when tagged animation frames are played.
+//=========================================================
 void CTalkMonster :: HandleAnimEvent( AnimEvent_t& event )
 {
 	switch( event.event )
@@ -821,7 +826,7 @@ CBaseEntity* CTalkMonster::FindNearestFriend( const bool fPlayer ) const
 	const char* pszFriend;
 	int cfriends;
 
-	vecStart.z = GetAbsMax().z;
+	vecStart.z = pev->absmax.z;
 	
 	if (fPlayer)
 		cfriends = 1;
@@ -854,7 +859,7 @@ CBaseEntity* CTalkMonster::FindNearestFriend( const bool fPlayer ) const
 				continue;
 
 			vecCheck = pFriend->GetAbsOrigin();
-			vecCheck.z = pFriend->GetAbsMax().z;
+			vecCheck.z = pFriend->pev->absmax.z;
 
 			// if closer than previous friend, and in range, see if he's visible
 
@@ -897,7 +902,7 @@ void CTalkMonster :: Touch( CBaseEntity *pOther )
 			return;
 
 		// Heuristic for determining if the player is pushing me away
-		float speed = fabs(pOther->GetAbsVelocity().x) + fabs(pOther->GetAbsVelocity().y);
+		float speed = fabs(pOther->pev->velocity.x) + fabs(pOther->pev->velocity.y);
 		if ( speed > 50 )
 		{
 			SetConditions( bits_COND_CLIENT_PUSH );
@@ -930,7 +935,7 @@ bool CTalkMonster::FOkToSpeak() const
 	}
 
 	// if not alive, certainly don't speak
-	if ( GetDeadFlag() != DEAD_NO )
+	if ( pev->deadflag != DEAD_NO )
 	{
 		return false;
 	}
@@ -939,7 +944,7 @@ bool CTalkMonster::FOkToSpeak() const
 	if (gpGlobals->time <= CTalkMonster::g_talkWaitTime)
 		return false;
 
-	if ( GetSpawnFlags().Any( SF_MONSTER_GAG ) )
+	if ( pev->spawnflags & SF_MONSTER_GAG )
 		return false;
 
 	// if player is not in pvs, don't speak
@@ -996,7 +1001,7 @@ bool CTalkMonster::FIdleHello()
 			{
 				m_hTalkTarget = pPlayer;
 
-				if ( GetSpawnFlags().Any( SF_MONSTER_PREDISASTER ) )
+				if (FBitSet(pev->spawnflags, SF_MONSTER_PREDISASTER))
 					PlaySentence( m_szGrp[TLK_PHELLO], RANDOM_FLOAT(3, 3.5), VOL_NORM,  ATTN_IDLE );
 				else
 					PlaySentence( m_szGrp[TLK_HELLO], RANDOM_FLOAT(3, 3.5), VOL_NORM,  ATTN_IDLE );
@@ -1017,7 +1022,7 @@ void CTalkMonster :: IdleHeadTurn( const Vector &vecFriend )
 	 // turn head in desired direction only if ent has a turnable head
 	if (m_afCapability & bits_CAP_TURN_HEAD)
 	{
-		float yaw = VecToYaw(vecFriend - GetAbsOrigin()) - GetAbsAngles().y;
+		float yaw = VecToYaw(vecFriend - GetAbsOrigin()) - pev->angles.y;
 
 		if (yaw > 180) yaw -= 360;
 		if (yaw < -180) yaw += 360;
@@ -1042,7 +1047,7 @@ bool CTalkMonster::FIdleSpeak()
 		return false;
 
 	// set idle groups based on pre/post disaster
-	if ( GetSpawnFlags().Any( SF_MONSTER_PREDISASTER ) )
+	if (FBitSet(pev->spawnflags, SF_MONSTER_PREDISASTER))
 	{
 		szIdleGroup = m_szGrp[TLK_PIDLE];
 		szQuestionGroup = m_szGrp[TLK_PQUESTION];
@@ -1071,7 +1076,7 @@ bool CTalkMonster::FIdleSpeak()
 			{
 				m_hTalkTarget = m_hTargetEnt;
 				if (!FBitSet(m_bitsSaid, bit_saidDamageHeavy) && 
-					(m_hTargetEnt->GetHealth() <= m_hTargetEnt->GetMaxHealth() / 8))
+					(m_hTargetEnt->pev->health <= m_hTargetEnt->pev->max_health / 8))
 				{
 					//EMIT_SOUND_DYN( this, CHAN_VOICE, m_szGrp[TLK_PLHURT3], 1.0, ATTN_IDLE, 0, pitch);
 					PlaySentence( m_szGrp[TLK_PLHURT3], duration, VOL_NORM, ATTN_IDLE );
@@ -1079,7 +1084,7 @@ bool CTalkMonster::FIdleSpeak()
 					return true;
 				}
 				else if (!FBitSet(m_bitsSaid, bit_saidDamageMedium) && 
-					(m_hTargetEnt->GetHealth() <= m_hTargetEnt->GetMaxHealth() / 4))
+					(m_hTargetEnt->pev->health <= m_hTargetEnt->pev->max_health / 4))
 				{
 					//EMIT_SOUND_DYN( this, CHAN_VOICE, m_szGrp[TLK_PLHURT2], 1.0, ATTN_IDLE, 0, pitch);
 					PlaySentence( m_szGrp[TLK_PLHURT2], duration, VOL_NORM, ATTN_IDLE );
@@ -1087,7 +1092,7 @@ bool CTalkMonster::FIdleSpeak()
 					return true;
 				}
 				else if (!FBitSet(m_bitsSaid, bit_saidDamageLight) &&
-					(m_hTargetEnt->GetHealth() <= m_hTargetEnt->GetMaxHealth() / 2))
+					(m_hTargetEnt->pev->health <= m_hTargetEnt->pev->max_health / 2))
 				{
 					//EMIT_SOUND_DYN( this, CHAN_VOICE, m_szGrp[TLK_PLHURT1], 1.0, ATTN_IDLE, 0, pitch);
 					PlaySentence( m_szGrp[TLK_PLHURT1], duration, VOL_NORM, ATTN_IDLE );
@@ -1204,7 +1209,7 @@ void CTalkMonster::OnTakeDamage( const CTakeDamageInfo& info )
 	if ( IsAlive() )
 	{
 		// if player damaged this entity, have other friends talk about it
-		if (info.GetAttacker() && m_MonsterState != MONSTERSTATE_PRONE && info.GetAttacker()->GetFlags().Any( FL_CLIENT ) )
+		if (info.GetAttacker() && m_MonsterState != MONSTERSTATE_PRONE && FBitSet(info.GetAttacker()->pev->flags, FL_CLIENT))
 		{
 			CBaseEntity *pFriend = FindNearestFriend( false );
 
@@ -1250,7 +1255,7 @@ Schedule_t* CTalkMonster :: GetScheduleOfType ( int Type )
 			}
 
 			// sustained light wounds?
-			if (!FBitSet(m_bitsSaid, bit_saidWoundLight) && ( GetHealth() <= ( GetMaxHealth() * 0.75)))
+			if (!FBitSet(m_bitsSaid, bit_saidWoundLight) && (pev->health <= (pev->max_health * 0.75)))
 			{
 				//SENTENCEG_PlayRndSz( this, m_szGrp[TLK_WOUND], 1.0, ATTN_IDLE, 0, GetVoicePitch() );
 				//CTalkMonster::g_talkWaitTime = gpGlobals->time + RANDOM_FLOAT(2.8, 3.2);
@@ -1259,7 +1264,7 @@ Schedule_t* CTalkMonster :: GetScheduleOfType ( int Type )
 				return slIdleStand;
 			}
 			// sustained heavy wounds?
-			else if (!FBitSet(m_bitsSaid, bit_saidWoundHeavy) && ( GetHealth() <= ( GetMaxHealth() * 0.5)))
+			else if (!FBitSet(m_bitsSaid, bit_saidWoundHeavy) && (pev->health <= (pev->max_health * 0.5)))
 			{
 				//SENTENCEG_PlayRndSz( this, m_szGrp[TLK_MORTAL], 1.0, ATTN_IDLE, 0, GetVoicePitch() );
 				//CTalkMonster::g_talkWaitTime = gpGlobals->time + RANDOM_FLOAT(2.8, 3.2);
@@ -1431,7 +1436,7 @@ void CTalkMonster :: FollowerUse( CBaseEntity *pActivator, CBaseEntity *pCaller,
 	if ( pCaller != NULL && pCaller->IsPlayer() )
 	{
 		// Pre-disaster followers can't be used
-		if ( GetSpawnFlags().Any( SF_MONSTER_PREDISASTER ) )
+		if ( pev->spawnflags & SF_MONSTER_PREDISASTER )
 		{
 			DeclineFollowing();
 		}

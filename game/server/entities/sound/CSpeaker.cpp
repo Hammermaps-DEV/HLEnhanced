@@ -46,21 +46,21 @@ void CSpeaker::KeyValue( KeyValueData *pkvd )
 
 void CSpeaker::Spawn( void )
 {
-	const char* szSoundFile = GetMessage();
+	char* szSoundFile = ( char* ) STRING( pev->message );
 
-	if( !m_preset && ( !HasMessage() || strlen( szSoundFile ) < 1 ) )
+	if( !m_preset && ( FStringNull( pev->message ) || strlen( szSoundFile ) < 1 ) )
 	{
 		ALERT( at_error, "SPEAKER with no Level/Sentence! at: %f, %f, %f\n", GetAbsOrigin().x, GetAbsOrigin().y, GetAbsOrigin().z );
-		SetNextThink( gpGlobals->time + 0.1 );
+		pev->nextthink = gpGlobals->time + 0.1;
 		SetThink( &CSpeaker::SUB_Remove );
 		return;
 	}
-	SetSolidType( SOLID_NOT );
-	SetMoveType( MOVETYPE_NONE );
+	pev->solid = SOLID_NOT;
+	pev->movetype = MOVETYPE_NONE;
 
 
 	SetThink( &CSpeaker::SpeakerThink );
-	SetNextThink( 0.0 );
+	pev->nextthink = 0.0;
 
 	// allow on/off switching via 'use' function.
 
@@ -71,9 +71,9 @@ void CSpeaker::Spawn( void )
 
 void CSpeaker::Precache( void )
 {
-	if( !GetSpawnFlags().Any( SPEAKER_START_SILENT ) )
+	if( !FBitSet( pev->spawnflags, SPEAKER_START_SILENT ) )
 		// set first announcement time for random n second
-		SetNextThink( gpGlobals->time + RANDOM_FLOAT( 5.0, 15.0 ) );
+		pev->nextthink = gpGlobals->time + RANDOM_FLOAT( 5.0, 15.0 );
 }
 
 //
@@ -81,7 +81,7 @@ void CSpeaker::Precache( void )
 //
 void CSpeaker::ToggleUse( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value )
 {
-	const bool fActive = ( GetNextThink() > 0.0 );
+	const bool fActive = ( pev->nextthink > 0.0 );
 
 	// fActive is true only if an announcement is pending
 
@@ -96,14 +96,14 @@ void CSpeaker::ToggleUse( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYP
 	if( useType == USE_ON )
 	{
 		// turn on announcements
-		SetNextThink( gpGlobals->time + 0.1 );
+		pev->nextthink = gpGlobals->time + 0.1;
 		return;
 	}
 
 	if( useType == USE_OFF )
 	{
 		// turn off announcements
-		SetNextThink( 0.0 );
+		pev->nextthink = 0.0;
 		return;
 
 	}
@@ -114,19 +114,19 @@ void CSpeaker::ToggleUse( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYP
 	if( fActive )
 	{
 		// turn off announcements
-		SetNextThink( 0.0 );
+		pev->nextthink = 0.0;
 	}
 	else
 	{
 		// turn on announcements
-		SetNextThink( gpGlobals->time + 0.1 );
+		pev->nextthink = gpGlobals->time + 0.1;
 	}
 }
 
 void CSpeaker::SpeakerThink( void )
 {
 	const char* szSoundFile;
-	float flvolume = GetHealth() * 0.1;
+	float flvolume = pev->health * 0.1;
 	float flattenuation = 0.3;
 	int flags = 0;
 	int pitch = 100;
@@ -135,7 +135,7 @@ void CSpeaker::SpeakerThink( void )
 	// Wait for the talkmonster to finish first.
 	if( gpGlobals->time <= CTalkMonster::g_talkWaitTime )
 	{
-		SetNextThink( CTalkMonster::g_talkWaitTime + RANDOM_FLOAT( 5, 10 ) );
+		pev->nextthink = CTalkMonster::g_talkWaitTime + RANDOM_FLOAT( 5, 10 );
 		return;
 	}
 
@@ -160,7 +160,7 @@ void CSpeaker::SpeakerThink( void )
 		}
 	}
 	else
-		szSoundFile = GetMessage();
+		szSoundFile = ( char* ) STRING( pev->message );
 
 	if( szSoundFile[ 0 ] == '!' )
 	{
@@ -169,7 +169,7 @@ void CSpeaker::SpeakerThink( void )
 							   flvolume, flattenuation, flags, pitch );
 
 		// shut off and reset
-		SetNextThink( 0.0 );
+		pev->nextthink = 0.0;
 	}
 	else
 	{
@@ -179,8 +179,8 @@ void CSpeaker::SpeakerThink( void )
 			ALERT( at_console, "Level Design Error!\nSPEAKER has bad sentence group name: %s\n", szSoundFile );
 
 		// set next announcement time for random 5 to 10 minute delay
-		SetNextThink( gpGlobals->time +
-			RANDOM_FLOAT( ANNOUNCE_MINUTES_MIN * 60.0, ANNOUNCE_MINUTES_MAX * 60.0 ) );
+		pev->nextthink = gpGlobals->time +
+			RANDOM_FLOAT( ANNOUNCE_MINUTES_MIN * 60.0, ANNOUNCE_MINUTES_MAX * 60.0 );
 
 		CTalkMonster::g_talkWaitTime = gpGlobals->time + 5;		// time delay until it's ok to speak: used so that two NPCs don't talk at once
 	}

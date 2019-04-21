@@ -120,12 +120,20 @@ void CBigMomma :: KeyValue( KeyValueData *pkvd )
 		CBaseMonster::KeyValue( pkvd );
 }
 
+//=========================================================
+// Classify - indicates this monster's place in the 
+// relationship table.
+//=========================================================
 EntityClassification_t CBigMomma::GetClassification()
 {
 	return EntityClassifications().GetClassificationId( classify::ALIEN_MONSTER );
 }
 
-void CBigMomma::UpdateYawSpeed()
+//=========================================================
+// SetYawSpeed - allows each sequence to have a different
+// turn rate associated with it.
+//=========================================================
+void CBigMomma :: SetYawSpeed ( void )
 {
 	int ys;
 
@@ -137,9 +145,15 @@ void CBigMomma::UpdateYawSpeed()
 	default:
 		ys = 90;
 	}
-	SetYawSpeed( ys );
+	pev->yaw_speed = ys;
 }
 
+//=========================================================
+// HandleAnimEvent - catches the monster-specific messages
+// that occur when tagged animation frames are played.
+//
+// Returns number of events handled, 0 if none.
+//=========================================================
 void CBigMomma :: HandleAnimEvent( AnimEvent_t& event )
 {
 	switch( event.event )
@@ -150,7 +164,7 @@ void CBigMomma :: HandleAnimEvent( AnimEvent_t& event )
 		{
 			Vector forward, right;
 
-			UTIL_MakeVectorsPrivate( GetAbsAngles(), &forward, &right, nullptr );
+			UTIL_MakeVectorsPrivate( pev->angles, &forward, &right, nullptr );
 
 			Vector center = GetAbsOrigin() + forward * 128;
 			Vector mins = center - Vector( 64, 64, 0 );
@@ -164,7 +178,7 @@ void CBigMomma :: HandleAnimEvent( AnimEvent_t& event )
 			{
 				if ( pList[i] != this )
 				{
-					if ( pList[i]->GetOwner() != this )
+					if ( pList[i]->pev->owner != edict() )
 						pHurt = pList[i];
 				}
 			}
@@ -172,25 +186,23 @@ void CBigMomma :: HandleAnimEvent( AnimEvent_t& event )
 			if ( pHurt )
 			{
 				pHurt->TakeDamage( this, this, gSkillData.GetBigMommaDmgSlash(), DMG_CRUSH | DMG_SLASH );
-				Vector vecPunchAngle = pHurt->GetPunchAngle();
-				vecPunchAngle.x = 15;
-				pHurt->SetPunchAngle( vecPunchAngle );
+				pHurt->pev->punchangle.x = 15;
 				switch( event.event )
 				{
 					case BIG_AE_MELEE_ATTACKBR:
-						pHurt->SetAbsVelocity( pHurt->GetAbsVelocity() + (forward * 150) + Vector(0,0,250) - (right * 200) );
+						pHurt->pev->velocity = pHurt->pev->velocity + (forward * 150) + Vector(0,0,250) - (right * 200);
 					break;
 
 					case BIG_AE_MELEE_ATTACKBL:
-						pHurt->SetAbsVelocity( pHurt->GetAbsVelocity() + (forward * 150) + Vector(0,0,250) + (right * 200) );
+						pHurt->pev->velocity = pHurt->pev->velocity + (forward * 150) + Vector(0,0,250) + (right * 200);
 					break;
 
 					case BIG_AE_MELEE_ATTACK1:
-						pHurt->SetAbsVelocity( pHurt->GetAbsVelocity() + (forward * 220) + Vector(0,0,200) );
+						pHurt->pev->velocity = pHurt->pev->velocity + (forward * 220) + Vector(0,0,200);
 					break;
 				}
 
-				pHurt->GetFlags().ClearFlags( FL_ONGROUND );
+				pHurt->pev->flags &= ~FL_ONGROUND;
 				EMIT_SOUND_DYN( this, CHAN_WEAPON, RANDOM_SOUND_ARRAY(pAttackHitSounds), 1.0, ATTN_NORM, 0, 100 + RANDOM_LONG(-5,5) );
 			}
 		}
@@ -240,19 +252,19 @@ void CBigMomma :: HandleAnimEvent( AnimEvent_t& event )
 			break;
 
 		case BIG_AE_JUMP_FORWARD:
-			GetFlags().ClearFlags( FL_ONGROUND );
+			ClearBits( pev->flags, FL_ONGROUND );
 
 			SetAbsOrigin( GetAbsOrigin() + Vector ( 0 , 0 , 1) );// take him off ground so engine doesn't instantly reset onground 
-			UTIL_MakeVectors( GetAbsAngles() );
+			UTIL_MakeVectors( pev->angles );
 
-			SetAbsVelocity( (gpGlobals->v_forward * 200) + gpGlobals->v_up * 500 );
+			pev->velocity = (gpGlobals->v_forward * 200) + gpGlobals->v_up * 500;
 			break;
 
 		case BIG_AE_EARLY_TARGET:
 			{
 				CBaseEntity *pTarget = m_hTargetEnt;
-				if ( pTarget && pTarget->HasMessage() )
-					FireTargets( pTarget->GetMessage(), this, this, USE_TOGGLE, 0 );
+				if ( pTarget && pTarget->pev->message )
+					FireTargets( STRING(pTarget->pev->message), this, this, USE_TOGGLE, 0 );
 				Remember( bits_MEMORY_FIRED_NODE );
 			}
 			break;
@@ -263,18 +275,18 @@ void CBigMomma :: HandleAnimEvent( AnimEvent_t& event )
 	}
 }
 
-void CBigMomma::TraceAttack( const CTakeDamageInfo& info, Vector vecDir, TraceResult& tr )
+void CBigMomma::TraceAttack( const CTakeDamageInfo& info, Vector vecDir, TraceResult *ptr )
 {
 	CTakeDamageInfo newInfo = info;
 
-	if ( tr.iHitgroup != 1 )
+	if ( ptr->iHitgroup != 1 )
 	{
 		// didn't hit the sack?
 		
-		if ( GetDamageTime() != gpGlobals->time || (RANDOM_LONG(0,10) < 1) )
+		if ( pev->dmgtime != gpGlobals->time || (RANDOM_LONG(0,10) < 1) )
 		{
-			UTIL_Ricochet( tr.vecEndPos, RANDOM_FLOAT( 1, 2) );
-			SetDamageTime( gpGlobals->time );
+			UTIL_Ricochet( ptr->vecEndPos, RANDOM_FLOAT( 1, 2) );
+			pev->dmgtime = gpGlobals->time;
 		}
 
 		newInfo.GetMutableDamage() = 0.1;// don't hurt the monster much, but allow bits_COND_LIGHT_DAMAGE to be generated
@@ -286,7 +298,7 @@ void CBigMomma::TraceAttack( const CTakeDamageInfo& info, Vector vecDir, TraceRe
 	}
 
 
-	CBaseMonster::TraceAttack( newInfo, vecDir, tr );
+	CBaseMonster::TraceAttack( newInfo, vecDir, ptr );
 }
 
 
@@ -300,9 +312,9 @@ void CBigMomma::OnTakeDamage( const CTakeDamageInfo& info )
 
 	if ( !HasMemory(bits_MEMORY_PATH_FINISHED) )
 	{
-		if ( GetHealth() <= newInfo.GetDamage() )
+		if ( pev->health <= newInfo.GetDamage() )
 		{
-			SetHealth( newInfo.GetDamage() + 1 );
+			pev->health = newInfo.GetDamage() + 1;
 			Remember( bits_MEMORY_ADVANCE_NODE | bits_MEMORY_COMPLETED_NODE );
 			ALERT( at_aiconsole, "BM: Finished node health!!!\n" );
 		}
@@ -313,9 +325,9 @@ void CBigMomma::OnTakeDamage( const CTakeDamageInfo& info )
 
 void CBigMomma :: LayHeadcrab( void )
 {
-	CBaseEntity *pChild = CBaseEntity::Create( BIG_CHILDCLASS, GetAbsOrigin(), GetAbsAngles(), edict() );
+	CBaseEntity *pChild = CBaseEntity::Create( BIG_CHILDCLASS, GetAbsOrigin(), pev->angles, edict() );
 
-	pChild->GetSpawnFlags() |= SF_MONSTER_FALL_TO_GROUND;
+	pChild->pev->spawnflags |= SF_MONSTER_FALL_TO_GROUND;
 
 	// Is this the second crab in a pair?
 	if ( HasMemory( bits_MEMORY_CHILDPAIR ) )
@@ -359,11 +371,14 @@ void CBigMomma::LaunchMortar( void )
 	startPos.z += 180;
 
 	EMIT_SOUND_DYN( this, CHAN_WEAPON, RANDOM_SOUND_ARRAY(pSackSounds), 1.0, ATTN_NORM, 0, 100 + RANDOM_LONG(-5,5) );
-	CBMortar *pBomb = CBMortar::Shoot( this, startPos, GetMoveDir() );
-	pBomb->SetGravity( 1.0 );
+	CBMortar *pBomb = CBMortar::Shoot( this, startPos, pev->movedir );
+	pBomb->pev->gravity = 1.0;
 	SpriteSpray( startPos, Vector(0,0,1), gSpitSprite, 24 );
 }
 
+//=========================================================
+// Spawn
+//=========================================================
 void CBigMomma :: Spawn()
 {
 	Precache( );
@@ -371,17 +386,20 @@ void CBigMomma :: Spawn()
 	SetModel( "models/big_mom.mdl");
 	SetSize( Vector( -32, -32, 0 ), Vector( 32, 32, 64 ) );
 
-	SetSolidType( SOLID_SLIDEBOX );
-	SetMoveType( MOVETYPE_STEP );
+	pev->solid			= SOLID_SLIDEBOX;
+	pev->movetype		= MOVETYPE_STEP;
 	m_bloodColor		= BLOOD_COLOR_GREEN;
-	SetHealth( 150 * gSkillData.GetBigMommaHealthFactor() );
-	SetViewOffset( Vector ( 0, 0, 128 ) );// position of the eyes relative to monster's origin.
+	pev->health			= 150 * gSkillData.GetBigMommaHealthFactor();
+	pev->view_ofs		= Vector ( 0, 0, 128 );// position of the eyes relative to monster's origin.
 	m_flFieldOfView		= 0.3;// indicates the width of this monster's forward view cone ( as a dotproduct result )
 	m_MonsterState		= MONSTERSTATE_NONE;
 
 	MonsterInit();
 }
 
+//=========================================================
+// Precache - precaches all resources this monster needs
+//=========================================================
 void CBigMomma :: Precache()
 {
 	PRECACHE_MODEL("models/big_mom.mdl");
@@ -416,9 +434,9 @@ void CBigMomma::Activate( void )
 }
 
 
-void CBigMomma::NodeStart( string_t iszNextNode )
+void CBigMomma::NodeStart( int iszNextNode )
 {
-	SetNetName( iszNextNode );
+	pev->netname = iszNextNode;
 
 	CBaseEntity* pTarget = nullptr;
 
@@ -448,21 +466,18 @@ void CBigMomma::NodeReach( void )
 	if ( !pTarget )
 		return;
 
-	if ( pTarget->GetHealth() )
-	{
-		SetHealth( pTarget->GetHealth() * gSkillData.GetBigMommaHealthFactor() );
-		SetMaxHealth( GetHealth() );
-	}
+	if ( pTarget->pev->health )
+		pev->max_health = pev->health = pTarget->pev->health * gSkillData.GetBigMommaHealthFactor();
 
 	if ( !HasMemory( bits_MEMORY_FIRED_NODE ) )
 	{
-		if ( pTarget->HasMessage() )
-			FireTargets( pTarget->GetMessage(), this, this, USE_TOGGLE, 0 );
+		if ( pTarget->pev->message )
+			FireTargets( STRING(pTarget->pev->message), this, this, USE_TOGGLE, 0 );
 	}
 	Forget( bits_MEMORY_FIRED_NODE );
 
-	SetNetName( pTarget->GetTarget() );
-	if ( pTarget->GetHealth() == 0 )
+	pev->netname = pTarget->pev->target;
+	if ( pTarget->pev->health == 0 )
 		Remember( bits_MEMORY_ADVANCE_NODE );	// Move on if no health at this node
 }
 
@@ -497,8 +512,8 @@ bool CBigMomma::CheckRangeAttack1( float flDot, float flDist )
 		{
 			Vector startPos = GetAbsOrigin();
 			startPos.z += 180;
-			SetMoveDir( VecCheckSplatToss( this, startPos, pEnemy->BodyTarget( GetAbsOrigin() ), RANDOM_FLOAT( 150, 500 ) ) );
-			if ( GetMoveDir() != g_vecZero )
+			pev->movedir = VecCheckSplatToss( this, startPos, pEnemy->BodyTarget( GetAbsOrigin() ), RANDOM_FLOAT( 150, 500 ) );
+			if ( pev->movedir != g_vecZero )
 				return true;
 		}
 	}
@@ -618,9 +633,9 @@ Schedule_t *CBigMomma::GetSchedule( void )
 }
 
 
-void CBigMomma::StartTask( const Task_t& task )
+void CBigMomma::StartTask( const Task_t* pTask )
 {
-	switch ( task.iTask )
+	switch ( pTask->iTask )
 	{
 	case TASK_FIND_NODE:
 		{
@@ -628,18 +643,18 @@ void CBigMomma::StartTask( const Task_t& task )
 			if ( !HasMemory( bits_MEMORY_ADVANCE_NODE ) )
 			{
 				if ( pTarget )
-					SetNetName( m_hTargetEnt->GetTarget() );
+					pev->netname = m_hTargetEnt->pev->target;
 			}
-			NodeStart( MAKE_STRING( GetNetName() ) );
+			NodeStart( pev->netname );
 			TaskComplete();
 			ALERT( at_aiconsole, "BM: Found node %s\n", GetNetName() );
 		}
 		break;
 
 	case TASK_NODE_DELAY:
-		m_nodeTime = gpGlobals->time + task.flData;
+		m_nodeTime = gpGlobals->time + pTask->flData;
 		TaskComplete();
-		ALERT( at_aiconsole, "BM: FAIL! Delay %.2f\n", task.flData );
+		ALERT( at_aiconsole, "BM: FAIL! Delay %.2f\n", pTask->flData );
 		break;
 
 	case TASK_PROCESS_NODE:
@@ -651,22 +666,21 @@ void CBigMomma::StartTask( const Task_t& task )
 	case TASK_PLAY_NODE_PRESEQUENCE:
 	case TASK_PLAY_NODE_SEQUENCE:
 		{
-			string_t sequence;
-			if ( task.iTask == TASK_PLAY_NODE_SEQUENCE )
+			int sequence;
+			if ( pTask->iTask == TASK_PLAY_NODE_SEQUENCE )
 				sequence = GetNodeSequence();
 			else
 				sequence = GetNodePresequence();
 
 			ALERT( at_aiconsole, "BM: Playing node sequence %s\n", STRING(sequence) );
-			if ( !FStringNull( sequence ) )
+			if ( sequence )
 			{
-				auto sequenceIndex = LookupSequence( STRING( sequence ) );
-				if ( sequenceIndex != -1 )
+				sequence = LookupSequence( STRING( sequence ) );
+				if ( sequence != -1 )
 				{
-					SetSequence( sequenceIndex );
-					SetFrame( 0 );
+					pev->sequence = sequence;
+					pev->frame = 0;
 					ResetSequenceInfo( );
-					//TODO: shouldn't this be sequence? - Solokiller
 					ALERT( at_aiconsole, "BM: Sequence %s\n", STRING(GetNodeSequence()) );
 					return;
 				}
@@ -676,13 +690,13 @@ void CBigMomma::StartTask( const Task_t& task )
 		break;
 
 	case TASK_NODE_YAW:
-		SetIdealYaw( GetNodeYaw() );
+		pev->ideal_yaw = GetNodeYaw();
 		TaskComplete();
 		break;
 
 	case TASK_WAIT_NODE:
 		m_flWait = gpGlobals->time + GetNodeDelay();
-		if ( m_hTargetEnt->GetSpawnFlags().Any( SF_INFOBM_WAIT ) )
+		if ( m_hTargetEnt->pev->spawnflags & SF_INFOBM_WAIT )
 			ALERT( at_aiconsole, "BM: Wait at node %s forever\n", GetNetName() );
 		else
 			ALERT( at_aiconsole, "BM: Wait at node %s for %.2f\n", GetNetName(), GetNodeDelay() );
@@ -701,7 +715,7 @@ void CBigMomma::StartTask( const Task_t& task )
 				else
 				{
 					Activity act = ACT_WALK;
-					if ( pTarget->GetSpawnFlags().Any( SF_INFOBM_RUN ) )
+					if ( pTarget->pev->spawnflags & SF_INFOBM_RUN )
 						act = ACT_RUN;
 
 					m_vecMoveGoal = pTarget->GetAbsOrigin();
@@ -719,18 +733,21 @@ void CBigMomma::StartTask( const Task_t& task )
 	case TASK_MELEE_ATTACK1:
 		// Play an attack sound here
 		EMIT_SOUND_DYN( this, CHAN_VOICE, RANDOM_SOUND_ARRAY(pAttackSounds), 1.0, ATTN_NORM, 0, PITCH_NORM );
-		CBaseMonster::StartTask( task );
+		CBaseMonster::StartTask( pTask );
 		break;
 
 	default: 
-		CBaseMonster::StartTask( task );
+		CBaseMonster::StartTask( pTask );
 		break;
 	}
 }
 
-void CBigMomma::RunTask( const Task_t& task )
+//=========================================================
+// RunTask
+//=========================================================
+void CBigMomma::RunTask( const Task_t* pTask )
 {
-	switch ( task.iTask )
+	switch ( pTask->iTask )
 	{
 	case TASK_MOVE_TO_NODE_RANGE:
 		{
@@ -755,7 +772,7 @@ void CBigMomma::RunTask( const Task_t& task )
 		break;
 
 	case TASK_WAIT_NODE:
-		if ( m_hTargetEnt != NULL && m_hTargetEnt->GetSpawnFlags().Any( SF_INFOBM_WAIT ) )
+		if ( m_hTargetEnt != NULL && (m_hTargetEnt->pev->spawnflags & SF_INFOBM_WAIT) )
 			return;
 
 		if ( gpGlobals->time > m_flWaitFinished )
@@ -773,7 +790,7 @@ void CBigMomma::RunTask( const Task_t& task )
 		break;
 
 	default:
-		CBaseMonster::RunTask( task );
+		CBaseMonster::RunTask( pTask );
 		break;
 	}
 }

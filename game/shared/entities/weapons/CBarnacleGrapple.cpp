@@ -393,7 +393,7 @@ void CBarnacleGrapple::PrimaryAttack()
 
 							pHit->TraceAttack( 
 								CTakeDamageInfo( this, m_pPlayer, flDamage, DMG_ALWAYSGIB | DMG_CLUB ), 
-								gpGlobals->v_forward, tr );
+								gpGlobals->v_forward, &tr );
 
 							g_MultiDamage.ApplyMultiDamage( m_pPlayer, m_pPlayer );
 #endif
@@ -546,7 +546,7 @@ void CBarnacleGrapple::CreateEffect()
 
 		m_pBeam->EntsInit( m_pTip->entindex(), m_pPlayer->entindex() );
 
-		m_pBeam->SetBeamFlags( BEAM_FSOLID );
+		m_pBeam->SetFlags( BEAM_FSOLID );
 
 		m_pBeam->SetBrightness( 100.0 );
 

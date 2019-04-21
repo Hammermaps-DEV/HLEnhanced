@@ -68,15 +68,15 @@ void CBaseDelay::SUB_UseTargets( CBaseEntity *pActivator, USE_TYPE useType, floa
 		// create a temp object to fire at a later time
 		auto pTemp = static_cast<CBaseDelay*>( UTIL_CreateNamedEntity( "DelayedUse" ) );
 
-		pTemp->SetNextThink( gpGlobals->time + m_flDelay );
+		pTemp->pev->nextthink = gpGlobals->time + m_flDelay;
 
 		pTemp->SetThink( &CBaseDelay::DelayThink );
 
 		// Save the useType
-		pTemp->GetButtons().Set( ( int ) useType );
+		pTemp->pev->button = ( int ) useType;
 		pTemp->m_iszKillTarget = m_iszKillTarget;
 		pTemp->m_flDelay = 0; // prevent "recursion"
-		pTemp->SetTarget( GetTarget() );
+		pTemp->pev->target = pev->target;
 
 		// HACKHACK
 		// This wasn't in the release build of Half-Life.  We should have moved m_hActivator into this class
@@ -84,11 +84,11 @@ void CBaseDelay::SUB_UseTargets( CBaseEntity *pActivator, USE_TYPE useType, floa
 		// This code is not as ugly as that code
 		if( pActivator && pActivator->IsPlayer() )		// If a player activates, then save it
 		{
-			pTemp->SetOwner( pActivator );
+			pTemp->pev->owner = pActivator->edict();
 		}
 		else
 		{
-			pTemp->SetOwner( NULL );
+			pTemp->pev->owner = NULL;
 		}
 
 		return;
@@ -124,11 +124,11 @@ void CBaseDelay::DelayThink( void )
 {
 	CBaseEntity *pActivator = NULL;
 
-	if( GetOwner() )		// A player activated this on delay
+	if( pev->owner != NULL )		// A player activated this on delay
 	{
-		pActivator = GetOwner();
+		pActivator = CBaseEntity::Instance( pev->owner );
 	}
-	// The use type is cached (and stashed) in GetButtons()
-	SUB_UseTargets( pActivator, ( USE_TYPE ) GetButtons().Get(), 0 );
+	// The use type is cached (and stashed) in pev->button
+	SUB_UseTargets( pActivator, ( USE_TYPE ) pev->button, 0 );
 	UTIL_RemoveNow( this );
 }

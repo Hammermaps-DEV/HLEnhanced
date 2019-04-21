@@ -66,11 +66,11 @@ void CHornet :: Spawn( void )
 {
 	Precache();
 
-	SetMoveType( MOVETYPE_FLY );
-	SetSolidType( SOLID_BBOX );
-	SetTakeDamageMode( DAMAGE_YES );
-	GetFlags() |= FL_MONSTER;
-	SetHealth( 1 );// weak!
+	pev->movetype	= MOVETYPE_FLY;
+	pev->solid		= SOLID_BBOX;
+	pev->takedamage = DAMAGE_YES;
+	pev->flags		|= FL_MONSTER;
+	pev->health		= 1;// weak!
 	
 	if ( g_pGameRules->IsMultiplayer() )
 	{
@@ -101,21 +101,21 @@ void CHornet :: Spawn( void )
 	SetTouch( &CHornet::DieTouch );
 	SetThink( &CHornet::StartTrack );
 
-	CBaseEntity* pSoundEnt = GetOwner();
+	edict_t *pSoundEnt = pev->owner;
 	if ( !pSoundEnt )
-		pSoundEnt = this;
+		pSoundEnt = edict();
 
-	if ( !FNullEnt( GetOwner() ) && GetOwner()->GetFlags().Any( FL_CLIENT ) )
+	if ( !FNullEnt(pev->owner) && (pev->owner->v.flags & FL_CLIENT) )
 	{
-		SetDamage( gSkillData.GetPlrDmgHornet() );
+		pev->dmg = gSkillData.GetPlrDmgHornet();
 	}
 	else
 	{
 		// no real owner, or owner isn't a client. 
-		SetDamage( gSkillData.GetMonDmgHornet() );
+		pev->dmg = gSkillData.GetMonDmgHornet();
 	}
 	
-	SetNextThink( gpGlobals->time + 0.1 );
+	pev->nextthink = gpGlobals->time + 0.1;
 	ResetSequenceInfo( );
 }
 
@@ -145,8 +145,7 @@ void CHornet :: Precache()
 //=========================================================
 Relationship CHornet::IRelationship ( CBaseEntity *pTarget )
 {
-	//TODO: not exactly a good identity check - Solokiller
-	if ( pTarget->GetModelIndex() == GetModelIndex() )
+	if ( pTarget->pev->modelindex == pev->modelindex )
 	{
 		return R_NO;
 	}
@@ -177,7 +176,7 @@ void CHornet :: StartTrack ( void )
 	SetTouch( &CHornet::TrackTouch );
 	SetThink( &CHornet::TrackTarget );
 
-	SetNextThink( gpGlobals->time + 0.1 );
+	pev->nextthink = gpGlobals->time + 0.1;
 }
 
 //=========================================================
@@ -190,7 +189,7 @@ void CHornet :: StartDart ( void )
 	SetTouch( &CHornet::DartTouch );
 
 	SetThink( &CHornet::SUB_Remove );
-	SetNextThink( gpGlobals->time + 4 );
+	pev->nextthink = gpGlobals->time + 4;
 }
 
 void CHornet::IgniteTrail( void )
@@ -263,7 +262,7 @@ void CHornet :: TrackTarget ( void )
 	{
 		SetTouch( NULL );
 		SetThink( &CHornet::SUB_Remove );
-		SetNextThink( gpGlobals->time + 0.1 );
+		pev->nextthink = gpGlobals->time + 0.1;
 		return;
 	}
 
@@ -280,15 +279,15 @@ void CHornet :: TrackTarget ( void )
 	}
 	else
 	{
-		m_vecEnemyLKP = m_vecEnemyLKP + GetAbsVelocity() * m_flFlySpeed * 0.1;
+		m_vecEnemyLKP = m_vecEnemyLKP + pev->velocity * m_flFlySpeed * 0.1;
 	}
 
 	vecDirToEnemy = ( m_vecEnemyLKP - GetAbsOrigin() ).Normalize();
 
-	if ( GetAbsVelocity().Length() < 0.1)
+	if (pev->velocity.Length() < 0.1)
 		vecFlightDir = vecDirToEnemy;
 	else 
-		vecFlightDir = GetAbsVelocity().Normalize();
+		vecFlightDir = pev->velocity.Normalize();
 
 	// measure how far the turn is, the wider the turn, the slow we'll go this time.
 	flDelta = DotProduct ( vecFlightDir, vecDirToEnemy );
@@ -308,33 +307,32 @@ void CHornet :: TrackTarget ( void )
 		flDelta = 0.25;
 	}
 
-	SetAbsVelocity( ( vecFlightDir + vecDirToEnemy).Normalize() );
+	pev->velocity = ( vecFlightDir + vecDirToEnemy).Normalize();
 
-	if ( GetOwner() && GetOwner()->GetFlags().Any( FL_MONSTER ) )
+	if ( pev->owner && (pev->owner->v.flags & FL_MONSTER) )
 	{
 		// random pattern only applies to hornets fired by monsters, not players. 
-		Vector vecVelocity = GetAbsVelocity();
-		vecVelocity.x += RANDOM_FLOAT ( -0.10, 0.10 );// scramble the flight dir a bit.
-		vecVelocity.y += RANDOM_FLOAT ( -0.10, 0.10 );
-		vecVelocity.z += RANDOM_FLOAT ( -0.10, 0.10 );
-		SetAbsVelocity( vecVelocity );
+
+		pev->velocity.x += RANDOM_FLOAT ( -0.10, 0.10 );// scramble the flight dir a bit.
+		pev->velocity.y += RANDOM_FLOAT ( -0.10, 0.10 );
+		pev->velocity.z += RANDOM_FLOAT ( -0.10, 0.10 );
 	}
 	
 	switch ( m_iHornetType )
 	{
 		case HORNET_TYPE_RED:
-			SetAbsVelocity( GetAbsVelocity() * ( m_flFlySpeed * flDelta ) );// scale the dir by the ( speed * width of turn )
-			SetNextThink( gpGlobals->time + RANDOM_FLOAT( 0.1, 0.3 ) );
+			pev->velocity = pev->velocity * ( m_flFlySpeed * flDelta );// scale the dir by the ( speed * width of turn )
+			pev->nextthink = gpGlobals->time + RANDOM_FLOAT( 0.1, 0.3 );
 			break;
 		case HORNET_TYPE_ORANGE:
-			SetAbsVelocity( GetAbsVelocity() * m_flFlySpeed );// do not have to slow down to turn.
-			SetNextThink( gpGlobals->time + 0.1 );// fixed think time
+			pev->velocity = pev->velocity * m_flFlySpeed;// do not have to slow down to turn.
+			pev->nextthink = gpGlobals->time + 0.1;// fixed think time
 			break;
 	}
 
-	SetAbsAngles( UTIL_VecToAngles( GetAbsVelocity() ) );
+	pev->angles = UTIL_VecToAngles (pev->velocity);
 
-	SetSolidType( SOLID_BBOX );
+	pev->solid = SOLID_BBOX;
 
 	// if hornet is close to the enemy, jet in a straight line for a half second.
 	// (only in the single player game)
@@ -359,8 +357,8 @@ void CHornet :: TrackTarget ( void )
 			case 1:	EMIT_SOUND( this, CHAN_VOICE, "hornet/ag_buzz2.wav", HORNET_BUZZ_VOLUME, ATTN_NORM);	break;
 			case 2:	EMIT_SOUND( this, CHAN_VOICE, "hornet/ag_buzz3.wav", HORNET_BUZZ_VOLUME, ATTN_NORM);	break;
 			}
-			SetAbsVelocity( GetAbsVelocity() * 2 );
-			SetNextThink( gpGlobals->time + 1.0 );
+			pev->velocity = pev->velocity * 2;
+			pev->nextthink = gpGlobals->time + 1.0;
 			// don't attack again
 			m_flStopAttack = gpGlobals->time;
 		}
@@ -372,9 +370,9 @@ void CHornet :: TrackTarget ( void )
 //=========================================================
 void CHornet :: TrackTouch ( CBaseEntity *pOther )
 {
-	if ( pOther == GetOwner() || pOther->GetModelIndex() == GetModelIndex() )
+	if ( pOther->edict() == pev->owner || pOther->pev->modelindex == pev->modelindex )
 	{// bumped into the guy that shot it.
-		SetSolidType( SOLID_NOT );
+		pev->solid = SOLID_NOT;
 		return;
 	}
 
@@ -382,15 +380,13 @@ void CHornet :: TrackTouch ( CBaseEntity *pOther )
 	{
 		// hit something we don't want to hurt, so turn around.
 
-		Vector vecVelocity = GetAbsVelocity().Normalize();
+		pev->velocity = pev->velocity.Normalize();
 
-		vecVelocity.x *= -1;
-		vecVelocity.y *= -1;
+		pev->velocity.x *= -1;
+		pev->velocity.y *= -1;
 
-		SetAbsOrigin( GetAbsOrigin() + vecVelocity * 4 ); // bounce the hornet off a bit.
-		vecVelocity = vecVelocity * m_flFlySpeed;
-
-		SetAbsVelocity( vecVelocity );
+		pev->origin = GetAbsOrigin() + pev->velocity * 4; // bounce the hornet off a bit.
+		pev->velocity = pev->velocity * m_flFlySpeed;
 
 		return;
 	}
@@ -405,7 +401,7 @@ void CHornet::DartTouch( CBaseEntity *pOther )
 
 void CHornet::DieTouch ( CBaseEntity *pOther )
 {
-	if ( pOther && pOther->GetTakeDamageMode() != DAMAGE_NO )
+	if ( pOther && pOther->pev->takedamage )
 	{// do the damage
 
 		switch (RANDOM_LONG(0,2))
@@ -415,19 +411,19 @@ void CHornet::DieTouch ( CBaseEntity *pOther )
 			case 2:	EMIT_SOUND( this, CHAN_VOICE, "hornet/ag_hornethit3.wav", 1, ATTN_NORM);	break;
 		}
 
-		CBaseEntity* pOwner = GetOwner();
+		CBaseEntity* pOwner = Instance( pev->owner );
 
 		//Fall back to using yourself as the attacker if the owner is gone. - Solokiller
 		if( !pOwner )
 			pOwner = this;
 			
-		pOther->TakeDamage( this, pOwner, GetDamage(), DMG_BULLET );
+		pOther->TakeDamage( this, pOwner, pev->dmg, DMG_BULLET );
 	}
 
-	SetModelIndex( 0 );// so will disappear for the 0.1 secs we wait until NEXTTHINK gets rid
-	SetSolidType( SOLID_NOT );
+	pev->modelindex = 0;// so will disappear for the 0.1 secs we wait until NEXTTHINK gets rid
+	pev->solid = SOLID_NOT;
 
 	SetThink ( &CHornet::SUB_Remove );
-	SetNextThink( gpGlobals->time + 1 );// stick around long enough for the sound to finish!
+	pev->nextthink = gpGlobals->time + 1;// stick around long enough for the sound to finish!
 }
 

@@ -25,33 +25,39 @@ void CFuncConveyor::Spawn( void )
 	SetMovedir( this );
 	CFuncWall::Spawn();
 
-	if( !GetSpawnFlags().Any( SF_CONVEYOR_VISUAL ) )
-		GetFlags().AddFlags( FL_CONVEYOR );
+	if( !( pev->spawnflags & SF_CONVEYOR_VISUAL ) )
+		SetBits( pev->flags, FL_CONVEYOR );
 
 	// HACKHACK - This is to allow for some special effects
-	if( GetSpawnFlags().Any( SF_CONVEYOR_NOTSOLID ) )
+	if( pev->spawnflags & SF_CONVEYOR_NOTSOLID )
 	{
-		SetSolidType( SOLID_NOT );
-		SetSkin( 0 );		// Don't want the engine thinking we've got special contents on this brush
+		pev->solid = SOLID_NOT;
+		pev->skin = 0;		// Don't want the engine thinking we've got special contents on this brush
 	}
 
-	if( GetSpeed() == 0 )
-		SetSpeed( 100 );
+	if( pev->speed == 0 )
+		pev->speed = 100;
 
-	UpdateSpeed( GetSpeed() );
+	UpdateSpeed( pev->speed );
 }
 
 void CFuncConveyor::Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value )
 {
-	SetSpeed( -GetSpeed() );
-	UpdateSpeed( GetSpeed() );
+	pev->speed = -pev->speed;
+	UpdateSpeed( pev->speed );
 }
 
 // HACKHACK -- This is ugly, but encode the speed in the rendercolor to avoid adding more data to the network stream
 void CFuncConveyor::UpdateSpeed( float speed )
 {
 	// Encode it as an integer with 4 fractional bits
-	const int speedCode = ( int ) ( fabs( speed ) * 16.0 );
+	int speedCode = ( int ) ( fabs( speed ) * 16.0 );
 
-	SetRenderColor( Vector( ( speed < 0 ) ? 1 : 0, speedCode >> 8, speedCode & 0xFF ) );
+	if( speed < 0 )
+		pev->rendercolor.x = 1;
+	else
+		pev->rendercolor.x = 0;
+
+	pev->rendercolor.y = ( speedCode >> 8 );
+	pev->rendercolor.z = ( speedCode & 0xFF );
 }

@@ -25,12 +25,20 @@
 
 LINK_ENTITY_TO_CLASS( monster_generic, CGenericMonster );
 
+//=========================================================
+// Classify - indicates this monster's place in the 
+// relationship table.
+//=========================================================
 EntityClassification_t CGenericMonster::GetClassification()
 {
 	return EntityClassifications().GetClassificationId( classify::PLAYER_ALLY );
 }
 
-void CGenericMonster::UpdateYawSpeed()
+//=========================================================
+// SetYawSpeed - allows each sequence to have a different
+// turn rate associated with it.
+//=========================================================
+void CGenericMonster :: SetYawSpeed ( void )
 {
 	int ys;
 
@@ -41,9 +49,13 @@ void CGenericMonster::UpdateYawSpeed()
 		ys = 90;
 	}
 
-	SetYawSpeed( ys );
+	pev->yaw_speed = ys;
 }
 
+//=========================================================
+// HandleAnimEvent - catches the monster-specific messages
+// that occur when tagged animation frames are played.
+//=========================================================
 void CGenericMonster :: HandleAnimEvent( AnimEvent_t& event )
 {
 	switch( event.event )
@@ -55,49 +67,57 @@ void CGenericMonster :: HandleAnimEvent( AnimEvent_t& event )
 	}
 }
 
+//=========================================================
+// ISoundMask - generic monster can't hear.
+//=========================================================
 int CGenericMonster :: ISoundMask ( void )
 {
-	//generic monster can't hear.
 	return 0;
 }
 
+//=========================================================
+// Spawn
+//=========================================================
 void CGenericMonster :: Spawn()
 {
 	Precache();
 
-	SetModel( GetModelName() );
+	SetModel( STRING(pev->model) );
 
 /*
-	if ( FStrEq( GetModelName(), "models/player.mdl" ) )
+	if ( FStrEq( STRING(pev->model), "models/player.mdl" ) )
 		SetSize( VEC_HUMAN_HULL_MIN, VEC_HUMAN_HULL_MAX);
 	else
 		SetSize( VEC_HULL_MIN, VEC_HULL_MAX);
 */
 
-	if ( FStrEq( GetModelName(), "models/player.mdl" ) || FStrEq( GetModelName(), "models/holo.mdl" ) )
+	if ( FStrEq( STRING(pev->model), "models/player.mdl" ) || FStrEq( STRING(pev->model), "models/holo.mdl" ) )
 		SetSize( VEC_HULL_MIN, VEC_HULL_MAX );
 	else
 		SetSize( VEC_HUMAN_HULL_MIN, VEC_HUMAN_HULL_MAX );
 
-	SetSolidType( SOLID_SLIDEBOX );
-	SetMoveType( MOVETYPE_STEP );
+	pev->solid			= SOLID_SLIDEBOX;
+	pev->movetype		= MOVETYPE_STEP;
 	m_bloodColor		= BLOOD_COLOR_RED;
-	SetHealth( 8 );
+	pev->health			= 8;
 	m_flFieldOfView		= 0.5;// indicates the width of this monster's forward view cone ( as a dotproduct result )
 	m_MonsterState		= MONSTERSTATE_NONE;
 
 	MonsterInit();
 
-	if ( GetSpawnFlags().Any( SF_GENERICMONSTER_NOTSOLID ) )
+	if ( pev->spawnflags & SF_GENERICMONSTER_NOTSOLID )
 	{
-		SetSolidType( SOLID_NOT );
-		SetTakeDamageMode( DAMAGE_NO );
+		pev->solid = SOLID_NOT;
+		pev->takedamage = DAMAGE_NO;
 	}
 }
 
+//=========================================================
+// Precache - precaches all resources this monster needs
+//=========================================================
 void CGenericMonster :: Precache()
 {
-	PRECACHE_MODEL( GetModelName() );
+	PRECACHE_MODEL( (char *)STRING(pev->model) );
 }	
 
 //=========================================================

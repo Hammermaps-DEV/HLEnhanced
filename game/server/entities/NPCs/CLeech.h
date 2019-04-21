@@ -47,16 +47,16 @@ public:
 			// If the client is pushing me, give me some base velocity
 			if( gpGlobals->trace_ent && gpGlobals->trace_ent == edict() )
 			{
-				SetBaseVelocity( pOther->GetAbsVelocity() );
-				GetFlags() |= FL_BASEVELOCITY;
+				pev->basevelocity = pOther->pev->velocity;
+				pev->flags |= FL_BASEVELOCITY;
 			}
 		}
 	}
 
 	void SetObjectCollisionBox( void ) override
 	{
-		SetAbsMin( GetAbsOrigin() + Vector( -8, -8, 0 ) );
-		SetAbsMax( GetAbsOrigin() + Vector( 8, 8, 2 ) );
+		pev->absmin = GetAbsOrigin() + Vector( -8, -8, 0 );
+		pev->absmax = GetAbsOrigin() + Vector( 8, 8, 2 );
 	}
 
 	void AttackSound( void );

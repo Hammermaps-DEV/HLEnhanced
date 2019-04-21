@@ -32,28 +32,27 @@ LINK_ENTITY_TO_CLASS( func_pushable, CPushable );
 
 void CPushable::Spawn( void )
 {
-	if( GetSpawnFlags().Any( SF_PUSH_BREAKABLE ) )
+	if( pev->spawnflags & SF_PUSH_BREAKABLE )
 		CBreakable::Spawn();
 	else
 		Precache();
 
-	SetMoveType( MOVETYPE_PUSHSTEP );
-	SetSolidType( SOLID_BBOX );
-	SetModel( GetModelName() );
+	pev->movetype = MOVETYPE_PUSHSTEP;
+	pev->solid = SOLID_BBOX;
+	SetModel( STRING( pev->model ) );
 
-	if( GetFriction() > 399 )
-		SetFriction( 399 );
+	if( pev->friction > 399 )
+		pev->friction = 399;
 
-	m_maxSpeed = 400 - GetFriction();
+	m_maxSpeed = 400 - pev->friction;
 	GetFlags() |= FL_FLOAT;
-	SetFriction( 0 );
+	pev->friction = 0;
 
-	Vector vecOrigin = GetAbsOrigin();
-	vecOrigin.z += 1;	// Pick up off of the floor
-	SetAbsOrigin( vecOrigin );
+	pev->origin.z += 1;	// Pick up off of the floor
+	SetAbsOrigin( GetAbsOrigin() );
 
 	// Multiply by area of the box's cross-section (assume 1000 units^3 standard volume)
-	SetSkin( ( GetSkin() * ( GetRelMax().x - GetRelMin().x ) * ( GetRelMax().y - GetRelMin().y ) ) * 0.0005 );
+	pev->skin = ( pev->skin * ( pev->maxs.x - pev->mins.x ) * ( pev->maxs.y - pev->mins.y ) ) * 0.0005;
 	m_soundTime = 0;
 }
 
@@ -62,7 +61,7 @@ void CPushable::Precache( void )
 	for( int i = 0; i < 3; i++ )
 		PRECACHE_SOUND( m_soundNames[ i ] );
 
-	if( GetSpawnFlags().Any( SF_PUSH_BREAKABLE ) )
+	if( pev->spawnflags & SF_PUSH_BREAKABLE )
 		CBreakable::Precache();
 }
 
@@ -79,15 +78,11 @@ void CPushable::Move( CBaseEntity *pOther, int push )
 	int playerTouch = 0;
 
 	// Is entity standing on this pushable ?
-	if( pOther->GetFlags().Any( FL_ONGROUND ) && pOther->GetGroundEntity() == this )
+	if( pOther->GetFlags().Any( FL_ONGROUND ) && pOther->pev->groundentity && GET_PRIVATE( pOther->pev->groundentity ) == this )
 	{
 		// Only push if floating
 		if( GetWaterLevel() > WATERLEVEL_DRY )
-		{
-			Vector vecVelocity = GetAbsVelocity();
-			vecVelocity.z += pOther->GetAbsVelocity().z * 0.1;
-			SetAbsVelocity( vecVelocity );
-		}
+			pev->velocity.z += pOther->pev->velocity.z * 0.1;
 
 		return;
 	}
@@ -95,7 +90,7 @@ void CPushable::Move( CBaseEntity *pOther, int push )
 
 	if( pOther->IsPlayer() )
 	{
-		if( push && !pOther->GetButtons().Any( IN_FORWARD | IN_USE ) )	// Don't push unless the player is pushing forward and NOT use (pull)
+		if( push && !( pOther->pev->button & ( IN_FORWARD | IN_USE ) ) )	// Don't push unless the player is pushing forward and NOT use (pull)
 			return;
 		playerTouch = 1;
 	}
@@ -117,29 +112,19 @@ void CPushable::Move( CBaseEntity *pOther, int push )
 	else
 		factor = 0.25;
 
-	Vector vecVelocity = GetAbsVelocity();
+	pev->velocity.x += pOther->pev->velocity.x * factor;
+	pev->velocity.y += pOther->pev->velocity.y * factor;
 
-	vecVelocity.x += pOther->GetAbsVelocity().x * factor;
-	vecVelocity.y += pOther->GetAbsVelocity().y * factor;
-
-	float length = sqrt( vecVelocity.x * vecVelocity.x + vecVelocity.y * vecVelocity.y );
+	float length = sqrt( pev->velocity.x * pev->velocity.x + pev->velocity.y * pev->velocity.y );
 	if( push && ( length > MaxSpeed() ) )
 	{
-		vecVelocity.x = ( vecVelocity.x * MaxSpeed() / length );
-		vecVelocity.y = ( vecVelocity.y * MaxSpeed() / length );
+		pev->velocity.x = ( pev->velocity.x * MaxSpeed() / length );
+		pev->velocity.y = ( pev->velocity.y * MaxSpeed() / length );
 	}
-
-	SetAbsVelocity( vecVelocity );
-
 	if( playerTouch )
 	{
-		vecVelocity = pOther->GetAbsVelocity();
-
-		vecVelocity.x = GetAbsVelocity().x;
-		vecVelocity.y = GetAbsVelocity().y;
-
-		pOther->SetAbsVelocity( vecVelocity );
-
+		pOther->pev->velocity.x = pev->velocity.x;
+		pOther->pev->velocity.y = pev->velocity.y;
 		if( ( gpGlobals->time - m_soundTime ) > 0.7 )
 		{
 			m_soundTime = gpGlobals->time;
@@ -148,7 +133,7 @@ void CPushable::Move( CBaseEntity *pOther, int push )
 				m_lastSound = RANDOM_LONG( 0, 2 );
 				EMIT_SOUND( this, CHAN_WEAPON, m_soundNames[ m_lastSound ], 0.5, ATTN_NORM );
 				//			SetThink( StopSound );
-				//			SetNextThink( GetLastThink() + 0.1 );
+				//			pev->nextthink = pev->ltime + 0.1;
 			}
 			else
 				STOP_SOUND( this, CHAN_WEAPON, m_soundNames[ m_lastSound ] );
@@ -186,7 +171,7 @@ void CPushable::KeyValue( KeyValueData *pkvd )
 	}
 	else if( FStrEq( pkvd->szKeyName, "buoyancy" ) )
 	{
-		SetSkin( atof( pkvd->szValue ) );
+		pev->skin = atof( pkvd->szValue );
 		pkvd->fHandled = true;
 	}
 	else
@@ -198,12 +183,12 @@ void CPushable::Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE use
 {
 	if( !pActivator || !pActivator->IsPlayer() )
 	{
-		if( GetSpawnFlags().Any( SF_PUSH_BREAKABLE ) )
+		if( pev->spawnflags & SF_PUSH_BREAKABLE )
 			this->CBreakable::Use( pActivator, pCaller, useType, value );
 		return;
 	}
 
-	if( pActivator->GetAbsVelocity() != g_vecZero )
+	if( pActivator->pev->velocity != g_vecZero )
 		Move( pActivator, 0 );
 }
 
@@ -218,6 +203,6 @@ void CPushable::StopSound( void )
 
 void CPushable::OnTakeDamage( const CTakeDamageInfo& info )
 {
-	if( GetSpawnFlags().Any( SF_PUSH_BREAKABLE ) )
+	if( pev->spawnflags & SF_PUSH_BREAKABLE )
 		CBreakable::OnTakeDamage( info );
 }

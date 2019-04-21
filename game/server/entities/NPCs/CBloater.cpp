@@ -26,12 +26,20 @@
 
 LINK_ENTITY_TO_CLASS( monster_bloater, CBloater );
 
+//=========================================================
+// Classify - indicates this monster's place in the 
+// relationship table.
+//=========================================================
 EntityClassification_t CBloater::GetClassification()
 {
 	return EntityClassifications().GetClassificationId( classify::ALIEN_MONSTER );
 }
 
-void CBloater::UpdateYawSpeed()
+//=========================================================
+// SetYawSpeed - allows each sequence to have a different
+// turn rate associated with it.
+//=========================================================
+void CBloater :: SetYawSpeed ( void )
 {
 	int ys;
 
@@ -43,7 +51,7 @@ void CBloater::UpdateYawSpeed()
 	}
 #endif
 
-	SetYawSpeed( ys );
+	pev->yaw_speed = ys;
 }
 
 void CBloater::OnTakeDamage( const CTakeDamageInfo& info )
@@ -128,6 +136,11 @@ void CBloater :: AttackSnd( void )
 #endif
 }
 
+
+//=========================================================
+// HandleAnimEvent - catches the monster-specific messages
+// that occur when tagged animation frames are played.
+//=========================================================
 void CBloater :: HandleAnimEvent( AnimEvent_t& event )
 {
 	switch( event.event )
@@ -145,6 +158,9 @@ void CBloater :: HandleAnimEvent( AnimEvent_t& event )
 	}
 }
 
+//=========================================================
+// Spawn
+//=========================================================
 void CBloater :: Spawn()
 {
 	Precache( );
@@ -152,18 +168,21 @@ void CBloater :: Spawn()
 	SetModel( "models/floater.mdl");
 	SetSize( VEC_HUMAN_HULL_MIN, VEC_HUMAN_HULL_MAX );
 
-	SetSolidType( SOLID_SLIDEBOX );
-	SetMoveType( MOVETYPE_FLY );
-	GetSpawnFlags() |= FL_FLY;
+	pev->solid			= SOLID_SLIDEBOX;
+	pev->movetype		= MOVETYPE_FLY;
+	pev->spawnflags		|= FL_FLY;
 	m_bloodColor		= BLOOD_COLOR_GREEN;
-	SetHealth( 40 );
-	SetViewOffset( VEC_VIEW );// position of the eyes relative to monster's origin.
+	pev->health			= 40;
+	pev->view_ofs		= VEC_VIEW;// position of the eyes relative to monster's origin.
 	m_flFieldOfView		= 0.5;// indicates the width of this monster's forward view cone ( as a dotproduct result )
 	m_MonsterState		= MONSTERSTATE_NONE;
 
 	MonsterInit();
 }
 
+//=========================================================
+// Precache - precaches all resources this monster needs
+//=========================================================
 void CBloater :: Precache()
 {
 	PRECACHE_MODEL("models/floater.mdl");

@@ -63,7 +63,7 @@ void CTriggerCDAudio::Touch( CBaseEntity *pOther )
 // only plays for ONE client, so only use in single play!
 void CTriggerCDAudio::PlayTrack( void )
 {
-	PlayCDTrack( ( int ) GetHealth() );
+	PlayCDTrack( ( int ) pev->health );
 
 	SetTouch( NULL );
 	UTIL_Remove( this );

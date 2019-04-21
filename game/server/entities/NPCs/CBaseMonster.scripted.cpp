@@ -39,7 +39,7 @@
 
 bool CBaseMonster::ExitScriptedSequence()
 {
-	if ( GetDeadFlag() == DEAD_DYING )
+	if ( pev->deadflag == DEAD_DYING )
 	{
 		// is this legal?
 		// BUGBUG -- This doesn't call Killed()
@@ -64,30 +64,30 @@ bool CBaseMonster::CineCleanup()
 	{
 		// okay, reset me to what it thought I was before
 		m_pCine->m_hTargetEnt = NULL;
-		SetMoveType( m_pCine->m_saved_movetype );
-		SetSolidType( m_pCine->m_saved_solid );
-		GetEffects() = m_pCine->m_saved_effects;
+		pev->movetype = m_pCine->m_saved_movetype;
+		pev->solid = m_pCine->m_saved_solid;
+		pev->effects = m_pCine->m_saved_effects;
 	}
 	else
 	{
 		// arg, punt
-		SetMoveType( MOVETYPE_STEP );// this is evil
-		SetSolidType( SOLID_SLIDEBOX );
+		pev->movetype = MOVETYPE_STEP;// this is evil
+		pev->solid = SOLID_SLIDEBOX;
 	}
 	m_pCine = NULL;
 	m_hTargetEnt = NULL;
 	m_hGoalEnt = NULL;
-	if ( GetDeadFlag() == DEAD_DYING)
+	if (pev->deadflag == DEAD_DYING)
 	{
 		// last frame of death animation?
-		SetHealth( 0 );
-		SetFrameRate( 0.0 );
-		SetSolidType( SOLID_NOT );
+		pev->health			= 0;
+		pev->framerate		= 0.0;
+		pev->solid			= SOLID_NOT;
 		SetState( MONSTERSTATE_DEAD );
-		SetDeadFlag( DEAD_DEAD );
-		SetSize( GetRelMin(), Vector( GetRelMax().x, GetRelMax().y, GetRelMin().z + 2) );
+		pev->deadflag = DEAD_DEAD;
+		SetSize( pev->mins, Vector(pev->maxs.x, pev->maxs.y, pev->mins.z + 2) );
 
-		if ( pOldCine && pOldCine->GetSpawnFlags().Any( SF_SCRIPT_LEAVECORPSE ) )
+		if ( pOldCine && FBitSet( pOldCine->pev->spawnflags, SF_SCRIPT_LEAVECORPSE ) )
 		{
 			SetUse( NULL );		// BUGBUG -- This doesn't call Killed()
 			SetThink( NULL );	// This will probably break some stuff
@@ -97,15 +97,15 @@ bool CBaseMonster::CineCleanup()
 			SUB_StartFadeOut(); // SetThink( SUB_DoNothing );
 		// This turns off animation & physics in case their origin ends up stuck in the world or something
 		StopAnimation();
-		SetMoveType( MOVETYPE_NONE );
-		GetEffects() |= EF_NOINTERP;	// Don't interpolate either, assume the corpse is positioned in its final resting place
+		pev->movetype = MOVETYPE_NONE;
+		pev->effects |= EF_NOINTERP;	// Don't interpolate either, assume the corpse is positioned in its final resting place
 		return false;
 	}
 
 	// If we actually played a sequence
 	if ( pOldCine && pOldCine->m_iszPlay )
 	{
-		if ( !GetSpawnFlags().Any( SF_SCRIPT_NOSCRIPTMOVEMENT ) )
+		if ( !(pOldCine->pev->spawnflags & SF_SCRIPT_NOSCRIPTMOVEMENT) )
 		{
 			// reset position
 			Vector new_origin, new_angle;
@@ -129,33 +129,27 @@ bool CBaseMonster::CineCleanup()
 			if ((oldOrigin - new_origin).Length2D() < 8.0)
 				new_origin = oldOrigin;
 
-			Vector vecOrigin = GetAbsOrigin();
+			pev->origin.x = new_origin.x;
+			pev->origin.y = new_origin.y;
+			pev->origin.z += 1;
 
-			vecOrigin.x = new_origin.x;
-			vecOrigin.y = new_origin.y;
-			vecOrigin.z += 1;
-
-			GetFlags() |= FL_ONGROUND;
+			pev->flags |= FL_ONGROUND;
 			const DropToFloor drop = UTIL_DropToFloor( this );
 			
 			// Origin in solid?  Set to org at the end of the sequence
 			if ( drop == DropToFloor::STUCK )
-				vecOrigin = oldOrigin;
+				pev->origin = oldOrigin;
 			else if ( drop == DropToFloor::TOOFAR ) // Hanging in air?
 			{
-				vecOrigin.z = new_origin.z;
-				GetFlags().ClearFlags( FL_ONGROUND );
+				pev->origin.z = new_origin.z;
+				pev->flags &= ~FL_ONGROUND;
 			}
 			// else entity hit floor, leave there
 
-			/*
-			Vector vecEntOrigin = pEntity->GetAbsOrigin();
-			vecEntOrigin.z = new_origin.z + 5.0; // damn, got to fix this
-			pEntity->SetAbsOrigin( vecEntOrigin );
-			*/
+			// pEntity->GetAbsOrigin().z = new_origin.z + 5.0; // damn, got to fix this
 
-			SetAbsOrigin( vecOrigin );
-			GetEffects() |= EF_NOINTERP;
+			SetAbsOrigin( GetAbsOrigin() );
+			pev->effects |= EF_NOINTERP;
 		}
 
 		// We should have some animation to put these guys in, but for now it's idle.
@@ -164,7 +158,7 @@ bool CBaseMonster::CineCleanup()
 	}
 	// set them back into a normal state
 	pev->enemy = NULL;
-	if ( GetHealth() > 0 )
+	if ( pev->health > 0 )
 		m_IdealMonsterState = MONSTERSTATE_IDLE; // m_previousState;
 	else
 	{
@@ -172,14 +166,14 @@ bool CBaseMonster::CineCleanup()
 		// Can't call killed() no attacker and weirdness (late gibbing) may result
 		m_IdealMonsterState = MONSTERSTATE_DEAD;
 		SetConditions( bits_COND_LIGHT_DAMAGE );
-		SetDeadFlag( DEAD_DYING );
+		pev->deadflag = DEAD_DYING;
 		FCheckAITrigger();
-		SetDeadFlag( DEAD_NO );
+		pev->deadflag = DEAD_NO;
 	}
 
 
 	//	SetAnimation( m_MonsterState );
-	GetSpawnFlags().ClearFlags( SF_MONSTER_WAIT_FOR_SCRIPT );
+	ClearBits(pev->spawnflags, SF_MONSTER_WAIT_FOR_SCRIPT );
 
 	return true;
 }

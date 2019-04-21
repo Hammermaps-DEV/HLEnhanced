@@ -75,14 +75,14 @@ bool CPython::Deploy()
 	if ( bIsMultiplayer() )
 	{
 		// enable laser sight geometry.
-		SetBody( 1 );
+		pev->body = 1;
 	}
 	else
 	{
-		SetBody( 0 );
+		pev->body = 0;
 	}
 
-	return DefaultDeploy( "models/v_357.mdl", "models/p_357.mdl", PYTHON_DRAW, "python", GetBody() );
+	return DefaultDeploy( "models/v_357.mdl", "models/p_357.mdl", PYTHON_DRAW, "python", pev->body );
 }
 
 
@@ -107,17 +107,15 @@ void CPython::SecondaryAttack( void )
 		return;
 	}
 
-	if ( m_pPlayer->GetFOV() != 0 )
+	if ( m_pPlayer->pev->fov != 0 )
 	{
 		m_fInZoom = false;
-		m_pPlayer->SetFOV( 0 );
-		m_pPlayer->m_iFOV = 0;  // 0 means reset to default fov
+		m_pPlayer->pev->fov = m_pPlayer->m_iFOV = 0;  // 0 means reset to default fov
 	}
-	else if ( m_pPlayer->GetFOV() != 40 )
+	else if ( m_pPlayer->pev->fov != 40 )
 	{
 		m_fInZoom = true;
-		m_pPlayer->SetFOV( 40 );
-		m_pPlayer->m_iFOV = 40;
+		m_pPlayer->pev->fov = m_pPlayer->m_iFOV = 40;
 	}
 
 	m_flNextSecondaryAttack = 0.5;
@@ -151,13 +149,13 @@ void CPython::PrimaryAttack()
 
 	m_iClip--;
 
-	m_pPlayer->GetEffects().AddFlags( EF_MUZZLEFLASH );
+	m_pPlayer->pev->effects = (int)(m_pPlayer->pev->effects) | EF_MUZZLEFLASH;
 
 	// player "shoot" animation
 	m_pPlayer->SetAnimation( PLAYER_ATTACK1 );
 
 
-	UTIL_MakeVectors( m_pPlayer->GetViewAngle() + m_pPlayer->GetPunchAngle() );
+	UTIL_MakeVectors( m_pPlayer->pev->v_angle + m_pPlayer->pev->punchangle );
 
 	Vector vecSrc	 = m_pPlayer->GetGunPosition( );
 	Vector vecAiming = m_pPlayer->GetAutoaimVector( AUTOAIM_10DEGREES );
@@ -188,11 +186,10 @@ void CPython::Reload( void )
 	if ( m_pPlayer->GetAmmoCountByID( PrimaryAmmoIndex() ) <= 0 )
 		return;
 
-	if ( m_pPlayer->GetFOV() != 0 )
+	if ( m_pPlayer->pev->fov != 0 )
 	{
 		m_fInZoom = false;
-		m_pPlayer->SetFOV( 0 );
-		m_pPlayer->m_iFOV = 0;  // 0 means reset to default fov
+		m_pPlayer->pev->fov = m_pPlayer->m_iFOV = 0;  // 0 means reset to default fov
 	}
 
 	//TODO: same code is below this - Solokiller

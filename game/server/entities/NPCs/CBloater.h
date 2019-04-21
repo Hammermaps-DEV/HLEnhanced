@@ -27,7 +27,7 @@ public:
 
 	void Spawn( void ) override;
 	void Precache( void ) override;
-	void UpdateYawSpeed() override;
+	void SetYawSpeed( void ) override;
 	EntityClassification_t GetClassification() override;
 	void HandleAnimEvent( AnimEvent_t& event ) override;
 
