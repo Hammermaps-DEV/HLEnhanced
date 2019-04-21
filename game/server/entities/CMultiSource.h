@@ -31,7 +31,7 @@ public:
 	void KeyValue( KeyValueData *pkvd ) override;
 	void Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value ) override;
 	int	ObjectCaps() const override { return ( CPointEntity::ObjectCaps() | FCAP_MASTER ); }
-	bool IsTriggered( const CBaseEntity* const pActivator ) const override;
+	bool IsTriggered( const CBaseEntity* const pActivator ) const;
 	void Register( void );
 
 	EHANDLE		m_rgEntities[ MS_MAX_TARGETS ];

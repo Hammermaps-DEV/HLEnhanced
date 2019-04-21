@@ -30,6 +30,7 @@
 #include "CBasePlayer.h"
 #include "Weapons.h"
 #include "gamerules/GameRules.h"
+#include "studio.h"
 
 void UTIL_ParametricRocket( entvars_t *pev, Vector vecOrigin, Vector vecAngles, edict_t *owner )
 {	

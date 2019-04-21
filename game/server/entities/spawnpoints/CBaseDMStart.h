@@ -23,7 +23,7 @@ public:
 	DECLARE_CLASS( CBaseDMStart, CBaseSpawnPoint );
 
 	void KeyValue( KeyValueData* pkvd ) override;
-	bool IsTriggered( const CBaseEntity* const pActivator ) const override;
+	bool IsTriggered( const CBaseEntity* const pActivator ) const;
 
 	bool CanUseSpawnPoint( CBasePlayer* const pPlayer ) override;
 

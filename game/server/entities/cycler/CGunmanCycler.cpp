@@ -69,7 +69,7 @@ void CGunmanCycler::Spawn(void)
 	m_flFrameRate = 75;
 	m_flGroundSpeed = 0;
 
-	SetNextThink(GetNextThink() + 1.0);
+	SetNextThink(1.0);
 
 	ResetSequenceInfo();
 
@@ -86,7 +86,7 @@ void CGunmanCycler::Spawn(void)
 
 void CGunmanCycler::Think(void)
 {
-	SetNextThink(gpGlobals->time + 0.1);
+	SetNextThink(0.1);
 
 	if (m_animate > 0)
 		StudioFrameAdvance();

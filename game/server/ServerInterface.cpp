@@ -213,7 +213,8 @@ int DispatchSpawn( edict_t *pent )
 				// Already dead? delete
 				if( pGlobal->state == GLOBAL_DEAD )
 					return -1;
-				else if( !FStrEq( STRING( gpGlobals->mapname ), pGlobal->levelName ) )
+
+				if( !FStrEq( STRING( gpGlobals->mapname ), pGlobal->levelName ) )
 					pEntity->MakeDormant();	// Hasn't been moved to this level yet, wait but stay alive
 											// In this level & not dead, continue on as normal
 			}
@@ -221,7 +222,7 @@ int DispatchSpawn( edict_t *pent )
 			{
 				// Spawned entities default to 'On'
 				gGlobalState.EntityAdd( pEntity->pev->globalname, gpGlobals->mapname, GLOBAL_ON );
-				//				ALERT( at_console, "Added global entity %s (%s)\n", pEntity->GetClassname(), pEntity->GetGlobalName() );
+				//ALERT( at_console, "Added global entity %s (%s)\n", pEntity->GetClassname(), pEntity->GetGlobalName() );
 			}
 		}
 
@@ -326,9 +327,12 @@ void DispatchSave( edict_t *pent, SAVERESTOREDATA *pSaveData )
 		// These don't use ltime & nextthink as times really, but we'll fudge around it.
 		if( pEntity->pev->movetype == MOVETYPE_PUSH )
 		{
-			float delta = pEntity->pev->nextthink - pEntity->pev->ltime;
-			pEntity->pev->ltime = gpGlobals->time;
-			pEntity->pev->nextthink = pEntity->pev->ltime + delta;
+			//LRC - rearranged so that we can correct m_fNextThink too.
+			float delta = gpGlobals->time - pEntity->pev->ltime;
+			pEntity->pev->ltime += delta;
+			pEntity->pev->nextthink += delta;
+			pEntity->m_fPevNextThink = pEntity->pev->nextthink;
+			pEntity->m_fNextThink += delta;
 		}
 
 		pTable->location = pSaveData->size;		// Remember entity position for file I/O
@@ -441,6 +445,7 @@ int DispatchRestore( edict_t *pent, SAVERESTOREDATA *pSaveData, int globalEntity
 			pSaveData->vecLandmarkOffset = oldOffset;
 			if( pEntity )
 			{
+				pEntity->InitMoveWith(); //LRC - rebuild all parents on next level
 				pEntity->SetAbsOrigin( pEntity->GetAbsOrigin() );
 				pEntity->OverrideReset();
 			}
@@ -453,7 +458,8 @@ int DispatchRestore( edict_t *pent, SAVERESTOREDATA *pSaveData, int globalEntity
 				// Already dead? delete
 				if( pGlobal->state == GLOBAL_DEAD )
 					return -1;
-				else if( !FStrEq( STRING( gpGlobals->mapname ), pGlobal->levelName ) )
+
+				if( !FStrEq( STRING( gpGlobals->mapname ), pGlobal->levelName ) )
 				{
 					pEntity->MakeDormant();	// Hasn't been moved to this level yet, wait but stay alive
 				}

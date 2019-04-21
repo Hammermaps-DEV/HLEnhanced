@@ -249,4 +249,36 @@
 */
 #define ENTITY_INTOLERANCE	100
 
+/**
+*	LRC
+*/
+#define LF_NOTEASY				(1<<0)
+#define LF_NOTMEDIUM			(1<<1)
+#define LF_NOTHARD				(1<<2)
+
+#define LF_POSTASSISTVEL			(1<<3)
+#define LF_POSTASSISTAVEL			(1<<4)
+
+#define LF_DOASSIST				(1<<5)
+#define LF_CORRECTSPEED			(1<<6)
+
+#define LF_DODESIRED			(1<<7)
+#define LF_DESIRED_THINK			(1<<8)
+#define LF_DESIRED_POSTASSIST			(1<<9)
+
+#define LF_DESIRED_INFO			(1<<10)
+#define LF_DESIRED_ACTION			(1<<11)
+
+#define LF_MOVENONE				(1<<12)
+#define LF_MERGEPOS				(1<<13)
+#define LF_PARENTMOVE			(1<<14)
+#define LF_ANGULAR				(1<<15)
+#define LF_POSTORG				(1<<16)
+#define LF_POINTENTITY			(1<<17)
+
+#define LF_ALIASLIST			(1<<18)
+
+// an entity must have one of these flags set in order to be in the AssistList
+#define LF_ASSISTLIST  (LF_DOASSIST|LF_DODESIRED|LF_MERGEPOS|LF_POSTORG)
+
 #endif //GAME_SHARED_GAMECONSTANTS_H

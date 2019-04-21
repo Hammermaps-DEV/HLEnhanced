@@ -254,7 +254,7 @@ void CFuncTank::TrackTarget( void )
 		// Tanks attempt to mirror the player's angles
 		angles = m_pController->pev->v_angle;
 		angles[ 0 ] = 0 - angles[ 0 ];
-		pev->nextthink = pev->ltime + 0.05;
+		SetNextThink(0.05, false);
 	}
 	else
 	{

@@ -69,7 +69,7 @@ using CEntBitSet = CBitSet<int>;
 class CBaseEntity
 {
 public:
-	DECLARE_CLASS_NOBASE( CBaseEntity );
+	DECLARE_CLASS_NOBASE(CBaseEntity);
 	DECLARE_DATADESC_NOBASE();
 
 	// Constructor.  Set engine to use C/C++ callback functions
@@ -78,7 +78,65 @@ public:
 
 						// path corners
 	EHANDLE				m_hGoalEnt;// path corner we are heading towards
-	CBaseEntity			*m_pLink;// used for temporary link-list operations. 
+	CBaseEntity			*m_pLink;// used for temporary link-list operations.
+
+	// LRC - the entity I move with.
+	CBaseEntity			*m_pMoveWith;
+	CBaseEntity			*m_pChildMoveWith;	// One of the entities that's moving with me.
+	CBaseEntity			*m_pSiblingMoveWith; // Another entity that's Moving With the same ent as me. (linked list.)
+
+	// LRC - for SetNextThink and SetPhysThink. 
+	// Marks the time when a think will be performed.
+	// Not necessarily the same as pev->nextthink!
+	float				m_fNextThink;
+
+	// LRC - always set equal to pev->nextthink, 
+	//so that we can tell when the latter gets changed by the @#$^¬! engine.
+	float				m_fPevNextThink;
+
+	// LRC - a new set of flags. (pev->spawnflags and pev->flags are full...)
+	int					m_iLFlags;
+
+	// LRC- moved here from func_train. 
+	// Signifies that an entity has already been activated. 
+	// (and hence doesn't need reactivating.)
+	bool				m_activated;
+
+	// LRC - Name of that entity
+	int					m_MoveWith;
+
+	// LRC - temp container
+	Vector				m_vecParentAngles;
+
+	// LRC - temp container
+	Vector				m_vecParentOrigin;
+
+	// LRC - To fix things which (for example) MoveWith a door which Starts Open.
+	Vector				m_vecSpawnOffset;
+
+	// LRC - Spawn offset origin
+	Vector				m_vecOffsetOrigin;
+
+	// LRC - Spawn offset angles
+	Vector				m_vecOffsetAngles;
+
+	// LRC - link to the next entity which needs to be Assisted before physics are applied.
+	CBaseEntity			*m_pAssistLink;
+
+	// LRC - almost anything can have a lightstyle these days...
+	int					m_iStyle;
+
+	// LRC - child postorigin
+	Vector				m_vecPostAssistOrg;
+
+	// LRC - child postangles
+	Vector				m_vecPostAssistAng;
+
+	// LRC
+	Vector				m_vecPostAssistVel;
+
+	// LRC
+	Vector				m_vecPostAssistAVel;
 
 	/*
 	*	Getters and setters for entvars_t.
@@ -87,32 +145,32 @@ public:
 	/**
 	*	@return This entity's classname.
 	*/
-	const char* GetClassname() const { return STRING( pev->classname ); }
+	const char* GetClassname() const { return STRING(pev->classname); }
 
 	/**
 	*	Sets this entity's classname.
 	*	It is assumed that pszClassName is either a string in the program's string table or allocated using ALLOC_STRING,
 	*	or otherwise has a lifetime that is at least as long as the rest of the map.
 	*/
-	void SetClassname( const char* pszClassName )
+	void SetClassname(const char* pszClassName)
 	{
-		pev->classname = MAKE_STRING( pszClassName );
+		pev->classname = MAKE_STRING(pszClassName);
 	}
 
 	/**
 	*	@return Whether this entity's classname matches the given classname.
 	*/
-	bool ClassnameIs( const char* const pszClassName ) const
+	bool ClassnameIs(const char* const pszClassName) const
 	{
-		return FStrEq( GetClassname(), pszClassName );
+		return FStrEq(GetClassname(), pszClassName);
 	}
 
 	/**
 	*	@copydoc ClassnameIs( const char* const pszClassName ) const
 	*/
-	bool ClassnameIs( const string_t iszClassName ) const
+	bool ClassnameIs(const string_t iszClassName) const
 	{
-		return ClassnameIs( STRING( iszClassName ) );
+		return ClassnameIs(STRING(iszClassName));
 	}
 
 	/**
@@ -120,19 +178,19 @@ public:
 	*/
 	bool HasGlobalName() const
 	{
-		return !!( *STRING( pev->globalname ) );
+		return !!(*STRING(pev->globalname));
 	}
 
 	/**
 	*	@return The global name.
 	*/
-	const char* GetGlobalName() const { return STRING( pev->globalname ); }
+	const char* GetGlobalName() const { return STRING(pev->globalname); }
 
 	/**
 	*	Sets the global name.
 	*	@param iszGlobalName Name to set.
 	*/
-	void SetGlobalName( const string_t iszGlobalName )
+	void SetGlobalName(const string_t iszGlobalName)
 	{
 		pev->globalname = iszGlobalName;
 	}
@@ -141,9 +199,9 @@ public:
 	*	Sets the global name.
 	*	@param pszGlobalName Name to set.
 	*/
-	void SetGlobalName( const char* const pszGlobalName )
+	void SetGlobalName(const char* const pszGlobalName)
 	{
-		SetGlobalName( MAKE_STRING( pszGlobalName ) );
+		SetGlobalName(MAKE_STRING(pszGlobalName));
 	}
 
 	/**
@@ -159,19 +217,19 @@ public:
 	*/
 	bool HasTargetname() const
 	{
-		return !!( *STRING( pev->targetname ) );
+		return !!(*STRING(pev->targetname));
 	}
 
 	/**
 	*	@return The targetname.
 	*/
-	const char* GetTargetname() const { return STRING( pev->targetname ); }
+	const char* GetTargetname() const { return STRING(pev->targetname); }
 
 	/**
 	*	Sets the targetname.
 	*	@param iszTargetName Name to set.
 	*/
-	void SetTargetname( const string_t iszTargetName )
+	void SetTargetname(const string_t iszTargetName)
 	{
 		pev->targetname = iszTargetName;
 	}
@@ -180,9 +238,9 @@ public:
 	*	Sets the targetname.
 	*	@param pszTargetName Name to set.
 	*/
-	void SetTargetname( const char* const pszTargetName )
+	void SetTargetname(const char* const pszTargetName)
 	{
-		SetTargetname( MAKE_STRING( pszTargetName ) );
+		SetTargetname(MAKE_STRING(pszTargetName));
 	}
 
 	/**
@@ -198,19 +256,19 @@ public:
 	*/
 	bool HasTarget() const
 	{
-		return !!( *STRING( pev->target ) );
+		return !!(*STRING(pev->target));
 	}
 
 	/**
 	*	@return The target.
 	*/
-	const char* GetTarget() const { return STRING( pev->target ); }
+	const char* GetTarget() const { return STRING(pev->target); }
 
 	/**
 	*	Sets the target.
 	*	@param iszTarget Target to set.
 	*/
-	void SetTarget( const string_t iszTarget )
+	void SetTarget(const string_t iszTarget)
 	{
 		pev->target = iszTarget;
 	}
@@ -219,9 +277,9 @@ public:
 	*	Sets the target.
 	*	@param pszTarget Target to set.
 	*/
-	void SetTarget( const char* const pszTarget )
+	void SetTarget(const char* const pszTarget)
 	{
-		SetTarget( MAKE_STRING( pszTarget ) );
+		SetTarget(MAKE_STRING(pszTarget));
 	}
 
 	/**
@@ -237,19 +295,19 @@ public:
 	*/
 	bool HasNetName() const
 	{
-		return !!( *STRING( pev->netname ) );
+		return !!(*STRING(pev->netname));
 	}
 
 	/**
 	*	@return The net name.
 	*/
-	const char* GetNetName() const { return STRING( pev->netname ); }
+	const char* GetNetName() const { return STRING(pev->netname); }
 
 	/**
 	*	Sets the net name.
 	*	@param iszNetName Net name to set.
 	*/
-	void SetNetName( const string_t iszNetName )
+	void SetNetName(const string_t iszNetName)
 	{
 		pev->netname = iszNetName;
 	}
@@ -258,9 +316,9 @@ public:
 	*	Sets the net name.
 	*	@param pszNetName Name to set.
 	*/
-	void SetNetName( const char* const pszNetName )
+	void SetNetName(const char* const pszNetName)
 	{
-		SetNetName( MAKE_STRING( pszNetName ) );
+		SetNetName(MAKE_STRING(pszNetName));
 	}
 
 	/**
@@ -280,9 +338,9 @@ public:
 	*	Sets the absolute origin.
 	*	@param vecOrigin Origin to set.
 	*/
-	void SetAbsOrigin( const Vector& vecOrigin )
+	void SetAbsOrigin(const Vector& vecOrigin)
 	{
-		UTIL_SetOrigin( this, vecOrigin );
+		UTIL_SetOrigin(this, vecOrigin);
 	}
 
 	/**
@@ -299,7 +357,7 @@ public:
 	*	Sets the old origin.
 	*	@param vecOrigin Origin to set.
 	*/
-	void SetOldOrigin( const Vector& vecOrigin )
+	void SetOldOrigin(const Vector& vecOrigin)
 	{
 		pev->oldorigin = vecOrigin;
 	}
@@ -313,7 +371,7 @@ public:
 	*	Sets the absolute velocity.
 	*	@param vecVelocity Velocity to set.
 	*/
-	void SetAbsVelocity( const Vector& vecVelocity )
+	void SetAbsVelocity(const Vector& vecVelocity)
 	{
 		pev->velocity = vecVelocity;
 	}
@@ -327,7 +385,7 @@ public:
 	*	Sets the base velocity.
 	*	@param vecVelocity Velocity to set.
 	*/
-	void SetBaseVelocity( const Vector& vecVelocity )
+	void SetBaseVelocity(const Vector& vecVelocity)
 	{
 		pev->basevelocity = vecVelocity;
 	}
@@ -341,7 +399,7 @@ public:
 	*	Sets the move direction.
 	*	@param vecMoveDir Move direction to set.
 	*/
-	void SetMoveDir( const Vector& vecMoveDir )
+	void SetMoveDir(const Vector& vecMoveDir)
 	{
 		pev->movedir = vecMoveDir;
 	}
@@ -355,7 +413,7 @@ public:
 	*	Sets the absolute angles.
 	*	@param vecAngles Angles to set.
 	*/
-	void SetAbsAngles( const Vector& vecAngles )
+	void SetAbsAngles(const Vector& vecAngles)
 	{
 		pev->angles = vecAngles;
 	}
@@ -374,7 +432,7 @@ public:
 	*	Sets the angular velocity.
 	*	@param vecAVelocity Angular velocity to set.
 	*/
-	void SetAngularVelocity( const Vector& vecAVelocity )
+	void SetAngularVelocity(const Vector& vecAVelocity)
 	{
 		pev->avelocity = vecAVelocity;
 	}
@@ -393,7 +451,7 @@ public:
 	*	Sets the punch angle.
 	*	@param vecPunchAngle Punch angle to set.
 	*/
-	void SetPunchAngle( const Vector& vecPunchAngle )
+	void SetPunchAngle(const Vector& vecPunchAngle)
 	{
 		pev->punchangle = vecPunchAngle;
 	}
@@ -412,7 +470,7 @@ public:
 	*	Sets the view angle.
 	*	@param vecViewAngle View angle to set.
 	*/
-	void SetViewAngle( const Vector& vecViewAngle )
+	void SetViewAngle(const Vector& vecViewAngle)
 	{
 		pev->v_angle = vecViewAngle;
 	}
@@ -421,14 +479,14 @@ public:
 	*	@return The fixangle mode.
 	*	@see FixAngleMode
 	*/
-	FixAngleMode GetFixAngleMode() const { return static_cast<FixAngleMode>( pev->fixangle ); }
+	FixAngleMode GetFixAngleMode() const { return static_cast<FixAngleMode>(pev->fixangle); }
 
 	/**
 	*	Sets the fixangle mode.
 	*	@param mode Mode.
 	*	@see FixAngleMode
 	*/
-	void SetFixAngleMode( const FixAngleMode mode )
+	void SetFixAngleMode(const FixAngleMode mode)
 	{
 		pev->fixangle = mode;
 	}
@@ -442,7 +500,7 @@ public:
 	*	Sets the ideal pitch.
 	*	@param flIdealPitch Ideal pitch to set.
 	*/
-	void SetIdealPitch( const float flIdealPitch )
+	void SetIdealPitch(const float flIdealPitch)
 	{
 		pev->idealpitch = flIdealPitch;
 	}
@@ -456,7 +514,7 @@ public:
 	*	Sets the pitch speed.
 	*	@param flPitchSpeed Pitch speed to set.
 	*/
-	void SetPitchSpeed( const float flPitchSpeed )
+	void SetPitchSpeed(const float flPitchSpeed)
 	{
 		pev->pitch_speed = flPitchSpeed;
 	}
@@ -470,7 +528,7 @@ public:
 	*	Sets the ideal yaw.
 	*	@param flIdealYaw Ideal yaw to set.
 	*/
-	void SetIdealYaw( const float flIdealYaw )
+	void SetIdealYaw(const float flIdealYaw)
 	{
 		pev->ideal_yaw = flIdealYaw;
 	}
@@ -484,7 +542,7 @@ public:
 	*	Sets the yaw speed.
 	*	@param flYawSpeed Yaw speed to set.
 	*/
-	void SetYawSpeed( const float flYawSpeed )
+	void SetYawSpeed(const float flYawSpeed)
 	{
 		pev->yaw_speed = flYawSpeed;
 	}
@@ -498,7 +556,7 @@ public:
 	*	Sets the model index.
 	*	@param iModelIndex Model index to set.
 	*/
-	void SetModelIndex( const int iModelIndex )
+	void SetModelIndex(const int iModelIndex)
 	{
 		pev->modelindex = iModelIndex;
 	}
@@ -506,27 +564,27 @@ public:
 	/**
 	*	@return Whether this entity has a model.
 	*/
-	bool HasModel() const { return !!( *STRING( pev->model ) ); }
+	bool HasModel() const { return !!(*STRING(pev->model)); }
 
 	/**
 	*	@return The model's name.
 	*/
-	const char* GetModelName() const { return STRING( pev->model ); }
+	const char* GetModelName() const { return STRING(pev->model); }
 
 	/**
 	*	Sets the model name. Does not set the model itself.
 	*	@param pszModelName Name of the model.
 	*/
-	void SetModelName( const char* const pszModelName )
+	void SetModelName(const char* const pszModelName)
 	{
-		pev->model = MAKE_STRING( pszModelName );
+		pev->model = MAKE_STRING(pszModelName);
 	}
 
 	/**
 	*	Sets the model name. Does not set the model itself.
 	*	@param iszModelName Name of the model.
 	*/
-	void SetModelName( const string_t iszModelName )
+	void SetModelName(const string_t iszModelName)
 	{
 		pev->model = iszModelName;
 	}
@@ -535,18 +593,18 @@ public:
 	*	Sets the model.
 	*	@param pszModelName Name of the model.
 	*/
-	void SetModel( const char* const pszModelName )
+	void SetModel(const char* const pszModelName)
 	{
-		SET_MODEL( edict(), pszModelName );
+		SET_MODEL(edict(), pszModelName);
 	}
 
 	/**
 	*	Sets the model.
 	*	@param iszModelName Name of the model.
 	*/
-	void SetModel( const string_t iszModelName )
+	void SetModel(const string_t iszModelName)
 	{
-		SET_MODEL( edict(), STRING( iszModelName ) );
+		SET_MODEL(edict(), STRING(iszModelName));
 	}
 
 	/**
@@ -555,28 +613,28 @@ public:
 	void ClearModel()
 	{
 		pev->model = iStringNull;
-		SetModelIndex( 0 );
+		SetModelIndex(0);
 	}
 
 	/**
 	*	@return The view model name.
 	*/
-	const char* GetViewModelName() const { return STRING( pev->viewmodel ); }
+	const char* GetViewModelName() const { return STRING(pev->viewmodel); }
 
 	/**
 	*	Sets the view model name.
 	*	@param pszModelName Model name.
 	*/
-	void SetViewModelName( const char* const pszModelName )
+	void SetViewModelName(const char* const pszModelName)
 	{
-		pev->viewmodel = MAKE_STRING( pszModelName );
+		pev->viewmodel = MAKE_STRING(pszModelName);
 	}
 
 	/**
 	*	Sets the view model name.
 	*	@param iszModelName Model name.
 	*/
-	void SetViewModelName( const string_t iszModelName )
+	void SetViewModelName(const string_t iszModelName)
 	{
 		pev->viewmodel = iszModelName;
 	}
@@ -592,22 +650,22 @@ public:
 	/**
 	*	@return The third person weapon model name.
 	*/
-	const char* GetWeaponModelName() const { return STRING( pev->weaponmodel ); }
+	const char* GetWeaponModelName() const { return STRING(pev->weaponmodel); }
 
 	/**
 	*	Sets the weapon model name.
 	*	@param pszModelName Model name.
 	*/
-	void SetWeaponModelName( const char* const pszModelName )
+	void SetWeaponModelName(const char* const pszModelName)
 	{
-		pev->weaponmodel = MAKE_STRING( pszModelName );
+		pev->weaponmodel = MAKE_STRING(pszModelName);
 	}
 
 	/**
 	*	Sets the weapon model name.
 	*	@param iszModelName Model name.
 	*/
-	void SetWeaponModelName( const string_t iszModelName )
+	void SetWeaponModelName(const string_t iszModelName)
 	{
 		pev->weaponmodel = iszModelName;
 	}
@@ -629,7 +687,7 @@ public:
 	*	Sets the weapon animation.
 	*	@param iWeaponAnim Weapon animation to set.
 	*/
-	void SetWeaponAnim( const int iWeaponAnim )
+	void SetWeaponAnim(const int iWeaponAnim)
 	{
 		pev->weaponanim = iWeaponAnim;
 	}
@@ -646,7 +704,7 @@ public:
 	*	Sets whether the player is ducking.
 	*	@param bDucking Duck state to set.
 	*/
-	void SetDucking( const bool bDucking )
+	void SetDucking(const bool bDucking)
 	{
 		pev->bInDuck = bDucking;
 	}
@@ -660,7 +718,7 @@ public:
 	*	Sets the time at which a step sound was last played.
 	*	@param iTime Time to set.
 	*/
-	void SetStepSoundTime( const int iTime )
+	void SetStepSoundTime(const int iTime)
 	{
 		pev->flTimeStepSound = iTime;
 	}
@@ -674,7 +732,7 @@ public:
 	*	Sets the time at which a swim sound was last played.
 	*	@param iTime Time to set.
 	*/
-	void SetSwimSoundTime( const int iTime )
+	void SetSwimSoundTime(const int iTime)
 	{
 		pev->flSwimTime = iTime;
 	}
@@ -688,7 +746,7 @@ public:
 	*	Sets the time at which a duck sound was last played.
 	*	@param iTime Time to set.
 	*/
-	void SetDuckSoundTime( const int iTime )
+	void SetDuckSoundTime(const int iTime)
 	{
 		pev->flDuckTime = iTime;
 	}
@@ -705,7 +763,7 @@ public:
 	*	Steps whether the last step was a left step sound.
 	*	@param bStepLeft State to set.
 	*/
-	void SetStepLeft( const bool bStepLeft )
+	void SetStepLeft(const bool bStepLeft)
 	{
 		pev->iStepLeft = bStepLeft;
 	}
@@ -719,7 +777,7 @@ public:
 	*	Sets the fall velocity.
 	*	@param flFallVelocity Fall velocity to set.
 	*/
-	void SetFallVelocity( const float flFallVelocity )
+	void SetFallVelocity(const float flFallVelocity)
 	{
 		pev->flFallVelocity = flFallVelocity;
 	}
@@ -733,7 +791,7 @@ public:
 	*	Sets the absolute minimum bounds.
 	*	@param vecMin Minimum bounds to set.
 	*/
-	void SetAbsMin( const Vector& vecMin )
+	void SetAbsMin(const Vector& vecMin)
 	{
 		pev->absmin = vecMin;
 	}
@@ -747,7 +805,7 @@ public:
 	*	Sets the absolute maximum bounds.
 	*	@param vecMax Maximum bounds to set.
 	*/
-	void SetAbsMax( const Vector& vecMax )
+	void SetAbsMax(const Vector& vecMax)
 	{
 		pev->absmax = vecMax;
 	}
@@ -761,7 +819,7 @@ public:
 	*	Sets the relative minimum bounds.
 	*	@param vecMin Minimum bounds to set.
 	*/
-	void SetRelMin( const Vector& vecMin )
+	void SetRelMin(const Vector& vecMin)
 	{
 		pev->mins = vecMin;
 	}
@@ -775,7 +833,7 @@ public:
 	*	Sets the relative maximum bounds.
 	*	@param vecMax Maximum bounds to set.
 	*/
-	void SetRelMax( const Vector& vecMax )
+	void SetRelMax(const Vector& vecMax)
 	{
 		pev->maxs = vecMax;
 	}
@@ -789,9 +847,9 @@ public:
 	*	Sets the size. The size is centered around the entity's origin.
 	*	@param vecSize Size to set.
 	*/
-	void SetSize( const Vector& vecSize )
+	void SetSize(const Vector& vecSize)
 	{
-		SetSize( -( vecSize / 2 ), vecSize / 2 );
+		SetSize(-(vecSize / 2), vecSize / 2);
 	}
 
 	/**
@@ -799,9 +857,9 @@ public:
 	*	@param vecMin Minimum bounds.
 	*	@param vecMax Maximum bounds.
 	*/
-	void SetSize( const Vector& vecMin, const Vector& vecMax )
+	void SetSize(const Vector& vecMin, const Vector& vecMax)
 	{
-		UTIL_SetSize( this, vecMin, vecMax );
+		UTIL_SetSize(this, vecMin, vecMax);
 	}
 
 	/**
@@ -816,7 +874,7 @@ public:
 	*	Sets the last think time. Should never be used in game code.
 	*	@param flLastThink Last think time to set.
 	*/
-	void SetLastThink( const float flLastThink )
+	void SetLastThink(const float flLastThink)
 	{
 		pev->ltime = flLastThink;
 	}
@@ -827,24 +885,47 @@ public:
 	float GetNextThink() const { return pev->nextthink; }
 
 	/**
-	*	Sets the next think time.
+	*	Sets the next think time. * LRC modified *
 	*	@param flNextThink Next think time to set.
 	*/
-	void SetNextThink( const float flNextThink )
+	void SetNextThink(const float flNextThink)
 	{
-		pev->nextthink = flNextThink;
+		SetNextThink(flNextThink, false);
 	}
+
+	/**
+	*	Sets the next think time * LRC modified *
+	*	@param flNextThink Next think time to set.
+	*	@param correctSpeed
+	*/
+	void SetNextThink(const float flNextThink, const bool correctSpeed);
+
+	/**
+	*	Sets the absolute next think time. * LRC added *
+	*	@param flNextThink Next think time to set.
+	*/
+	void AbsoluteNextThink(const float flNextThink)
+	{
+		AbsoluteNextThink(flNextThink, false);
+	}
+
+	/**
+	*	Sets the absolute next think time. * LRC added *
+	*	@param flNextThink Next think time to set.
+	*	@param correctSpeed
+	*/
+	void AbsoluteNextThink(const float flNextThink, const bool correctSpeed);
 
 	/**
 	*	@return The movetype.
 	*/
-	MoveType GetMoveType() const { return static_cast<MoveType>( pev->movetype ); }
+	MoveType GetMoveType() const { return static_cast<MoveType>(pev->movetype); }
 
 	/**
 	*	Sets the movetype.
 	*	@param moveType Movetype to set.
 	*/
-	void SetMoveType( const MoveType moveType )
+	void SetMoveType(const MoveType moveType)
 	{
 		pev->movetype = moveType;
 	}
@@ -852,13 +933,13 @@ public:
 	/**
 	*	@return The solid type.
 	*/
-	Solid GetSolidType() const { return static_cast<Solid>( pev->solid ); }
+	Solid GetSolidType() const { return static_cast<Solid>(pev->solid); }
 
 	/**
 	*	Sets the solid type.
 	*	@param solidType Solid type to set.
 	*/
-	void SetSolidType( const Solid solidType )
+	void SetSolidType(const Solid solidType)
 	{
 		pev->solid = solidType;
 	}
@@ -872,7 +953,7 @@ public:
 	*	Sets the skin.
 	*	@param iSkin Skin to set.
 	*/
-	void SetSkin( const int iSkin )
+	void SetSkin(const int iSkin)
 	{
 		pev->skin = iSkin;
 	}
@@ -886,7 +967,7 @@ public:
 	*	Sets the body.
 	*	@param iBody Body to set.
 	*/
-	void SetBody( const int iBody )
+	void SetBody(const int iBody)
 	{
 		pev->body = iBody;
 	}
@@ -896,7 +977,7 @@ public:
 	*/
 	const CBitSet<int>& GetEffects() const
 	{
-		return *reinterpret_cast<const CBitSet<int>*>( &pev->effects );
+		return *reinterpret_cast<const CBitSet<int>*>(&pev->effects);
 	}
 
 	/**
@@ -904,7 +985,7 @@ public:
 	*/
 	CBitSet<int>& GetEffects()
 	{
-		return *reinterpret_cast<CBitSet<int>*>( &pev->effects );
+		return *reinterpret_cast<CBitSet<int>*>(&pev->effects);
 	}
 
 	/**
@@ -921,7 +1002,7 @@ public:
 	*	Sets the gravity multiplier.
 	*	@param flGravity Gravity to set.
 	*/
-	void SetGravity( const float flGravity )
+	void SetGravity(const float flGravity)
 	{
 		pev->gravity = flGravity;
 	}
@@ -940,7 +1021,7 @@ public:
 	*	Sets the friction.
 	*	@param flFriction Friction to set.
 	*/
-	void SetFriction( const float flFriction )
+	void SetFriction(const float flFriction)
 	{
 		pev->friction = flFriction;
 	}
@@ -951,7 +1032,7 @@ public:
 	int GetLightLevel() const
 	{
 		//pev->lightlevel is not always the actual light level.
-		return GETENTITYILLUM( const_cast<edict_t*>( edict() ) );
+		return GETENTITYILLUM(const_cast<edict_t*>(edict()));
 	}
 
 	/**
@@ -963,7 +1044,7 @@ public:
 	*	Sets the sequence.
 	*	@param iSequence Sequence to set.
 	*/
-	void SetSequence( const int iSequence )
+	void SetSequence(const int iSequence)
 	{
 		pev->sequence = iSequence;
 	}
@@ -978,7 +1059,7 @@ public:
 	*	Sets the gait sequence.
 	*	@param iGaitSequence Gait sequence to set.
 	*/
-	void SetGaitSequence( const int iGaitSequence )
+	void SetGaitSequence(const int iGaitSequence)
 	{
 		pev->gaitsequence = iGaitSequence;
 	}
@@ -998,7 +1079,7 @@ public:
 	*	Sets the frame number.
 	*	@param flFrame Frame to set.
 	*/
-	void SetFrame( const float flFrame )
+	void SetFrame(const float flFrame)
 	{
 		pev->frame = flFrame;
 	}
@@ -1012,7 +1093,7 @@ public:
 	*	Sets the world time when the frame was changed.
 	*	@param flAnimTime Time to set.
 	*/
-	void SetAnimTime( const float flAnimTime )
+	void SetAnimTime(const float flAnimTime)
 	{
 		pev->animtime = flAnimTime;
 	}
@@ -1026,7 +1107,7 @@ public:
 	*	Sets the animation playback rate.
 	*	@param flFrameRate Frame rate to set.
 	*/
-	void SetFrameRate( const float flFrameRate )
+	void SetFrameRate(const float flFrameRate)
 	{
 		pev->framerate = flFrameRate;
 	}
@@ -1040,7 +1121,7 @@ public:
 	*	Sets the scale.
 	*	@param flScale Scale to set.
 	*/
-	void SetScale( const float flScale )
+	void SetScale(const float flScale)
 	{
 		pev->scale = flScale;
 	}
@@ -1050,14 +1131,14 @@ public:
 	*/
 	RenderMode GetRenderMode() const
 	{
-		return static_cast<RenderMode>( pev->rendermode );
+		return static_cast<RenderMode>(pev->rendermode);
 	}
 
 	/**
 	*	Sets the render mode.
 	*	@param renderMode Render mode.
 	*/
-	void SetRenderMode( const RenderMode renderMode )
+	void SetRenderMode(const RenderMode renderMode)
 	{
 		pev->rendermode = renderMode;
 	}
@@ -1071,7 +1152,7 @@ public:
 	*	Sets the render amount.
 	*	@param flRenderAmount Render amount.
 	*/
-	void SetRenderAmount( const float flRenderAmount )
+	void SetRenderAmount(const float flRenderAmount)
 	{
 		pev->renderamt = flRenderAmount;
 	}
@@ -1090,7 +1171,7 @@ public:
 	*	Sets the render color.
 	*	@param vecColor Render color to set.
 	*/
-	void SetRenderColor( const Vector& vecColor )
+	void SetRenderColor(const Vector& vecColor)
 	{
 		pev->rendercolor = vecColor;
 	}
@@ -1100,14 +1181,14 @@ public:
 	*/
 	RenderFX GetRenderFX() const
 	{
-		return static_cast<RenderFX>( pev->renderfx );
+		return static_cast<RenderFX>(pev->renderfx);
 	}
 
 	/**
 	*	Sets the render FX.
 	*	@param renderFX Render FX to set.
 	*/
-	void SetRenderFX( const RenderFX renderFX )
+	void SetRenderFX(const RenderFX renderFX)
 	{
 		pev->renderfx = renderFX;
 	}
@@ -1121,7 +1202,7 @@ public:
 	*	Sets the entity's health.
 	*	@param flHealth Health amount to set.
 	*/
-	void SetHealth( const float flHealth )
+	void SetHealth(const float flHealth)
 	{
 		//TODO: this could cause inconsistent behavior if health < 1. - Solokiller
 		pev->health = flHealth;
@@ -1136,7 +1217,7 @@ public:
 	*	Sets the maximum health.
 	*	@param flMaxHealth Maximum health.
 	*/
-	void SetMaxHealth( const float flMaxHealth )
+	void SetMaxHealth(const float flMaxHealth)
 	{
 		pev->max_health = flMaxHealth;
 	}
@@ -1150,7 +1231,7 @@ public:
 	*	Sets the armor amount.
 	*	@param flArmorAmount Armor amount to set.
 	*/
-	void SetArmorAmount( const float flArmorAmount )
+	void SetArmorAmount(const float flArmorAmount)
 	{
 		pev->armorvalue = flArmorAmount;
 	}
@@ -1165,7 +1246,7 @@ public:
 	*	Sets the armor type.
 	*	@param flArmorType Armor type to set.
 	*/
-	void SetArmorType( const float flArmorType )
+	void SetArmorType(const float flArmorType)
 	{
 		pev->armortype = flArmorType;
 	}
@@ -1180,7 +1261,7 @@ public:
 	*	Sets the frags amount.
 	*	@param flFrags Frags to set.
 	*/
-	void SetFrags( const float flFrags )
+	void SetFrags(const float flFrags)
 	{
 		pev->frags = flFrags;
 	}
@@ -1190,7 +1271,7 @@ public:
 	*/
 	const CBitSet<int>& GetWeapons() const
 	{
-		return *reinterpret_cast<const CBitSet<int>*>( &pev->weapons );
+		return *reinterpret_cast<const CBitSet<int>*>(&pev->weapons);
 	}
 
 	/**
@@ -1198,7 +1279,7 @@ public:
 	*/
 	CBitSet<int>& GetWeapons()
 	{
-		return *reinterpret_cast<CBitSet<int>*>( &pev->weapons );
+		return *reinterpret_cast<CBitSet<int>*>(&pev->weapons);
 	}
 
 	/**
@@ -1206,14 +1287,14 @@ public:
 	*/
 	TakeDamageMode GetTakeDamageMode() const
 	{
-		return static_cast<TakeDamageMode>( static_cast<int>( pev->takedamage ) );
+		return static_cast<TakeDamageMode>(static_cast<int>(pev->takedamage));
 	}
 
 	/**
 	*	Sets the takedamage mode.
 	*	@param takeDamageMode Takedamage mode to set.
 	*/
-	void SetTakeDamageMode( const TakeDamageMode takeDamageMode )
+	void SetTakeDamageMode(const TakeDamageMode takeDamageMode)
 	{
 		pev->takedamage = takeDamageMode;
 	}
@@ -1223,14 +1304,14 @@ public:
 	*/
 	DeadFlag GetDeadFlag() const
 	{
-		return static_cast<DeadFlag>( pev->deadflag );
+		return static_cast<DeadFlag>(pev->deadflag);
 	}
 
 	/**
 	*	Sets the dead flag.
 	*	@param deadFlag Dead flag to set.
 	*/
-	void SetDeadFlag( const DeadFlag deadFlag )
+	void SetDeadFlag(const DeadFlag deadFlag)
 	{
 		pev->deadflag = deadFlag;
 	}
@@ -1249,7 +1330,7 @@ public:
 	*	Sets the view offset.
 	*	@param vecViewOffset View offset to set.
 	*/
-	void SetViewOffset( const Vector& vecViewOffset )
+	void SetViewOffset(const Vector& vecViewOffset)
 	{
 		pev->view_ofs = vecViewOffset;
 	}
@@ -1259,7 +1340,7 @@ public:
 	*/
 	const CBitSet<int>& GetButtons() const
 	{
-		return *reinterpret_cast<const CBitSet<int>*>( &pev->button );
+		return *reinterpret_cast<const CBitSet<int>*>(&pev->button);
 	}
 
 	/**
@@ -1267,7 +1348,7 @@ public:
 	*/
 	CBitSet<int>& GetButtons()
 	{
-		return *reinterpret_cast<CBitSet<int>*>( &pev->button );
+		return *reinterpret_cast<CBitSet<int>*>(&pev->button);
 	}
 
 	/**
@@ -1275,7 +1356,7 @@ public:
 	*/
 	const CBitSet<int>& GetOldButtons() const
 	{
-		return *reinterpret_cast<const CBitSet<int>*>( &pev->oldbuttons );
+		return *reinterpret_cast<const CBitSet<int>*>(&pev->oldbuttons);
 	}
 
 	/**
@@ -1283,7 +1364,7 @@ public:
 	*/
 	CBitSet<int>& GetOldButtons()
 	{
-		return *reinterpret_cast<CBitSet<int>*>( &pev->oldbuttons );
+		return *reinterpret_cast<CBitSet<int>*>(&pev->oldbuttons);
 	}
 
 	/**
@@ -1291,7 +1372,7 @@ public:
 	*/
 	const CBitSet<int>& GetImpulse() const
 	{
-		return *reinterpret_cast<const CBitSet<int>*>( &pev->impulse );
+		return *reinterpret_cast<const CBitSet<int>*>(&pev->impulse);
 	}
 
 	/**
@@ -1299,7 +1380,7 @@ public:
 	*/
 	CBitSet<int>& GetImpulse()
 	{
-		return *reinterpret_cast<CBitSet<int>*>( &pev->impulse );
+		return *reinterpret_cast<CBitSet<int>*>(&pev->impulse);
 	}
 
 	/**
@@ -1307,7 +1388,7 @@ public:
 	*/
 	const CBitSet<int>& GetSpawnFlags() const
 	{
-		return *reinterpret_cast<const CBitSet<int>*>( &pev->spawnflags );
+		return *reinterpret_cast<const CBitSet<int>*>(&pev->spawnflags);
 	}
 
 	/**
@@ -1315,7 +1396,7 @@ public:
 	*/
 	CBitSet<int>& GetSpawnFlags()
 	{
-		return *reinterpret_cast<CBitSet<int>*>( &pev->spawnflags );
+		return *reinterpret_cast<CBitSet<int>*>(&pev->spawnflags);
 	}
 
 	/**
@@ -1323,7 +1404,7 @@ public:
 	*/
 	const CBitSet<int>& GetFlags() const
 	{
-		return *reinterpret_cast<const CBitSet<int>*>( &pev->flags );
+		return *reinterpret_cast<const CBitSet<int>*>(&pev->flags);
 	}
 
 	/**
@@ -1331,7 +1412,7 @@ public:
 	*/
 	CBitSet<int>& GetFlags()
 	{
-		return *reinterpret_cast<CBitSet<int>*>( &pev->flags );
+		return *reinterpret_cast<CBitSet<int>*>(&pev->flags);
 	}
 
 	/**
@@ -1343,7 +1424,7 @@ public:
 	*	Sets the color map.
 	*	@param iColorMap Color map to set.
 	*/
-	void SetColorMap( const int iColorMap )
+	void SetColorMap(const int iColorMap)
 	{
 		pev->colormap = iColorMap;
 	}
@@ -1353,18 +1434,18 @@ public:
 	*	@param[ out ] iTopColor Top color.
 	*	@param[ out ] iBottomColor Bottom color.
 	*/
-	void GetColorMap( int& iTopColor, int& iBottomColor ) const
+	void GetColorMap(int& iTopColor, int& iBottomColor) const
 	{
 		iTopColor = GetColorMap() & 0xFF;
-		iBottomColor = ( GetColorMap() & 0xFF00 ) >> 8;
+		iBottomColor = (GetColorMap() & 0xFF00) >> 8;
 	}
 
 	/**
 	*	Sets the color map as its top and bottom values.
 	*/
-	void SetColorMap( const int iTopColor, const int iBottomColor )
+	void SetColorMap(const int iTopColor, const int iBottomColor)
 	{
-		SetColorMap( ( iTopColor & 0xFF ) | ( ( iBottomColor << 8 ) & 0xFF00 ) );
+		SetColorMap((iTopColor & 0xFF) | ((iBottomColor << 8) & 0xFF00));
 	}
 
 	/**
@@ -1375,7 +1456,7 @@ public:
 	/**
 	*	Sets the team ID.
 	*/
-	void SetTeamID( const int iTeamID )
+	void SetTeamID(const int iTeamID)
 	{
 		pev->team = iTeamID;
 	}
@@ -1389,7 +1470,7 @@ public:
 	*	Sets the player class.
 	*	@param iPlayerClass Player class to set.
 	*/
-	void SetPlayerClass( const int iPlayerClass )
+	void SetPlayerClass(const int iPlayerClass)
 	{
 		pev->playerclass = iPlayerClass;
 	}
@@ -1399,14 +1480,14 @@ public:
 	*/
 	WaterLevel GetWaterLevel() const
 	{
-		return static_cast<WaterLevel>( pev->waterlevel );
+		return static_cast<WaterLevel>(pev->waterlevel);
 	}
 
 	/**
 	*	Sets the water level.
 	*	@param waterLevel Water level to set.
 	*/
-	void SetWaterLevel( const WaterLevel waterLevel )
+	void SetWaterLevel(const WaterLevel waterLevel)
 	{
 		pev->waterlevel = waterLevel;
 	}
@@ -1416,14 +1497,14 @@ public:
 	*/
 	Contents GetWaterType() const
 	{
-		return static_cast<Contents>( pev->watertype );
+		return static_cast<Contents>(pev->watertype);
 	}
 
 	/**
 	*	Sets the water type.
 	*	@param waterType Water type to set.
 	*/
-	void SetWaterType( const Contents waterType )
+	void SetWaterType(const Contents waterType)
 	{
 		pev->watertype = waterType;
 	}
@@ -1433,19 +1514,19 @@ public:
 	*/
 	bool HasMessage() const
 	{
-		return !!( *STRING( pev->message ) );
+		return !!(*STRING(pev->message));
 	}
 
 	/**
 	*	@return The message.
 	*/
-	const char* GetMessage() const { return STRING( pev->message ); }
+	const char* GetMessage() const { return STRING(pev->message); }
 
 	/**
 	*	Sets the message.
 	*	@param iszMessage Message to set.
 	*/
-	void SetMessage( const string_t iszMessage )
+	void SetMessage(const string_t iszMessage)
 	{
 		pev->message = iszMessage;
 	}
@@ -1454,9 +1535,9 @@ public:
 	*	Sets the message.
 	*	@param pszMessage Message to set.
 	*/
-	void SetMessage( const char* const pszMessage )
+	void SetMessage(const char* const pszMessage)
 	{
-		SetMessage( MAKE_STRING( pszMessage ) );
+		SetMessage(MAKE_STRING(pszMessage));
 	}
 
 	/**
@@ -1476,7 +1557,7 @@ public:
 	*	Sets the speed.
 	*	@param flSpeed Speed to set.
 	*/
-	void SetSpeed( const float flSpeed )
+	void SetSpeed(const float flSpeed)
 	{
 		pev->speed = flSpeed;
 	}
@@ -1490,7 +1571,7 @@ public:
 	*	Sets the maximum speed.
 	*	@param flSpeed Maximum speed to set.
 	*/
-	void SetMaxSpeed( const float flSpeed )
+	void SetMaxSpeed(const float flSpeed)
 	{
 		pev->maxspeed = flSpeed;
 	}
@@ -1505,7 +1586,7 @@ public:
 	*	Sets the air finished time.
 	*	@param flTime Time when this entity runs out of air.
 	*/
-	void SetAirFinishedTime( const float flTime )
+	void SetAirFinishedTime(const float flTime)
 	{
 		pev->air_finished = flTime;
 	}
@@ -1520,7 +1601,7 @@ public:
 	*	Sets the pain finished time.
 	*	@param flTime Time when this entity should get hurt again.
 	*/
-	void SetPainFinishedTime( const float flTime )
+	void SetPainFinishedTime(const float flTime)
 	{
 		pev->pain_finished = flTime;
 	}
@@ -1529,12 +1610,12 @@ public:
 	*	@return Field of view.
 	*/
 	float GetFOV() const { return pev->fov; }
-	
+
 	/**
 	*	Sets the field of view.
 	*	@param flFOV Field of view to set.
 	*/
-	void SetFOV( const float flFOV )
+	void SetFOV(const float flFOV)
 	{
 		pev->fov = flFOV;
 	}
@@ -1548,7 +1629,7 @@ public:
 	*	Sets the damage value.
 	*	@param flDamage Damage value to set.
 	*/
-	void SetDamage( const float flDamage )
+	void SetDamage(const float flDamage)
 	{
 		pev->dmg = flDamage;
 	}
@@ -1558,14 +1639,14 @@ public:
 	*/
 	CBaseEntity* GetOwner()
 	{
-		return pev->owner ? Instance( pev->owner ) : nullptr;
+		return pev->owner ? Instance(pev->owner) : nullptr;
 	}
 
 	/**
 	*	Sets this entity's owner.
 	*	@param pOwner Owner to set. Can be null.
 	*/
-	void SetOwner( CBaseEntity* pOwner )
+	void SetOwner(CBaseEntity* pOwner)
 	{
 		pev->owner = pOwner ? pOwner->edict() : nullptr;
 	}
@@ -1575,7 +1656,7 @@ public:
 	*/
 	CBaseEntity* GetGroundEntity()
 	{
-		return pev->groundentity ? Instance( pev->groundentity ) : nullptr;
+		return pev->groundentity ? Instance(pev->groundentity) : nullptr;
 	}
 
 	/**
@@ -1584,7 +1665,7 @@ public:
 	*	@see FL_ONGROUND
 	*	@param pEntity Entity to set. Can be null.
 	*/
-	void SetGroundEntity( CBaseEntity* pEntity )
+	void SetGroundEntity(CBaseEntity* pEntity)
 	{
 		pev->groundentity = pEntity ? pEntity->edict() : nullptr;
 	}
@@ -1595,7 +1676,7 @@ public:
 	*/
 	CBaseEntity* GetPEVEnemy()
 	{
-		return pev->enemy ? Instance( pev->enemy ) : nullptr;
+		return pev->enemy ? Instance(pev->enemy) : nullptr;
 	}
 
 	/**
@@ -1603,14 +1684,14 @@ public:
 	*/
 	CBaseEntity* GetChain()
 	{
-		return pev->chain ? Instance( pev->chain ) : nullptr;
+		return pev->chain ? Instance(pev->chain) : nullptr;
 	}
 
 	/**
 	*	Sets the next entity in the chain.
 	*	@param pEntity Entity to set. Can be null.
 	*/
-	void SetChain( CBaseEntity* pEntity )
+	void SetChain(CBaseEntity* pEntity)
 	{
 		pev->chain = pEntity ? pEntity->edict() : nullptr;
 	}
@@ -1620,19 +1701,19 @@ public:
 	*/
 	bool HasNoise() const
 	{
-		return !!( *STRING( pev->noise ) );
+		return !!(*STRING(pev->noise));
 	}
 
 	/**
 	*	@return The noise.
 	*/
-	const char* GetNoise() const { return STRING( pev->noise ); }
+	const char* GetNoise() const { return STRING(pev->noise); }
 
 	/**
 	*	Sets the noise.
 	*	@param iszNoise Noise to set.
 	*/
-	void SetNoise( const string_t iszNoise )
+	void SetNoise(const string_t iszNoise)
 	{
 		pev->noise = iszNoise;
 	}
@@ -1641,9 +1722,9 @@ public:
 	*	Sets the noise.
 	*	@param pszNoise Noise to set.
 	*/
-	void SetNoise( const char* const pszNoise )
+	void SetNoise(const char* const pszNoise)
 	{
-		SetNoise( MAKE_STRING( pszNoise ) );
+		SetNoise(MAKE_STRING(pszNoise));
 	}
 
 	/**
@@ -1659,19 +1740,19 @@ public:
 	*/
 	bool HasNoise1() const
 	{
-		return !!( *STRING( pev->noise1 ) );
+		return !!(*STRING(pev->noise1));
 	}
 
 	/**
 	*	@return The noise1.
 	*/
-	const char* GetNoise1() const { return STRING( pev->noise1 ); }
+	const char* GetNoise1() const { return STRING(pev->noise1); }
 
 	/**
 	*	Sets the noise1.
 	*	@param iszNoise Noise1 to set.
 	*/
-	void SetNoise1( const string_t iszNoise )
+	void SetNoise1(const string_t iszNoise)
 	{
 		pev->noise1 = iszNoise;
 	}
@@ -1680,9 +1761,9 @@ public:
 	*	Sets the noise1.
 	*	@param pszNoise Noise1 to set.
 	*/
-	void SetNoise1( const char* const pszNoise )
+	void SetNoise1(const char* const pszNoise)
 	{
-		SetNoise1( MAKE_STRING( pszNoise ) );
+		SetNoise1(MAKE_STRING(pszNoise));
 	}
 
 	/**
@@ -1698,19 +1779,19 @@ public:
 	*/
 	bool HasNoise2() const
 	{
-		return !!( *STRING( pev->noise2 ) );
+		return !!(*STRING(pev->noise2));
 	}
 
 	/**
 	*	@return The noise2.
 	*/
-	const char* GetNoise2() const { return STRING( pev->noise2 ); }
+	const char* GetNoise2() const { return STRING(pev->noise2); }
 
 	/**
 	*	Sets the noise2.
 	*	@param iszNoise Noise2 to set.
 	*/
-	void SetNoise2( const string_t iszNoise )
+	void SetNoise2(const string_t iszNoise)
 	{
 		pev->noise2 = iszNoise;
 	}
@@ -1719,9 +1800,9 @@ public:
 	*	Sets the noise2.
 	*	@param pszNoise Noise2 to set.
 	*/
-	void SetNoise2( const char* const pszNoise )
+	void SetNoise2(const char* const pszNoise)
 	{
-		SetNoise2( MAKE_STRING( pszNoise ) );
+		SetNoise2(MAKE_STRING(pszNoise));
 	}
 
 	/**
@@ -1737,19 +1818,19 @@ public:
 	*/
 	bool HasNoise3() const
 	{
-		return !!( *STRING( pev->noise3 ) );
+		return !!(*STRING(pev->noise3));
 	}
 
 	/**
 	*	@return The noise.
 	*/
-	const char* GetNoise3() const { return STRING( pev->noise3 ); }
+	const char* GetNoise3() const { return STRING(pev->noise3); }
 
 	/**
 	*	Sets the noise3.
 	*	@param iszNoise Noise3 to set.
 	*/
-	void SetNoise3( const string_t iszNoise )
+	void SetNoise3(const string_t iszNoise)
 	{
 		pev->noise3 = iszNoise;
 	}
@@ -1758,9 +1839,9 @@ public:
 	*	Sets the noise3.
 	*	@param pszNoise Noise3 to set.
 	*/
-	void SetNoise3( const char* const pszNoise )
+	void SetNoise3(const char* const pszNoise)
 	{
-		SetNoise3( MAKE_STRING( pszNoise ) );
+		SetNoise3(MAKE_STRING(pszNoise));
 	}
 
 	/**
@@ -1807,7 +1888,7 @@ public:
 	*	Called once for each keyvalue provided in the bsp file for this entity.
 	*	@param pkvd Keyvalue data. Set pkvd->fHandled to true if you handled the key.
 	*/
-	virtual void KeyValue( KeyValueData* pkvd );
+	virtual void KeyValue(KeyValueData* pkvd);
 
 	/**
 	*	Called when the entity should precache its resources.
@@ -1822,11 +1903,12 @@ public:
 	virtual void Spawn() {}
 
 	/**
+	*	LRC
 	*	Called when the server activates. Gives entities a chance to connect with eachother.
 	*	Is not called if the entity is created at runtime.
 	*	If the entity has the FL_DORMANT set, this will not be called.
 	*/
-	virtual void Activate() {}
+	virtual void Activate();
 
 	/**
 	*	Called when the entity is being saved to a save game file.
@@ -1834,7 +1916,7 @@ public:
 	*	@param save Save data.
 	*	@return true if the entity was successfully saved, false otherwise.
 	*/
-	virtual bool Save( CSave &save );
+	virtual bool Save(CSave &save);
 
 	/**
 	*	Called when the entity is being restored from a save game file.
@@ -1842,14 +1924,14 @@ public:
 	*	@param restore Restore data.
 	*	@return true if the entity was successfully restored, false otherwise.
 	*/
-	virtual bool Restore( CRestore &restore );
+	virtual bool Restore(CRestore &restore);
 
 	/**
 	*	Object capabilities.
 	*	@return A bit vector of FCapability values.
 	*	@see FCapability
 	*/
-	virtual int ObjectCaps() const { return FCAP_ACROSS_TRANSITION; }
+	virtual int	ObjectCaps() const { return m_pMoveWith ? m_pMoveWith->ObjectCaps() & FCAP_ACROSS_TRANSITION : FCAP_ACROSS_TRANSITION; }
 
 	/**
 	*	Setup the object->object collision box (pev->mins / pev->maxs is the object->world collision box)
@@ -1864,18 +1946,18 @@ public:
 	/**
 	*	@return This entity's edict.
 	*/
-	edict_t* edict() const { return ENT( pev ); }
+	edict_t* edict() const { return ENT(pev); }
 
 	/**
 	*	@copydoc edict() const
 	*/
-	edict_t* edict() { return ENT( pev ); }
+	edict_t* edict() { return ENT(pev); }
 
 	/**
 	*	@return Offset of this entity. This is the byte offset in the edict array.
 	*	DO NOT USE THIS. Use entindex instead.
 	*/
-	EOFFSET eoffset() const { return OFFSET( pev ); }
+	EOFFSET eoffset() const { return OFFSET(pev); }
 
 	/**
 	*	@return The index of this entity.
@@ -1883,7 +1965,7 @@ public:
 	*	[ 1, gpGlobals->maxClients ] are players.
 	*	] gpGlobals->maxClients, gpGlobals->maxEntities [ are normal entities.
 	*/
-	int entindex() const { return ENTINDEX( edict() ); }
+	int entindex() const { return ENTINDEX(edict()); }
 
 	// fundamental callbacks
 	BASEPTR			m_pfnThink;
@@ -1893,34 +1975,34 @@ public:
 
 	virtual void Think()
 	{
-		if( m_pfnThink )
-			( this->*m_pfnThink )();
+		if (m_pfnThink)
+			(this->*m_pfnThink)();
 	}
 
-	virtual void Touch( CBaseEntity *pOther )
+	virtual void Touch(CBaseEntity *pOther)
 	{
-		if( m_pfnTouch )
-			( this->*m_pfnTouch )( pOther );
+		if (m_pfnTouch)
+			(this->*m_pfnTouch)(pOther);
 	}
 
-	virtual void Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value )
+	virtual void Use(CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value)
 	{
-		if( m_pfnUse )
-			( this->*m_pfnUse )( pActivator, pCaller, useType, value );
+		if (m_pfnUse)
+			(this->*m_pfnUse)(pActivator, pCaller, useType, value);
 	}
 
-	virtual void Blocked( CBaseEntity *pOther )
+	virtual void Blocked(CBaseEntity *pOther)
 	{
-		if( m_pfnBlocked )
-			( this->*m_pfnBlocked )( pOther );
+		if (m_pfnBlocked)
+			(this->*m_pfnBlocked)(pOther);
 	}
 
 	// Ugly code to lookup all functions to make sure they are exported when set.
 #ifdef _DEBUG
 	template<typename FUNCPTR>
-	void FunctionCheck( FUNCPTR pFunction, char *name )
+	void FunctionCheck(FUNCPTR pFunction, char *name)
 	{
-		if( pFunction && !UTIL_NameFromFunction( *GetDataMap(), pFunction ) )
+		if (pFunction && !UTIL_NameFromFunction(*GetDataMap(), pFunction))
 		{
 			//Note: pointers to members may be larger than 4 bytes, so the address won't always be printed out correctly.
 			//In the case of CBaseEntity, it *should* be fine since it uses single inheritance, but there's no guarantee it'll be the same on every platform. - Solokiller
@@ -1934,46 +2016,46 @@ public:
 
 			convert.ptr = pFunction;
 
-			ALERT( at_error, "No EXPORT: %s:%s (%08lx)\n", GetClassname(), name, convert.uiValue );
+			ALERT(at_error, "No EXPORT: %s:%s (%08lx)\n", GetClassname(), name, convert.uiValue);
 		}
 	}
 
-	BASEPTR ThinkSet( BASEPTR func, char *name )
+	BASEPTR ThinkSet(BASEPTR func, char *name)
 	{
 		m_pfnThink = func;
-		FunctionCheck( *( ( BASEPTR* ) ( ( char* ) this + ( OFFSETOF( CBaseEntity, m_pfnThink ) ) ) ), name );
+		FunctionCheck(*((BASEPTR*)((char*)this + (OFFSETOF(CBaseEntity, m_pfnThink)))), name);
 		return func;
 	}
-	ENTITYFUNCPTR TouchSet( ENTITYFUNCPTR func, char *name )
+	ENTITYFUNCPTR TouchSet(ENTITYFUNCPTR func, char *name)
 	{
 		m_pfnTouch = func;
-		FunctionCheck( *( ( BASEPTR* ) ( ( char* ) this + ( OFFSETOF( CBaseEntity, m_pfnTouch ) ) ) ), name );
+		FunctionCheck(*((BASEPTR*)((char*)this + (OFFSETOF(CBaseEntity, m_pfnTouch)))), name);
 		return func;
 	}
-	USEPTR UseSet( USEPTR func, char *name )
+	USEPTR UseSet(USEPTR func, char *name)
 	{
 		m_pfnUse = func;
-		FunctionCheck( *( ( BASEPTR* ) ( ( char* ) this + ( OFFSETOF( CBaseEntity, m_pfnUse ) ) ) ), name );
+		FunctionCheck(*((BASEPTR*)((char*)this + (OFFSETOF(CBaseEntity, m_pfnUse)))), name);
 		return func;
 	}
-	ENTITYFUNCPTR BlockedSet( ENTITYFUNCPTR func, char *name )
+	ENTITYFUNCPTR BlockedSet(ENTITYFUNCPTR func, char *name)
 	{
 		m_pfnBlocked = func;
-		FunctionCheck( *( ( BASEPTR* ) ( ( char* ) this + ( OFFSETOF( CBaseEntity, m_pfnBlocked ) ) ) ), name );
+		FunctionCheck(*((BASEPTR*)((char*)this + (OFFSETOF(CBaseEntity, m_pfnBlocked)))), name);
 		return func;
 	}
 
 #endif
 
 	// allow engine to allocate instance data
-	void *operator new( size_t stAllocateBlock, entvars_t *pev )
+	void *operator new(size_t stAllocateBlock, entvars_t *pev)
 	{
-		return ( void* ) ALLOC_PRIVATE( ENT( pev ), stAllocateBlock );
+		return (void*)ALLOC_PRIVATE(ENT(pev), stAllocateBlock);
 	}
 
 	// don't use this.
 #if _MSC_VER >= 1200 // only build this code if MSVC++ 6.0 or higher
-	void operator delete( void *pMem, entvars_t *pev )
+	void operator delete(void *pMem, entvars_t *pev)
 	{
 		pev->flags |= FL_KILLME;
 	}
@@ -1984,11 +2066,11 @@ public:
 	*	@param pent Edict whose instance should be returned. If this is null, uses worldspawn.
 	*	@return Entity instance, or null if no instance is assigned to it.
 	*/
-	static CBaseEntity *Instance( edict_t *pent )
+	static CBaseEntity *Instance(edict_t *pent)
 	{
-		if( !pent )
-			pent = ENT( 0 );
-		CBaseEntity *pEnt = ( CBaseEntity * ) GET_PRIVATE( pent );
+		if (!pent)
+			pent = ENT(0);
+		CBaseEntity *pEnt = (CBaseEntity *)GET_PRIVATE(pent);
 		return pEnt;
 	}
 
@@ -1997,14 +2079,14 @@ public:
 	*	@param pev Entvars whose instance should be returned.
 	*	@return Entity instance, or null if no instance is assigned to it.
 	*/
-	static CBaseEntity *Instance( entvars_t *pev ) { return Instance( ENT( pev ) ); }
+	static CBaseEntity *Instance(entvars_t *pev) { return Instance(ENT(pev)); }
 
 	/**
 	*	Returns the CBaseEntity instance of the given eoffset.
 	*	@param eoffset Entity offset whose instance should be returned.
 	*	@return Entity instance, or null if no instance is assigned to it.
 	*/
-	static CBaseEntity *Instance( EOFFSET eoffset ) { return Instance( ENT( eoffset ) ); }
+	static CBaseEntity *Instance(EOFFSET eoffset) { return Instance(ENT(eoffset)); }
 
 	/**
 	*	Creates an entity by class name.
@@ -2015,7 +2097,7 @@ public:
 	*	@param bSpawnEntity Whether to call spawn on the entity or not.
 	*	@return Newly created entity, or null if the entity could not be created.
 	*/
-	static CBaseEntity* Create( const char* const pszName, const Vector& vecOrigin, const Vector& vecAngles, edict_t* pentOwner = nullptr, const bool bSpawnEntity = true );
+	static CBaseEntity* Create(const char* const pszName, const Vector& vecOrigin, const Vector& vecAngles, edict_t* pentOwner = nullptr, const bool bSpawnEntity = true);
 
 	/**
 	*	@return This entity's blood color.
@@ -2032,7 +2114,7 @@ public:
 	*	@param ptr Traceline that represents the attack.
 	*	@see g_MultiDamage
 	*/
-	virtual void TraceAttack( const CTakeDamageInfo& info, Vector vecDir, TraceResult* ptr );
+	virtual void TraceAttack(const CTakeDamageInfo& info, Vector vecDir, TraceResult* ptr);
 
 	/**
 	*	Projects blood decals based on the given damage and traceline.
@@ -2041,13 +2123,13 @@ public:
 	*	@param ptr Attack traceline.
 	*	@see Damage
 	*/
-	virtual void TraceBleed( const CTakeDamageInfo& info, Vector vecDir, TraceResult* ptr );
+	virtual void TraceBleed(const CTakeDamageInfo& info, Vector vecDir, TraceResult* ptr);
 
 	/**
 	*	Deals damage to this entity.
 	*	@param info Damage info.
 	*/
-	void TakeDamage( const CTakeDamageInfo& info );
+	void TakeDamage(const CTakeDamageInfo& info);
 
 	/**
 	*	Deals damage to this entity.
@@ -2057,18 +2139,18 @@ public:
 	*	@param bitsDamageType Bit vector of damage types.
 	*	@return Whether any damage was dealt.
 	*/
-	void TakeDamage( CBaseEntity* pInflictor, CBaseEntity* pAttacker, float flDamage, int bitsDamageType );
+	void TakeDamage(CBaseEntity* pInflictor, CBaseEntity* pAttacker, float flDamage, int bitsDamageType);
 
 protected:
 	template<typename CLASS>
-	friend void BaseEntity_OnTakeDamage( CLASS* pThis, const CTakeDamageInfo& info );
+	friend void BaseEntity_OnTakeDamage(CLASS* pThis, const CTakeDamageInfo& info);
 
 	/**
 	*	Called when this entity is damaged.
 	*	Should not be called directly, call TakeDamage.
 	*	@param info Damage info.
 	*/
-	virtual void OnTakeDamage( const CTakeDamageInfo& info );
+	virtual void OnTakeDamage(const CTakeDamageInfo& info);
 
 public:
 
@@ -2078,7 +2160,7 @@ public:
 	*	@param gibAction how to handle the gibbing of this entity.
 	*	@see GibAction
 	*/
-	virtual void Killed( const CTakeDamageInfo& info, GibAction gibAction );
+	virtual void Killed(const CTakeDamageInfo& info, GibAction gibAction);
 
 	/**
 	*	Gives health to this entity. Negative values take health.
@@ -2088,13 +2170,7 @@ public:
 	*	@param bitsDamageType Damage types bit vector. @see Damage enum.
 	*	@return Actual amount of health that was given/taken.
 	*/
-	virtual float GiveHealth( float flHealth, int bitsDamageType );
-
-	/**
-	*	@param pActivator Activator.
-	*	@return Whether this entity would be triggered by the given activator.
-	*/
-	virtual bool IsTriggered( const CBaseEntity* const pActivator ) const { return true; }
+	virtual float GiveHealth(float flHealth, int bitsDamageType);
 
 	/**
 	*	@return This entity as a CBaseMonster instance, or null if it isn't a monster.
@@ -2124,22 +2200,22 @@ public:
 	*	@param bitsDamageType
 	*	@return Decal to use, or -1.
 	*/
-	virtual int DamageDecal( int bitsDamageType ) const;
+	virtual int DamageDecal(int bitsDamageType) const;
 
 	// This is ONLY used by the node graph to test movement through a door
-	virtual void SetToggleState( int state ) {}
+	virtual void SetToggleState(int state) {}
 
 	/**
 	*	Checks if the given entity can control this entity.
 	*	@param pTest Entity to check for control.
 	*	@return true if this entity can be controlled, false otherwise.
 	*/
-	virtual bool OnControls( const CBaseEntity* const pTest ) const { return false; }
+	virtual bool OnControls(const CBaseEntity* const pTest) const { return false; }
 
 	/**
 	*	@return Whether this entity is alive.
 	*/
-	virtual bool IsAlive() const { return ( pev->deadflag == DEAD_NO ) && pev->health > 0; }
+	virtual bool IsAlive() const { return (pev->deadflag == DEAD_NO) && pev->health > 0; }
 
 	/**
 	*	@return Whether this is a BSP model.
@@ -2149,17 +2225,17 @@ public:
 	/**
 	*	@return Whether gauss gun beams should reflect off of this entity.
 	*/
-	virtual bool ReflectGauss() const { return ( IsBSPModel() && !pev->takedamage ); }
+	virtual bool ReflectGauss() const { return (IsBSPModel() && !pev->takedamage); }
 
 	/**
 	*	@return Whether this entity has the given target.
 	*/
-	virtual bool HasTarget( string_t targetname ) const { return FStrEq( STRING( targetname ), GetTargetname() ); }
+	virtual bool HasTarget(string_t targetname) const { return FStrEq(STRING(targetname), GetTargetname()); }
 
 	/**
 	*	@return Whether this entity has the given target.
 	*/
-	bool HasTarget( const char* const pszTargetName ) const { return HasTarget( MAKE_STRING( pszTargetName ) ); }
+	bool HasTarget(const char* const pszTargetName) const { return HasTarget(MAKE_STRING(pszTargetName)); }
 
 	/**
 	*	@return Whether this entity is positioned in the world.
@@ -2211,7 +2287,7 @@ public:
 	/**
 	*	Think function. Calls this entity's use method with USE_TOGGLE.
 	*/
-	void SUB_CallUseToggle() { this->Use( this, this, USE_TOGGLE, 0 ); }
+	void SUB_CallUseToggle() { this->Use(this, this, USE_TOGGLE, 0); }
 
 	/**
 	*	Returns whether the entity should toggle, given the use type and current state.
@@ -2219,7 +2295,15 @@ public:
 	*	@param currentState The current entity state.
 	*	@return Whether the entity should toggle.
 	*/
-	bool ShouldToggle( USE_TYPE useType, const bool currentState ) const;
+	bool ShouldToggle(USE_TYPE useType, const bool currentState) const;
+
+	/**
+	*	LRC
+	*	Returns whether the entity should toggle, given the use type and current state this version uses GetState()
+	*	@param useType Use type.
+	*	@return Whether the entity should toggle.
+	*/
+	bool ShouldToggle(USE_TYPE useType) const;
 
 	/**
 	*	Fires a number of bullets of a given bullet type.
@@ -2233,10 +2317,10 @@ public:
 	*	@param iDamage Amount of damage to deal. If 0, uses skill cfg settings for the given bullet type.
 	*	@param pAttacker Entity responsible for firing the bullets.
 	*/
-	void FireBullets( const unsigned int cShots,
-					  Vector vecSrc, Vector vecDirShooting, Vector vecSpread, 
-					  float flDistance, int iBulletType, 
-					  int iTracerFreq = 4, int iDamage = 0, CBaseEntity* pAttacker = nullptr );
+	void FireBullets(const unsigned int cShots,
+		Vector vecSrc, Vector vecDirShooting, Vector vecSpread,
+		float flDistance, int iBulletType,
+		int iTracerFreq = 4, int iDamage = 0, CBaseEntity* pAttacker = nullptr);
 
 	/**
 	*	Fires a number of bullets of a given bullet type.
@@ -2252,10 +2336,10 @@ public:
 	*	@param shared_rand Player specific shared random number seed.
 	*	@return Bullet spread angle of the last shot for the X and Y axes.
 	*/
-	Vector FireBulletsPlayer( const unsigned int cShots,
-							  Vector vecSrc, Vector vecDirShooting, Vector vecSpread, 
-							  float flDistance, int iBulletType, 
-							  int iTracerFreq = 4, int iDamage = 0, CBaseEntity* pAttacker = nullptr, int shared_rand = 0 );
+	Vector FireBulletsPlayer(const unsigned int cShots,
+		Vector vecSrc, Vector vecDirShooting, Vector vecSpread,
+		float flDistance, int iBulletType,
+		int iTracerFreq = 4, int iDamage = 0, CBaseEntity* pAttacker = nullptr, int shared_rand = 0);
 
 	/**
 	*	Triggers all of the entities named this->pev->targetname.
@@ -2263,12 +2347,12 @@ public:
 	*	@param useType Use type to pass.
 	*	@param value Value to pass.
 	*/
-	void SUB_UseTargets( CBaseEntity *pActivator, USE_TYPE useType, float value );
+	void SUB_UseTargets(CBaseEntity *pActivator, USE_TYPE useType, float value);
 
 	/**
 	*	@return Whether the bounding boxes of this and the given entity intersect.
 	*/
-	bool Intersects( const CBaseEntity* const pOther ) const;
+	bool Intersects(const CBaseEntity* const pOther) const;
 
 	/**
 	*	Makes this entity dormant. Dormant entities are not solid, don't move, don't think and have the FL_DORMANT flag set.
@@ -2293,18 +2377,18 @@ public:
 	/**
 	*	Monster maker children use this to tell the monster maker that they have died.
 	*/
-	virtual void DeathNotice( CBaseEntity* pChild ) {}
+	virtual void DeathNotice(CBaseEntity* pChild) {}
 
 	/**
 	*	A barnacle is trying to grab this entity.
 	*	@return Whether the entity can be grabbed by the barnacle.
 	*/
-	virtual bool BarnacleVictimGrabbed( CBaseEntity* pBarnacle ) { return false; }
+	virtual bool BarnacleVictimGrabbed(CBaseEntity* pBarnacle) { return false; }
 
 	/**
 	*	@return Center point of entity.
 	*/
-	virtual Vector Center() const { return ( pev->absmax + pev->absmin ) * 0.5; }
+	virtual Vector Center() const { return (pev->absmax + pev->absmin) * 0.5; }
 
 	/**
 	*	@return Position of eyes.
@@ -2319,22 +2403,22 @@ public:
 	/**
 	*	@return Position to shoot at.
 	*/
-	virtual Vector BodyTarget( const Vector &posSrc ) const { return Center(); }
+	virtual Vector BodyTarget(const Vector &posSrc) const { return Center(); }
 
 	/**
 	*	@return Entity illumination.
 	*/
-	virtual int Illumination() const { return GETENTITYILLUM( ENT( pev ) ); }
+	virtual int Illumination() const { return GETENTITYILLUM(ENT(pev)); }
 
 	/**
 	*	@return Whether this entity is visible to the given entity.
 	*/
-	virtual	bool FVisible( const CBaseEntity *pEntity ) const;
+	virtual	bool FVisible(const CBaseEntity *pEntity) const;
 
 	/**
 	*	@return Whether this entity is visible from the given position.
 	*/
-	virtual	bool FVisible( const Vector &vecOrigin ) const;
+	virtual	bool FVisible(const Vector &vecOrigin) const;
 
 	/**
 	*	A more accurate ( and slower ) version of FVisible. This will check if this entity can see the target's bounding box.
@@ -2343,7 +2427,83 @@ public:
 	*	@param flSize Amount to shrink the target's bounding box in all axes.
 	*	@return true if the target is visible, false otherwise.
 	*/
-	bool FBoxVisible( const CBaseEntity* pTarget, Vector& vecTargetOrigin, float flSize = 0.0 ) const;
+	bool FBoxVisible(const CBaseEntity* pTarget, Vector& vecTargetOrigin, float flSize = 0.0) const;
+
+	/**
+	 *	LRC
+	 *	PUSH entities won't have their velocity applied unless they're thinking.
+	 *	Make them do so for the foreseeable future.
+	 */
+	virtual void SetEternalThink();
+
+	/**
+	 *	LRC
+	 *	DontThink
+	 */
+	virtual void DontThink();
+
+	/**
+	 *	LRC
+	 *	Check in case the engine has changed our nextthink. (which it does on a depressingly frequent basis.)
+	 *	for some reason, this doesn't always produce perfect movement - but it's close
+	 *	enough for government work. (the player doesn't get stuck, at least.)
+	 */
+	virtual void ThinkCorrection();
+
+	/**
+	 *	LRC
+	 *	Called by Activate() to set up moveWith values
+	 */
+	virtual void InitMoveWith();
+
+	/**
+	 *	LRC
+	 *	Called by Activate() to handle entity-specific initialisation.
+	 */
+	virtual void PostSpawn() {}
+
+	/**
+	 *	LRC
+	 *	Called by Activate() to handle entity-specific initialisation.
+	 *	Dynamiclly link parents
+	 */
+	virtual void SetParent(int m_iNewParent, int m_iAttachment = 0);
+
+	virtual void SetParent(CBaseEntity *pParent, int m_iAttachment = 0);
+
+	virtual void ResetParent();
+
+	/**
+	 *	LRC
+	 *	Directly clear all movewith pointer before changelevel
+	 */
+	virtual void ClearPointers();
+
+	/**
+	 * LRC
+	 * Locus System
+	 */
+	virtual Vector	CalcPosition(CBaseEntity *pLocus) const { return pev->origin; }
+	virtual Vector	CalcVelocity(CBaseEntity *pLocus) const { return pev->velocity; }
+	virtual float	CalcRatio(CBaseEntity *pLocus) const { return 0; }
+
+	/**
+	 * LRC
+	 * Aliases
+	 */
+	virtual bool IsAlias() const { return false; }
+
+	/**
+	 * LRC
+	 * This supports a global concept of "entities with states", so that state_watchers and mastership (mastery? masterhood?) can work universally.
+	 */
+	virtual STATE GetState() const { return STATE_OFF; };
+
+	/**
+	 * LRC
+	 * For team-specific doors in multiplayer, etc: a master's state depends on who wants to know.
+	 */
+	virtual STATE GetState(CBaseEntity* pEnt) const { return GetState(); };
 
 	//New classification system start. - Solokiller
 private:
@@ -2383,7 +2543,7 @@ public:
 	/**
 	*	Sets the classification of this entity.
 	*/
-	void SetClassificationOverride( EntityClassification_t classification )
+	void SetClassificationOverride(EntityClassification_t classification)
 	{
 		m_ClassificationOverride = classification;
 	}
@@ -2393,7 +2553,7 @@ public:
 	*/
 	void ClearOverriddenClassification()
 	{
-		SetClassificationOverride( INVALID_ENTITY_CLASSIFICATION );
+		SetClassificationOverride(INVALID_ENTITY_CLASSIFICATION);
 	}
 
 	/**
@@ -2408,7 +2568,7 @@ public:
 	EntityClassification_t Classify()
 	{
 		//User has overridden the classification, return setting.
-		if( m_ClassificationOverride != INVALID_ENTITY_CLASSIFICATION )
+		if (m_ClassificationOverride != INVALID_ENTITY_CLASSIFICATION)
 		{
 			return m_ClassificationOverride;
 		}
@@ -2454,29 +2614,29 @@ public:
 *	Notify the main server interface when entities are created.
 *	Defined as a global function to avoid pulling in more dependencies. - Solokiller
 */
-void Server_EntityCreated( entvars_t* pev );
+void Server_EntityCreated(entvars_t* pev);
 
 /**
 *	Converts a entvars_t * to a class pointer
 *	It will allocate the class and entity if necessary
 */
 template<typename T>
-T* GetClassPtr( T* a )
+T* GetClassPtr(T* a)
 {
-	entvars_t* pev = reinterpret_cast<entvars_t*>( a );
+	entvars_t* pev = reinterpret_cast<entvars_t*>(a);
 
 	// allocate entity if necessary
-	if( pev == nullptr )
-		pev = VARS( CREATE_ENTITY() );
+	if (pev == nullptr)
+		pev = VARS(CREATE_ENTITY());
 
 	// get the private data
-	a = static_cast<T*>( GET_PRIVATE( ENT( pev ) ) );
+	a = static_cast<T*>(GET_PRIVATE(ENT(pev)));
 
-	if( a == nullptr )
+	if (a == nullptr)
 	{
-		Server_EntityCreated( pev );
+		Server_EntityCreated(pev);
 		// allocate private data 
-		a = new( pev ) T;
+		a = new(pev) T;
 		a->pev = pev;
 		//Now calls OnCreate - Solokiller
 		a->OnCreate();

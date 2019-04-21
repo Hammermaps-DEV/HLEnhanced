@@ -86,7 +86,7 @@ void CKnife::PrimaryAttack()
 	{
 #ifndef CLIENT_DLL
 		SetThink( &CKnife::SwingAgain );
-		SetNextThink( gpGlobals->time + 0.1 );
+		SetNextThink( 0.1 );
 #endif
 	}
 }

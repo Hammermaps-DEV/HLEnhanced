@@ -22,7 +22,6 @@ public:
 
 	void	Spawn() override;
 	virtual int	ObjectCaps() const override { return CBaseEntity::ObjectCaps() & ~FCAP_ACROSS_TRANSITION; }
-private:
 };
 
 #endif //GAME_SERVER_CPOINTENTITY_H

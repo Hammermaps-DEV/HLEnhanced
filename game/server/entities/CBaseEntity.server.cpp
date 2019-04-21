@@ -245,6 +245,31 @@ bool CBaseEntity::ShouldToggle( USE_TYPE useType, const bool currentState ) cons
 	return true;
 }
 
+// LRC
+bool CBaseEntity::ShouldToggle(USE_TYPE useType) const
+{
+	STATE currentState = GetState();
+	if (useType != USE_TOGGLE && useType != USE_SET)
+	{
+		switch (currentState)
+		{
+		case STATE_ON:
+		case STATE_TURN_ON:
+			if (useType == USE_ON) 
+				return false;
+			break;
+		case STATE_OFF:
+		case STATE_TURN_OFF:
+			if (useType == USE_OFF) 
+				return false;
+			break;
+		default:
+			return true;
+		}
+	}
+
+	return true;
+}
 
 int	CBaseEntity::DamageDecal( int bitsDamageType ) const
 {

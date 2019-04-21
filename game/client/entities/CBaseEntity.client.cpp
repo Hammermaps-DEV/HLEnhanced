@@ -86,6 +86,11 @@ bool CBaseEntity::ShouldToggle( USE_TYPE useType, const bool currentState ) cons
 	return false;
 }
 
+bool CBaseEntity::ShouldToggle(USE_TYPE useType) const
+{
+	return false;
+}
+
 void CBaseEntity::FireBullets( const unsigned int cShots,
 							   Vector vecSrc, Vector vecDirShooting, Vector vecSpread,
 							   float flDistance, int iBulletType,
